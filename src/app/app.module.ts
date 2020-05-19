@@ -8,10 +8,12 @@ import {AppviewsModule} from "./views/appviews.module";
 
 // App modules/components
 import {LayoutsModule} from "./components/common/layouts/layouts.module";
+import { GroupDetailComponent } from './components/group-detail/group-detail.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GroupDetailComponent
   ],
   imports: [
     LayoutsModule,
