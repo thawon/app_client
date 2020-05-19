@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./group-detail.component.scss']
 })
 export class GroupDetailComponent implements OnInit {
-
+  //change
   constructor() { }
 
   ngOnInit(): void {
