@@ -1,0 +1,40 @@
+<div class="modal-header">
+  <h5 class="modal-title">Choose langugage</h5>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p class="text-info">Please select from the followings.</p>
+  <form [formGroup]="form"
+        (ngSubmit)="onSubmit(form.value.language)">
+    
+    <div class="form-group row">
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr *ngFor="let item of supportedLanguages ">
+              <td class="align-middle"><input type="radio" class="i-checks align-middle" [value]="item" [formControl]="language"></td>
+              <td>
+                <div class="row">
+                  <div class="col">
+                    <img *ngIf="item.key !== 'na'" src="{{ item.path }}" class="rounded img-sm" />
+                    <span class="p-xxs m-r">{{ item.display }}</span>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col">
+        <button class="btn btn-sm btn-white float-right m-t-n-xs" (click)="activeModal.dismiss()">Close</button>
+        <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit">Select</button>
+      </div>
+    </div>
+
+  </form>
+</div>

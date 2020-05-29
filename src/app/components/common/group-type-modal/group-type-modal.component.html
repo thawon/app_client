@@ -1,0 +1,45 @@
+<div class="modal-header">
+  <h5 class="modal-title">Choose Group Type</h5>  
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p class="text-info">Please select from the followings.</p>
+  <form [formGroup]="form">
+
+    <div class="form-group row">
+      <div class="table-responsive">
+        <table class="table">
+
+          <tbody>
+            <tr *ngFor="let item of groupTypes | keyvalue">
+              <td class="align-middle"><input type="radio" checked class="i-checks" [value]="item.value" [formControl]="groupType"></td>
+              <td>
+                <div class="row">
+                  <div class="col">
+                    {{ item.value.display }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <small>This is example of project. quite a long text goes here. quite a long text goes here. quite a long text goes here. quite a long text goes here.</small>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <div class="col">
+        <button class="btn btn-sm btn-white float-right m-t-n-xs" (click)="activeModal.dismiss()">Close</button>
+        <button class="btn btn-sm btn-primary float-right m-t-n-xs" (click)="onSelect()">Select</button>
+      </div>
+    </div>
+
+  </form>
+</div>

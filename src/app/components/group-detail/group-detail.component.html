@@ -1,1 +1,94 @@
-<p>group-detail works!</p>
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox ">
+        <div class="">
+          <h5>Group information <small>details about group shows below</small></h5>
+        </div>
+        <div class="">
+          
+          <form [formGroup]="form"
+                (ngSubmit)="onSubmit()">
+
+            <!--<label>groupid: {{ id }}</label>-->
+
+            <p class="text-info">Please enter the followings.</p>
+            <!--<div class="form-group row" [ngClass]="{'has-error': !name.valid}">
+              <label class="col-lg-2 col-form-label">Group Name:</label>
+              <div class="col-lg-10">
+                <input type="text" placeholder="Group name" class="form-control"
+                       [formControl]="name">
+                <p *ngIf="!name.valid" class="text-danger animated fadeInRight">Group name is required.</p>
+              </div>
+            </div>-->
+            <!--<div class="form-group row">
+              <label class="col-lg-2 col-form-label">Type:</label>
+              <div class="col-lg-10">
+                <span class="p-xxs m-r">{{ groupType.value.display }}</span>
+                <button type="button"
+                        class="btn btn-info btn-xs pull-right"
+                        (click)="openGroupTypeModal()">
+                  Change
+                </button>
+              </div>
+            </div>-->
+            <div class="form-group row">
+              <label class="col-lg-2 col-form-label">Members: <small>Tab flag to change language.</small></label>
+              <div class="col-12"
+                   formArrayName="members"
+                   *ngFor="let member of members.controls; index as i">
+                <div class="row">
+                  <div class="col-1">
+                    <img src="{{ member.controls['pictureUrl'].value }}" class="rounded img-sm" />
+                  </div>
+                  <div class="col m-l">
+                    <label><strong>{{ member.controls['name'].value }}</strong></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <language [language]="member.controls['fromLanguageCode'].value"
+                              (click)="openLanguageModal(member.controls['fromLanguageCode'], member.controls['toLanguageCode'])"></language>
+                    <i class="fa fa-arrow-right p-xxs"></i>
+                    <language [language]="member.controls['toLanguageCode'].value"
+                              (click)="openLanguageModal(member.controls['toLanguageCode'], member.controls['fromLanguageCode'])"></language>
+                  </div>
+                </div>
+                <div class="hr-line-dashed m-sm"></div>
+              </div>
+            </div>
+            <!--<div class="form-group row"
+                 *ngIf="!isShowRegularGroupControl">
+              <label class="col-lg-2 col-form-label">Language: <small>Tab flag to change language.</small></label>
+              <div class="col-lg-10">
+                <language [imageUrl]="languageCode.value.path"
+                          [display]="languageCode.value.display"
+                          (click)="openLanguageModal(languageCode)"></language>
+              </div>
+            </div>
+
+            <div class="form-group row m-t-n"
+                 *ngIf="!isShowRegularGroupControl">
+              <label class="col-lg-2 col-form-label">Connected Group:</label>
+              <div class="col-lg-10">
+                <select class="form-control m-b">
+                  <option>Group B</option>
+                </select>
+              </div>
+            </div>-->
+
+            <div class="form-group row">
+              <div class="col">
+                <button class="btn btn-sm btn-white float-right m-t-n-xs" type="submit">Cancel</button>
+                <button class="btn btn-sm btn-primary float-right m-t-n-xs" type="submit">Save Changes</button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
