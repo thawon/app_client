@@ -28,6 +28,9 @@ import { LineLIFFService } from '../../services/line.liff.service';
 import { groupTypes, getGroupType} from '../../enums/groupType.enum'
 import { supportedLanguages, getLanguage } from '../../enums/supportedLanguages.enum'
 
+
+import { AuthInterceptorService} from '../../services/auth-interceptor.service';
+
 @Component({
   selector: 'app-group-detail',
   templateUrl: './group-detail.component.html',
@@ -54,7 +57,10 @@ export class GroupDetailComponent {
     private modalService: NgbModal,    
     private lineLIFFService: LineLIFFService,
     private storage: StorageMap,
-    @Inject('LIFF_ID_GROUP_DETAIL') private liffId: string) {
+    @Inject('LIFF_ID_GROUP_DETAIL') private liffId: string,
+    private auth: AuthInterceptorService) {
+
+    this.route.params.subscribe(params => { this.id = params['id']; });  
 
     this.form = this.fb.group({
       name: new FormControl(''),
@@ -66,19 +72,24 @@ export class GroupDetailComponent {
     this.name = this.form.controls.name;
     this.groupType = this.form.controls.groupType;
     this.languageCode = this.form.controls.languageCode;
-    this.members = this.form.controls.members as FormArray;
+    this.members = this.form.controls.members as FormArray;    
 
     this.setGroupid(); 
         
     if (this.isFromLiFF) {
-      this.storage.get('groupid').subscribe((groupid) => {
-        this.id = groupid.toString();
-        this.initialization(this.id);
-      });
+      this.id = localStorage.getItem('groupid');
+      // initiates liff without paramter
+      this.lineLIFFService.init(this.liffId)
+        .then(() => {
+          this.initialization(this.id);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       this.initialization(this.id);
     }
-  }  
+  }
 
   initialization(id) {
     this.service.getGroup(id).subscribe(group => {
@@ -113,21 +124,22 @@ export class GroupDetailComponent {
     // liff must be initated prior the call, with paramter (groupid) it causes the page to redirect to the root    
     if (isLIFF) {
       // caches groupid from liff query string and use it after the redirect with no parameter
-      this.storage.set('groupid', params.get('groupid')).subscribe(() => { });
+
+      localStorage.setItem('groupid', params.get('groupid'));
 
       // intented redirect without parameter
       window.location.href = `https://liff.line.me/${this.liffId}`;
+
+      //this.storage.set('groupid', params.get('groupid')).subscribe(() => { });
     }
     else {
       // usable for both nornal link and from line liff
+
       this.route.params.subscribe(params => { this.id = params['id']; });        
 
       // '0' indicate traffic from LIFF, otherwise id is a objectId
       if (this.id === '0') {
-        this.isFromLiFF = true;
-
-        // initiates liff without paramter
-        this.lineLIFFService.init(this.liffId);
+        this.isFromLiFF = true;        
       }
       
     }
@@ -166,8 +178,6 @@ export class GroupDetailComponent {
   }
 
   onSubmit(): void {
-    //if (this.isFromLiFF) this.lineLIFFService.closeWindow();
-
     // this update class on css
     this.form.markAllAsTouched();     
     if (this.form.invalid) return;
@@ -194,6 +204,7 @@ export class GroupDetailComponent {
     this.service.saveGroup(group).subscribe(
       data => {
         console.log("group has been successfully.", data);
+        this.lineLIFFService.closeWindow();
         if (this.isFromLiFF) {
           this.lineLIFFService.closeWindow();
         } else {

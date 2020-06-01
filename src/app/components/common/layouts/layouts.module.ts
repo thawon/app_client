@@ -1,6 +1,7 @@
 import {NgModule} from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
 import {RouterModule} from "@angular/router";
+import { TranslateModule } from '@ngx-translate/core';
 
 import {BasicLayoutComponent} from "./basicLayout.component";
 import {BlankLayoutComponent} from "./blankLayout.component";
@@ -25,6 +26,7 @@ import {TopNavigationNavbarComponent} from "./../topnavbar/topnavigationnavbar.c
   imports: [
     BrowserModule,
     RouterModule,
+    TranslateModule
   ],
   exports: [
     FooterComponent,
@@ -33,7 +35,8 @@ import {TopNavigationNavbarComponent} from "./../topnavbar/topnavigationnavbar.c
     NavigationComponent,
     TopNavigationLayoutComponent,
     TopNavbarComponent,
-    TopNavigationNavbarComponent
+    TopNavigationNavbarComponent,
+    TranslateModule
   ],
 })
 

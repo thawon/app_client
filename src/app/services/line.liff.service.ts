@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AuthInterceptorService } from './auth-interceptor.service';
 
 declare var liff: any;
 
@@ -7,20 +8,55 @@ declare var liff: any;
 })
 export class LineLIFFService {
 
-  constructor() { }
+  constructor(
+    private auth: AuthInterceptorService) { }
   
   init(liffId) {
-    liff.init({ liffId: liffId })
-      .then(() => {       
-        if (!liff.isLoggedIn()) liff.login();
-      })
-      .catch((err) => {        
-        console.log(err.code, err.message);
-      });    
+    return new Promise((resolve, reject) => {
+      liff.init({ liffId: liffId })
+        .then(() => {
+          if (!liff.isLoggedIn()) {
+            liff.login();
+          } else {
+                       
+            liff.getProfile()
+              .then(p => {
+                this.auth.getToken({ name: p.displayName, id: p.userId })
+                  .then((token) => {
+                    localStorage.setItem('token', token.toString())
+                    resolve();
+                  })
+                  .catch(err => {
+                    reject(err)
+                  });
+              }).catch(err => {
+                reject(err)
+              });
+          }
+        })
+        .catch((err) => {
+          reject(err)
+        });    
+    })
+    
   }
 
   closeWindow() {
     liff.closeWindow()
+  }
+
+  isLoggedIn(): boolean {    
+    return liff.init({ liffId: '1654064299-5zNao6gm' })
+      .then(() => {
+        if (!liff.isLoggedIn()) {
+          liff.login();
+        } else {
+          return liff.isLoggedIn();
+        }
+      })
+      .catch((err) => {
+        console.log(err.code, err.message);
+      });
   }
 
   //liff.sendMessages([
@@ -36,13 +72,4 @@ export class LineLIFFService {
     //    console.log('error', err);
     //  });
 
-  getLineProfile() {
-    return new Promise((resolve, reject) => {
-      liff.getProfile(data => {
-        resolve(data)
-      }, err => {
-        reject(err)
-      })
-    })
-  }
 }

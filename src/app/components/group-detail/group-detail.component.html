@@ -3,7 +3,7 @@
     <div class="col-lg-12">
       <div class="ibox ">
         <div class="">
-          <h5>Group information <small>details about group shows below</small></h5>
+          <h3>Group information <small>details about group shows below</small></h3>
         </div>
         <div class="">
           
@@ -13,25 +13,26 @@
             <!--<label>groupid: {{ id }}</label>-->
 
             <p class="text-info">Please enter the followings.</p>
+
             <!--<div class="form-group row" [ngClass]="{'has-error': !name.valid}">
-              <label class="col-lg-2 col-form-label">Group Name:</label>
-              <div class="col-lg-10">
-                <input type="text" placeholder="Group name" class="form-control"
-                       [formControl]="name">
-                <p *ngIf="!name.valid" class="text-danger animated fadeInRight">Group name is required.</p>
-              </div>
-            </div>-->
+      <label class="col-lg-2 col-form-label">Group Name:</label>
+      <div class="col-lg-10">
+        <input type="text" placeholder="Group name" class="form-control"
+               [formControl]="name">
+        <p *ngIf="!name.valid" class="text-danger animated fadeInRight">Group name is required.</p>
+      </div>
+    </div>-->
             <!--<div class="form-group row">
-              <label class="col-lg-2 col-form-label">Type:</label>
-              <div class="col-lg-10">
-                <span class="p-xxs m-r">{{ groupType.value.display }}</span>
-                <button type="button"
-                        class="btn btn-info btn-xs pull-right"
-                        (click)="openGroupTypeModal()">
-                  Change
-                </button>
-              </div>
-            </div>-->
+      <label class="col-lg-2 col-form-label">Type:</label>
+      <div class="col-lg-10">
+        <span class="p-xxs m-r">{{ groupType.value.display }}</span>
+        <button type="button"
+                class="btn btn-info btn-xs pull-right"
+                (click)="openGroupTypeModal()">
+          Change
+        </button>
+      </div>
+    </div>-->
             <div class="form-group row">
               <label class="col-lg-2 col-form-label">Members: <small>Tab flag to change language.</small></label>
               <div class="col-12"
@@ -58,24 +59,24 @@
               </div>
             </div>
             <!--<div class="form-group row"
-                 *ngIf="!isShowRegularGroupControl">
-              <label class="col-lg-2 col-form-label">Language: <small>Tab flag to change language.</small></label>
-              <div class="col-lg-10">
-                <language [imageUrl]="languageCode.value.path"
-                          [display]="languageCode.value.display"
-                          (click)="openLanguageModal(languageCode)"></language>
-              </div>
-            </div>
+         *ngIf="!isShowRegularGroupControl">
+      <label class="col-lg-2 col-form-label">Language: <small>Tab flag to change language.</small></label>
+      <div class="col-lg-10">
+        <language [imageUrl]="languageCode.value.path"
+                  [display]="languageCode.value.display"
+                  (click)="openLanguageModal(languageCode)"></language>
+      </div>
+    </div>
 
-            <div class="form-group row m-t-n"
-                 *ngIf="!isShowRegularGroupControl">
-              <label class="col-lg-2 col-form-label">Connected Group:</label>
-              <div class="col-lg-10">
-                <select class="form-control m-b">
-                  <option>Group B</option>
-                </select>
-              </div>
-            </div>-->
+    <div class="form-group row m-t-n"
+         *ngIf="!isShowRegularGroupControl">
+      <label class="col-lg-2 col-form-label">Connected Group:</label>
+      <div class="col-lg-10">
+        <select class="form-control m-b">
+          <option>Group B</option>
+        </select>
+      </div>
+    </div>-->
 
             <div class="form-group row">
               <div class="col">
