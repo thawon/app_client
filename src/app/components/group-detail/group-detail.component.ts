@@ -14,7 +14,6 @@ import {
 
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { StorageMap } from '@ngx-pwa/local-storage';
 
 import { GroupsService } from '../../services/groups.service';
 import { Group } from '../../models/group.model';
@@ -24,12 +23,10 @@ import { GroupTypeModalComponent } from '../common/group-type-modal/group-type-m
 import { LanguageModalComponent } from '../common/language-modal/language-modal.component';
 
 import { LineLIFFService } from '../../services/line.liff.service';
+import { LocalStroageService } from '../../services/local-stroage.service';
 
 import { groupTypes, getGroupType} from '../../enums/groupType.enum'
 import { supportedLanguages, getLanguage } from '../../enums/supportedLanguages.enum'
-
-
-import { AuthInterceptorService} from '../../services/auth-interceptor.service';
 
 @Component({
   selector: 'app-group-detail',
@@ -50,15 +47,14 @@ export class GroupDetailComponent {
   groupType: AbstractControl;
   languageCode: AbstractControl;
   members: FormArray;
-
+  
   constructor(private service: GroupsService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private modalService: NgbModal,    
     private lineLIFFService: LineLIFFService,
-    private storage: StorageMap,
     @Inject('LIFF_ID_GROUP_DETAIL') private liffId: string,
-    private auth: AuthInterceptorService) {
+    private localStorage : LocalStroageService) {
 
     this.route.params.subscribe(params => { this.id = params['id']; });  
 
@@ -74,24 +70,10 @@ export class GroupDetailComponent {
     this.languageCode = this.form.controls.languageCode;
     this.members = this.form.controls.members as FormArray;    
 
-    this.setGroupid(); 
-        
-    if (this.isFromLiFF) {
-      this.id = localStorage.getItem('groupid');
-      // initiates liff without paramter
-      this.lineLIFFService.init(this.liffId)
-        .then(() => {
-          this.initialization(this.id);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      this.initialization(this.id);
-    }
+    this.initialize(); 
   }
 
-  initialization(id) {
+  retrieveGroup(id) {
     this.service.getGroup(id).subscribe(group => {
       this.name.setValue(group.name);
       this.groupType.setValue(getGroupType(group.groupType));
@@ -113,7 +95,7 @@ export class GroupDetailComponent {
     this.setShowRegularGroupControl();
   }
 
-  setGroupid() {
+  initialize() {
     // parsing query string
     const queryString = decodeURIComponent(window.location.search).replace('?liff.state=', '');
     const params = new URLSearchParams(queryString);
@@ -125,7 +107,7 @@ export class GroupDetailComponent {
     if (isLIFF) {
       // caches groupid from liff query string and use it after the redirect with no parameter
 
-      localStorage.setItem('groupid', params.get('groupid'));
+      this.localStorage.setItem('groupid', params.get('groupid'));
 
       // intented redirect without parameter
       window.location.href = `https://liff.line.me/${this.liffId}`;
@@ -140,8 +122,25 @@ export class GroupDetailComponent {
       // '0' indicate traffic from LIFF, otherwise id is a objectId
       if (this.id === '0') {
         this.isFromLiFF = true;        
-      }
-      
+      }      
+    }
+
+    if (this.isFromLiFF) {
+      this.id = this.localStorage.getItem('groupid');
+
+      // clear local storage
+      this.localStorage.removeItem('groupid')
+
+      // initiates liff without paramter
+      this.lineLIFFService.init(this.liffId)
+        .then(() => {
+          this.retrieveGroup(this.id);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      this.retrieveGroup(this.id);
     }
   }
 

@@ -6,7 +6,7 @@
           <h3>Group information <small>details about group shows below</small></h3>
         </div>
         <div class="">
-          
+
           <form [formGroup]="form"
                 (ngSubmit)="onSubmit()">
 
@@ -34,7 +34,7 @@
       </div>
     </div>-->
             <div class="form-group row">
-              <label class="col-lg-2 col-form-label">Members: <small>Tab flag to change language.</small></label>
+              <label class="col-lg-2 col-form-label">{{'groupDetail.members' | translate}}: <small>{{'groupDetail.tabToChangeLanguge' | translate}}</small></label>
               <div class="col-12"
                    formArrayName="members"
                    *ngFor="let member of members.controls; index as i">

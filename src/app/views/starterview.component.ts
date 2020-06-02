@@ -17,13 +17,13 @@ export class StarterViewComponent implements OnDestroy, OnInit {
     this.nav.className += " white-bg";
   }
 
-
+  
   public ngOnDestroy(): any {
     this.nav.classList.remove("white-bg");
   }
 
-  closewindow() {
-    this.lineLIFFService.closeWindow();
+  closewindow() {    
+    this.lineLIFFService.closeWindowAndSendMessage();
   }
 
 }

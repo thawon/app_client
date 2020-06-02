@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { detectBody } from '../../../app.helpers';
+import { LineLIFFService } from '../../../services/line.liff.service';
 
 declare var jQuery:any;
 
@@ -11,6 +12,9 @@ declare var jQuery:any;
   }
 })
 export class BasicLayoutComponent {
+
+  constructor(
+    public lineLIFFService: LineLIFFService) { }
 
   public ngOnInit():any {
     detectBody();

@@ -1,4 +1,7 @@
 {
   "Sitetitle": "Angular Multi Language Site",
-  "Name": "Name"
+  "System.language": "English",
+  "groupDetail.groupName": "Group Name",
+  "groupDetail.members": "Members",
+  "groupDetail.tabToChangeLanguge": "Tab flag to change language."
 }

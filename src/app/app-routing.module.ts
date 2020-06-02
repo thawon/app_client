@@ -18,7 +18,7 @@ const routes: Routes = [
   {
     path: '', component: BasicLayoutComponent,
     children: [
-      { path: 'starterview', component: StarterViewComponent, canActivate: [LoggedInGuard] },
+      { path: 'starterview', component: StarterViewComponent, canActivate: [LoggedInGuard] },      
       { path: 'group-detail/:id', component: GroupDetailComponent },
       { path: 'setting', component: SettingComponent, canActivate: [LoggedInGuard] }
     ]

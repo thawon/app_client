@@ -1,4 +1,7 @@
 {
   "Sitetitle": "อากูล่า",
-  "Name": "ชื่อ"
+  "System.language": "ไทย",
+  "groupDetail.groupName": "ชื่อกลุ่ม",
+  "groupDetail.members": "สมาชิก",
+  "groupDetail.tabToChangeLanguge": "แตะธงเพื่อเปลี่ยนภาษา"
 }
