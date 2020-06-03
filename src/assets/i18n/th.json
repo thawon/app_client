@@ -1,7 +1,12 @@
 {
   "Sitetitle": "อากูล่า",
   "System.language": "ไทย",
+  "groupDetail.header": "รายละเอียดกลุ่ม",
+  "groupDetail.introduction": "รายละเอียดเกี่ยวกับกลุ่มแสดงด้านล่าง",
+  "groupDetail.instruction": "กรุณากรอกข้อมูลต่อไปนี้",
   "groupDetail.groupName": "ชื่อกลุ่ม",
-  "groupDetail.members": "สมาชิก",
-  "groupDetail.tabToChangeLanguge": "แตะธงเพื่อเปลี่ยนภาษา"
+  "groupDetail.members": "สมาชิกกลุ่ม",
+  "groupDetail.tabToChangeLanguge": "แท็บเพื่อเปลี่ยนภาษา",
+  "groupDetail.saveChanges": "บันทึก",
+  "groupDetail.cancel": "ยกเลิก"
 }

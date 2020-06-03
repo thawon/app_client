@@ -8,7 +8,7 @@
   <div id="page-wrapper" class="gray-bg">
 
     <!-- Top navigation -->
-    <topnavbar *ngIf="!lineLIFFService.isClientApp"></topnavbar>
+    <topnavbar [ngClass]="{'d-none': lineLIFFService.isClientApp}"></topnavbar>
 
     <!-- Main view/routes wrapper-->
     <router-outlet></router-outlet>

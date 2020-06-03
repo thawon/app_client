@@ -18,4 +18,9 @@ export class GroupsService {
   saveGroup(group): Observable<Group> {
     return this.http.put<Group>(`/api/groups/${group.id}`, group);
   }
+
+  // check if the user is a member of the group, if not, add user as member of the group.
+  addMember(messengerUserId, sourceId, sourceType): Observable<any> {
+    return this.http.get<any>(`/api/addMember/${messengerUserId}/${sourceId}/${sourceType}`);
+  }
 }

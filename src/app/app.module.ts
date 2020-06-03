@@ -54,6 +54,7 @@ import { AuthInterceptorService } from '../app/services/auth-interceptor.service
   ],
   providers: [
     { provide: 'LIFF_ID_GROUP_DETAIL', useValue: '1654064299-9Dnd5mlw' },
+    { provide: 'LIFF_ID_INDEX', useValue: '1654064299-5zNao6gm' },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]

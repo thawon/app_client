@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { StarterViewComponent } from "./views/starterview.component";
 import { LoginComponent } from "./views/login.component";
@@ -19,7 +20,7 @@ const routes: Routes = [
     path: '', component: BasicLayoutComponent,
     children: [
       { path: 'starterview', component: StarterViewComponent, canActivate: [LoggedInGuard] },      
-      { path: 'group-detail/:id', component: GroupDetailComponent },
+      { path: 'group-detail/:id/:sourceType/:sourceId', component: GroupDetailComponent, canActivate: [LoggedInGuard] },
       { path: 'setting', component: SettingComponent, canActivate: [LoggedInGuard] }
     ]
   },
@@ -33,9 +34,13 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    TranslateModule
   ],
-  exports: [RouterModule],
+  exports: [
+    RouterModule,
+    TranslateModule
+  ],
   providers: [    
     LoggedInGuard
   ]

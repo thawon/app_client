@@ -1,7 +1,12 @@
 {
   "Sitetitle": "Angular Multi Language Site",
   "System.language": "English",
+  "groupDetail.header": "Group information",
+  "groupDetail.introduction": "details about group shows below",
+  "groupDetail.instruction": "Please enter the followings.",
   "groupDetail.groupName": "Group Name",
   "groupDetail.members": "Members",
-  "groupDetail.tabToChangeLanguge": "Tab flag to change language."
+  "groupDetail.tabToChangeLanguge": "Tab flag to change language.",
+  "groupDetail.saveChanges": "Save Changes",
+  "groupDetail.cancel": "Cancel"
 }

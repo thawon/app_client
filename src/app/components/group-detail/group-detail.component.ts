@@ -16,6 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { GroupsService } from '../../services/groups.service';
+import { UserService } from '../../services/user.service';
 import { Group } from '../../models/group.model';
 import { Member } from '../../models/member.model';
 
@@ -23,7 +24,6 @@ import { GroupTypeModalComponent } from '../common/group-type-modal/group-type-m
 import { LanguageModalComponent } from '../common/language-modal/language-modal.component';
 
 import { LineLIFFService } from '../../services/line.liff.service';
-import { LocalStroageService } from '../../services/local-stroage.service';
 
 import { groupTypes, getGroupType} from '../../enums/groupType.enum'
 import { supportedLanguages, getLanguage } from '../../enums/supportedLanguages.enum'
@@ -35,6 +35,8 @@ import { supportedLanguages, getLanguage } from '../../enums/supportedLanguages.
 })
 export class GroupDetailComponent {
   id: string;
+  sourceType: string;
+  sourceId: string;
 
   groupTypes: any = groupTypes;
   supportedLanguages: any = supportedLanguages;
@@ -49,14 +51,17 @@ export class GroupDetailComponent {
   members: FormArray;
   
   constructor(private service: GroupsService,
+    private user: UserService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private modalService: NgbModal,    
-    private lineLIFFService: LineLIFFService,
-    @Inject('LIFF_ID_GROUP_DETAIL') private liffId: string,
-    private localStorage : LocalStroageService) {
+    private lineLIFFService: LineLIFFService) {
 
-    this.route.params.subscribe(params => { this.id = params['id']; });  
+    this.route.params.subscribe(params => {
+      this.id = params['id'];
+      this.sourceType = params['sourceType'];
+      this.sourceId = params['sourceId'];
+    });  
 
     this.form = this.fb.group({
       name: new FormControl(''),
@@ -70,78 +75,50 @@ export class GroupDetailComponent {
     this.languageCode = this.form.controls.languageCode;
     this.members = this.form.controls.members as FormArray;    
 
-    this.initialize(); 
+    this.retrieveGroup(this.id, this.sourceType, this.sourceId);
   }
 
-  retrieveGroup(id) {
-    this.service.getGroup(id).subscribe(group => {
-      this.name.setValue(group.name);
-      this.groupType.setValue(getGroupType(group.groupType));
-      this.languageCode.setValue(group.languageCode);
-
-      group.members.forEach(m => {
-        this.members.push(new FormGroup({
-          id: new FormControl(m.id),
-          userId: new FormControl(m.userId),
-          messengerUserId: new FormControl(m.messengerUserId),
-          name: new FormControl(m.name),
-          pictureUrl: new FormControl(m.pictureUrl),
-          fromLanguageCode: new FormControl(getLanguage(m.fromLanguageCode)),
-          toLanguageCode: new FormControl(getLanguage(m.toLanguageCode))
-        }));
+  retrieveGroup(id: string, sourceType: string, sourceId: string) {
+    // when Ligo is invited to a group/room, group is created without member
+    // member is created when:
+    // (1) user joins the group/room
+    // (2) or tab on the group setting link sent when Ligo is invited.
+    if (this.lineLIFFService.isClientApp) {
+      // isClientApp indicates that user tabs the group setting link
+      this.service.addMember(this.user.userId, sourceId, sourceType).toPromise()
+        .then(() => {
+          return this.service.getGroup(id).toPromise();
+        })
+        .then((group) => {
+          // after adding user as a member, then initialise the form.
+          this.initialization(group);
+        });
+    } else {
+      // form is accessed from website, no need to check and add user.
+      this.service.getGroup(id).subscribe(group => {
+        this.initialization(group);
       });
+    }
+  }
+
+  initialization(group: Group) {
+    this.name.setValue(group.name);
+    this.groupType.setValue(getGroupType(group.groupType));
+    this.languageCode.setValue(group.languageCode);
+
+    group.members.forEach(m => {
+      this.members.push(new FormGroup({
+        id: new FormControl(m.id),
+        userId: new FormControl(m.userId),
+        messengerUserId: new FormControl(m.messengerUserId),
+        name: new FormControl(m.name),
+        pictureUrl: new FormControl(m.pictureUrl),
+        fromLanguageCode: new FormControl(getLanguage(m.fromLanguageCode)),
+        toLanguageCode: new FormControl(getLanguage(m.toLanguageCode))
+      }));
     });
 
     this.setShowRegularGroupControl();
-  }
-
-  initialize() {
-    // parsing query string
-    const queryString = decodeURIComponent(window.location.search).replace('?liff.state=', '');
-    const params = new URLSearchParams(queryString);
-
-    // isLiff indicate whather the traffic is from Line LIFF
-    const isLIFF: boolean = JSON.parse(params.get('isLIFF'));
-
-    // liff must be initated prior the call, with paramter (groupid) it causes the page to redirect to the root    
-    if (isLIFF) {
-      // caches groupid from liff query string and use it after the redirect with no parameter
-
-      this.localStorage.setItem('groupid', params.get('groupid'));
-
-      // intented redirect without parameter
-      window.location.href = `https://liff.line.me/${this.liffId}`;
-
-      //this.storage.set('groupid', params.get('groupid')).subscribe(() => { });
-    }
-    else {
-      // usable for both nornal link and from line liff
-
-      this.route.params.subscribe(params => { this.id = params['id']; });        
-
-      // '0' indicate traffic from LIFF, otherwise id is a objectId
-      if (this.id === '0') {
-        this.isFromLiFF = true;        
-      }      
-    }
-
-    if (this.isFromLiFF) {
-      this.id = this.localStorage.getItem('groupid');
-
-      // clear local storage
-      this.localStorage.removeItem('groupid')
-
-      // initiates liff without paramter
-      this.lineLIFFService.init(this.liffId)
-        .then(() => {
-          this.retrieveGroup(this.id);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      this.retrieveGroup(this.id);
-    }
   }
 
   openGroupTypeModal() {
@@ -215,7 +192,60 @@ export class GroupDetailComponent {
       }
     );    
   }
+
+  onCancel() {
+    this.lineLIFFService.closeWindow();
+  }
 }
+
+//initialize() {
+  //  // parsing query string
+  //  const queryString = decodeURIComponent(window.location.search).replace('?liff.state=', '');
+  //  const params = new URLSearchParams(queryString);
+
+  //  // isLiff indicate whather the traffic is from Line LIFF
+  //  const isLIFF: boolean = JSON.parse(params.get('isLIFF'));
+
+  //  // liff must be initated prior the call, with paramter (groupid) it causes the page to redirect to the root    
+  //  if (isLIFF) {
+  //    // caches groupid from liff query string and use it after the redirect with no parameter
+
+  //    this.localStorage.setItem('groupid', params.get('groupid'));
+
+  //    // intented redirect without parameter
+  //    window.location.href = `https://liff.line.me/${this.liffId}`;
+
+  //    //this.storage.set('groupid', params.get('groupid')).subscribe(() => { });
+  //  }
+  //  else {
+  //    // usable for both nornal link and from line liff
+
+  //    this.route.params.subscribe(params => { this.id = params['id']; });        
+
+  //    // '0' indicate traffic from LIFF, otherwise id is a objectId
+  //    if (this.id === '0') {
+  //      this.isFromLiFF = true;        
+  //    }      
+  //  }
+
+  //  if (this.isFromLiFF) {
+  //    this.id = this.localStorage.getItem('groupid');
+
+  //    // clear local storage
+  //    this.localStorage.removeItem('groupid')
+
+  //    // initiates liff without paramter
+  //    this.lineLIFFService.init(this.liffId)
+  //      .then(() => {
+  //        this.retrieveGroup(this.id);
+  //      })
+  //      .catch((err) => {
+  //        console.log(err);
+  //      });
+  //  } else {
+  //    this.retrieveGroup(this.id);
+  //  }
+  //}
 
 //first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),
 //function memberLanguageValidator(fromLanguage: AbstractControl, toLanguage: AbstractControl, isLanguageSettingValid: AbstractControl): ValidatorFn {
