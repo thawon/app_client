@@ -20,7 +20,7 @@ const routes: Routes = [
     path: '', component: BasicLayoutComponent,
     children: [
       { path: 'starterview', component: StarterViewComponent, canActivate: [LoggedInGuard] },      
-      { path: 'group-detail/:id/:sourceType/:sourceId', component: GroupDetailComponent, canActivate: [LoggedInGuard] },
+      { path: 'group-detail/:id', component: GroupDetailComponent, canActivate: [LoggedInGuard] },
       { path: 'setting', component: SettingComponent, canActivate: [LoggedInGuard] }
     ]
   },

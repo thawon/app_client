@@ -31,10 +31,6 @@ export class LineLIFFService {
       if (params.get('route')) {
         this.localStorage.setItem('route', params.get('route'));
         this.localStorage.setItem('id', params.get('id'));
-
-        // use in group-detail to add user if dose not exist in group.
-        this.localStorage.setItem('sourceId', params.get('sourceId'));
-        this.localStorage.setItem('sourceType', params.get('sourceType'));
       }
 
       return Promise.resolve(liff.init({ liffId: this.liffId }))

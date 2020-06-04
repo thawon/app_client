@@ -59,8 +59,6 @@ export class GroupDetailComponent {
 
     this.route.params.subscribe(params => {
       this.id = params['id'];
-      this.sourceType = params['sourceType'];
-      this.sourceId = params['sourceId'];
     });  
 
     this.form = this.fb.group({
@@ -75,17 +73,17 @@ export class GroupDetailComponent {
     this.languageCode = this.form.controls.languageCode;
     this.members = this.form.controls.members as FormArray;    
 
-    this.retrieveGroup(this.id, this.sourceType, this.sourceId);
+    this.retrieveGroup(this.id);
   }
 
-  retrieveGroup(id: string, sourceType: string, sourceId: string) {
+  retrieveGroup(id: string) {
     // when Ligo is invited to a group/room, group is created without member
     // member is created when:
     // (1) user joins the group/room
     // (2) or tab on the group setting link sent when Ligo is invited.
     if (this.lineLIFFService.isClientApp) {
       // isClientApp indicates that user tabs the group setting link
-      this.service.addMember(this.user.userId, sourceId, sourceType).toPromise()
+      this.service.addMember(this.user.userId, id).toPromise()
         .then(() => {
           return this.service.getGroup(id).toPromise();
         })
