@@ -6,6 +6,7 @@ export class Group {
   members: Array<Member>;
   groupType: string;
   languageCode: string;
+  connectedGroup: any;
 
   constructor() {}
 }

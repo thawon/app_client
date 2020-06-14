@@ -21,9 +21,12 @@ import { GroupTypeModalComponent } from './components/common/group-type-modal/gr
 import { LanguageComponent } from './components/common/language/language.component';
 import { LanguageModalComponent } from './components/common/language-modal/language-modal.component';
 import { SettingComponent } from './components/setting/setting.component';
+import { LiveTranslationComponent } from './components/live-translation/live-translation.component';
 
 // Services
 import { AuthInterceptorService } from '../app/services/auth-interceptor.service';
+import { AvailableConnectedGroupModalComponent } from './components/available-connected-group-modal/available-connected-group-modal.component';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +35,9 @@ import { AuthInterceptorService } from '../app/services/auth-interceptor.service
     GroupTypeModalComponent,
     LanguageComponent,
     LanguageModalComponent,
-    SettingComponent
+    SettingComponent,
+    LiveTranslationComponent,
+    AvailableConnectedGroupModalComponent
   ],
   imports: [
     LayoutsModule,
@@ -53,8 +58,6 @@ import { AuthInterceptorService } from '../app/services/auth-interceptor.service
     })
   ],
   providers: [
-    { provide: 'LIFF_ID_GROUP_DETAIL', useValue: '1654064299-9Dnd5mlw' },
-    { provide: 'LIFF_ID_INDEX', useValue: '1654064299-5zNao6gm' },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]

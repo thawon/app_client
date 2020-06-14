@@ -23,7 +23,15 @@ export class StarterViewComponent implements OnDestroy, OnInit {
     let route = this.localStorage.getItem('route');
     if (route) {
       let id = this.localStorage.getItem('id');
-      this.router.navigate([`/${route}`, id]).then(() => this.clearLocalStroage());
+
+      if (route === 'live-translation') {
+        let fromLanguageCode = this.localStorage.getItem('fromLanguageCode');
+        let toLanguageCode = this.localStorage.getItem('toLanguageCode');
+
+        this.router.navigate([`/${route}`, fromLanguageCode, toLanguageCode]).then(() => this.clearLocalStroage());
+      } else {
+        this.router.navigate([`/${route}`, id]).then(() => this.clearLocalStroage());
+      }
     }    
   }
 
@@ -43,5 +51,7 @@ export class StarterViewComponent implements OnDestroy, OnInit {
   clearLocalStroage() {
     this.localStorage.removeItem('route');
     this.localStorage.removeItem('id');
+    this.localStorage.removeItem('fromLanguageCode');
+    this.localStorage.removeItem('toLanguageCode');
   }
 }

@@ -1,14 +1,14 @@
 <div class="modal-header">
-  <h5 class="modal-title">Choose langugage</h5>
+  <h5 class="modal-title">{{'languageModel.header' | translate}}</h5>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <p class="text-info">Please select from the followings.</p>
+  <p class="text-info">{{'languageModel.instruction' | translate}}</p>
   <form [formGroup]="form"
         (ngSubmit)="onSubmit(form.value.language)">
-    
+
     <div class="form-group row">
       <div class="table-responsive">
         <table class="table">
@@ -19,7 +19,7 @@
                 <div class="row">
                   <div class="col">
                     <img *ngIf="item.key !== 'na'" src="{{ item.path }}" class="rounded img-sm" />
-                    <span class="p-xxs m-r">{{ item.display }}</span>
+                    <span class="p-xxs m-r">{{ item.key | translate }}</span>
                   </div>
                 </div>
               </td>
@@ -31,8 +31,8 @@
 
     <div class="form-group row">
       <div class="col">
-        <button class="btn btn-lg btn-white float-right m-t-n-xs" (click)="activeModal.dismiss()">Close</button>
-        <button class="btn btn-lg btn-primary float-right m-t-n-xs" type="submit">Select</button>
+        <button class="btn btn-lg btn-white float-right" (click)="activeModal.dismiss()">{{'languageModel.cancel' | translate}}</button>
+        <button class="btn btn-lg btn-primary float-right mr-2" type="submit"><i class="fa fa-check mr-1"></i>{{'languageModel.select' | translate}}</button>
       </div>
     </div>
 

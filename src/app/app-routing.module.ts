@@ -10,6 +10,7 @@ import { BasicLayoutComponent } from "./components/common/layouts/basicLayout.co
 
 import { GroupDetailComponent } from "./components/group-detail/group-detail.component"
 import { SettingComponent } from "./components/setting/setting.component"
+import { LiveTranslationComponent } from './components/live-translation/live-translation.component';
 
 import { LoggedInGuard } from './logged-in.guard';
 
@@ -28,6 +29,7 @@ const routes: Routes = [
     path: '', component: BlankLayoutComponent,
     children: [
       { path: 'login', component: LoginComponent },
+      { path: 'live-translation/:fromLanguageCode/:toLanguageCode', component: LiveTranslationComponent, canActivate: [LoggedInGuard] },
     ]
   }
 ];

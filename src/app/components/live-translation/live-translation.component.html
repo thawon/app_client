@@ -1,0 +1,59 @@
+<div class="text-center animated fadeInDown">
+  <form [formGroup]="form"
+        (ngSubmit)="onSubmit()">
+
+    <div class="row h-43 bg-white border-top border-bottom">
+      <div class="col-5 mt-2">
+        <span class="align-middle" style="font-size:16px;">{{ fromLanguageCode.value | translate}}</span>
+      </div>
+      <div class="col-1 mt-2">
+        <i class="fa fa-angle-right"></i>
+      </div>
+      <div class="col-5  mt-2">
+        <span class="align-middle" style="font-size:16px;">{{ toLanguageCode.value | translate}}</span>
+      </div>
+    </div>
+
+    <div class="row h-95 bg-white border-bottom">
+      <div class="col-9">
+        <div class="chat-message-form">
+          <div class="form-group">
+            <textarea class="form-control message-input no-borders" #textToTranslate placeholder="{{ 'live-translation.translatePlaceholder' | translate}}" [formControl]="text"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="col-1">
+        <button class="btn btn-primary btn-circle float-left mt-1" type="submit"> <i class="fa fa-check"></i></button>
+        <button class="btn btn-outline btn-circle mt-3" type="button" (click)="clear()"> <i class="fa fa-times"></i> </button>
+      </div>
+      <div class="col-2">
+      </div>
+      <div class="col-11">
+        <div class="chat-message-form">
+          <div class="form-group">
+            <span *ngIf="isShowDidYouMean" class="text-left float-left ml-2 animated fadeInRight" style="color:#C0C0C0">
+              <i class="fa fa-comments mr-1"></i>{{ 'live-translation.DidYouMean' | translate}}:
+              <span class="text-success" [innerHTML]="didYouMeanText.value" (click)="translate()"></span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isShowTranslation" class="row h-60 border-bottom bg-primary">
+      <div class="col-11 mt-1">
+        <div class="chat-message-form">
+          <div class="form-group text-left">
+            <span class="float-left ml-2">{{ translatedText.value }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-10">
+        <span *ngIf="isTranslating" class="float-right loading circle ml-2 fadeInRight"></span>
+      </div>
+    </div>
+
+  </form>
+  
+
+</div>

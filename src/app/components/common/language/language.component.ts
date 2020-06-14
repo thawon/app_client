@@ -12,6 +12,7 @@ import { supportedLanguages } from '../../../enums/supportedLanguages.enum'
 })
 export class LanguageComponent {  
   @Input() language: any;
+  @Input() isEnabled: any;
 
   supportedLanguages: any = supportedLanguages;
 }

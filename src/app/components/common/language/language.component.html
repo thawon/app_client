@@ -1,2 +1,6 @@
-<img *ngIf="language.key !== supportedLanguages.notSpecified.key" src="{{ language.path }}" class="rounded img-sm" />
-<span class="p-xxs">{{ language.display }}</span>
+<!--<img *ngIf="language.key !== supportedLanguages.notSpecified.key" src="{{ language.path }}" class="rounded img-sm" [ngClass]="{'no-borders': lineLIFFService.isClientApp}"/>-->
+<!--<span class="badge badge-success p-xxs">{{ language.key | translate }}</span>-->
+<button type="button" class="btn btn-sm" [ngClass]="{'btn-link': !isEnabled, 'btn-default':isEnabled}">
+  <img *ngIf="language.key !== supportedLanguages.notSpecified.key" src="{{ language.path }}" class="rounded img-sm" />
+  <span class="ml-1">{{ language.key | translate }}</span>
+</button>

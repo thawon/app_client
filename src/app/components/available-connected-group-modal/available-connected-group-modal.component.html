@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{'availableConnectedGroupModal.header' | translate}}</h5>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p class="text-info">{{'availableConnectedGroupModal.instruction' | translate}}</p>
+
+  <div *ngIf="isLoading" class="sk-spinner sk-spinner-three-bounce">
+    <div class="sk-bounce1"></div>
+    <div class="sk-bounce2"></div>
+    <div class="sk-bounce3"></div>
+  </div>
+
+  <form [ngClass]="{'d-none': isLoading}"
+        [formGroup]="form"
+        (ngSubmit)="onSubmit(form.value.connectedGroup)">
+
+    <div class="form-group row">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>{{'availableConnectedGroupModal.groupName' | translate}}</th>
+              <th>{{'availableConnectedGroupModal.languageCode' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of availableGroups ">
+              <td class="align-middle"><input type="radio" class="i-checks align-middle" [value]="item" [formControl]="connectedGroup"></td>
+              <td class="align-middle">
+                <span class="">{{ item.name }}</span>
+              </td>
+              <td>
+                <language class="" [language]="getLanguage(item.languageCode)" [isEnabled]="false"></language>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col">
+        <button class="btn btn-lg btn-white float-right" (click)="activeModal.dismiss()">{{'availableConnectedGroupModal.cancel' | translate}}</button>
+        <button class="btn btn-lg btn-primary float-right mr-2" type="submit"><i class="fa fa-check mr-1"></i>{{'availableConnectedGroupModal.select' | translate}}</button>
+      </div>
+    </div>
+
+  </form>
+</div>

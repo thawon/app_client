@@ -5,34 +5,43 @@
         <div class="">
           <h3>{{'groupDetail.header' | translate}} <small>{{'groupDetail.introduction' | translate}}</small></h3>
         </div>
-        <div class="">
+        <div>
 
-          <form [formGroup]="form"
+          <p class="text-info">{{'groupDetail.instruction' | translate}}</p>
+
+          <div *ngIf="isLoading" class="sk-spinner sk-spinner-three-bounce">
+            <div class="sk-bounce1"></div>
+            <div class="sk-bounce2"></div>
+            <div class="sk-bounce3"></div>
+          </div>
+
+          <form [ngClass]="{'d-none': isLoading}"
+                [formGroup]="form"
                 (ngSubmit)="onSubmit()">
 
             <!--<label>groupid: {{ id }}</label>-->
 
-            <p class="text-info">{{'groupDetail.instruction' | translate}}</p>
-
-            <!--<div class="form-group row" [ngClass]="{'has-error': !name.valid}">
-              <label class="col-lg-2 col-form-label">Group Name:</label>
+            <div class="form-group row" [ngClass]="{'has-error': !name.valid}">
+              <label class="col-lg-2 col-form-label">{{'groupDetail.groupName' | translate}}:</label>
               <div class="col-lg-10">
                 <input type="text" placeholder="Group name" class="form-control"
                        [formControl]="name">
                 <p *ngIf="!name.valid" class="text-danger animated fadeInRight">Group name is required.</p>
               </div>
-            </div>-->
-            <!--<div class="form-group row">
-              <label class="col-lg-2 col-form-label">Type:</label>
+            </div>
+            <div class="form-group row">
+              <label class="col-lg-2 col-form-label">{{'groupDetail.groupType' | translate}}:</label>
               <div class="col-lg-10">
-                <span class="p-xxs m-r">{{ groupType.value.display }}</span>
-                <button type="button"
-                        class="btn btn-info btn-xs pull-right"
+                <span class="col-form-label">{{ groupType.value.display }}</span>
+                <button [ngClass]="{'d-none': !name.valid, 'd-none': isSaving}"
+                        type="button"
+                        class="btn btn-info btn-xs pull-right animated fadeInRight"
                         (click)="openGroupTypeModal()">
-                  Change
+                  {{'groupDetail.change' | translate}}
                 </button>
               </div>
-            </div>-->
+            </div>
+
             <div class="form-group row">
               <label class="col-lg-2 col-form-label">{{'groupDetail.members' | translate}}: {{'groupDetail.tabToChangeLanguge' | translate}}</label>
               <div class="col-12"
@@ -42,48 +51,61 @@
                   <div class="col-1">
                     <img src="{{ member.controls['pictureUrl'].value }}" class="rounded img-sm" />
                   </div>
-                  <div class="col m-l">
+                  <div class="col m-l mt-2">
                     <label><strong>{{ member.controls['name'].value }}</strong></label>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-1" *ngIf="isShowRegularGroupControl">
                   <div class="col">
-                    <language [language]="member.controls['fromLanguageCode'].value"
+                    <language [language]="member.controls['fromLanguageCode'].value" [isEnabled]="true"
                               (click)="openLanguageModal(member.controls['fromLanguageCode'], member.controls['toLanguageCode'])"></language>
-                    <i class="fa fa-arrow-right p-xxs"></i>
-                    <language [language]="member.controls['toLanguageCode'].value"
+                    <button class="btn btn-primary mx-2" type="button"><i class="fa fa-exchange"></i></button>
+                    <language [language]="member.controls['toLanguageCode'].value" [isEnabled]="true"
                               (click)="openLanguageModal(member.controls['toLanguageCode'], member.controls['fromLanguageCode'])"></language>
                   </div>
                 </div>
                 <div class="hr-line-dashed m-sm"></div>
               </div>
             </div>
-            <!--<div class="form-group row"
+
+            <div class="form-group row"
                  *ngIf="!isShowRegularGroupControl">
-              <label class="col-lg-2 col-form-label">Language: <small>Tab flag to change language.</small></label>
+              <label class="col-lg-2 col-form-label">{{'groupDetail.languageCode' | translate}}: {{'groupDetail.tabToChangeLanguge' | translate}}</label>
               <div class="col-lg-10">
-                <language [imageUrl]="languageCode.value.path"
-                          [display]="languageCode.value.display"
-                          (click)="openLanguageModal(languageCode)"></language>
+                <language [language]="languageCode.value" [isEnabled]="true"
+                          (click)="openLanguageModal(languageCode, languageCode)"></language>
               </div>
             </div>
 
-            <div class="form-group row m-t-n"
+            <div class="form-group row"
                  *ngIf="!isShowRegularGroupControl">
-              <label class="col-lg-2 col-form-label">Connected Group:</label>
-              <div class="col-lg-10">
-                <select class="form-control m-b">
-                  <option>Group B</option>
-                </select>
+              <div class="col-12">
+                <label class="col-lg-2">{{'groupDetail.connectedGroup' | translate}}:</label>
+                <div class="col-lg-10">
+                  <span>{{ connectedGroup.value.name }}</span>                  
+                  <button [ngClass]="{'d-none': !name.valid, 'd-none': isSaving}"
+                          type="button"
+                          class="btn btn-info btn-xs pull-right animated fadeInRight"
+                          (click)="openAvailableGroupsModal()">
+                    {{'groupDetail.change' | translate}}
+                  </button>
+                </div>
+                <div *ngIf="isShowConnectedGroupLanguage" class="col-12 ml-1 animated fadeInRight">
+                  <span>{{'groupDetail.languageCode' | translate}}</span>
+                  <language class="ml-1" [language]="connectedGroupLanguageCode.value" [isEnabled]="false"></language>
+                </div>
               </div>
-            </div>-->
+              
+            </div>
 
             <div class="form-group row">
               <div class="col">
-                <button class="btn btn-lg btn-white float-right m-t-n-xs" (click)="onCancel()">{{'groupDetail.cancel' | translate}}</button>
-                <button class="btn btn-lg btn-primary float-right m-t-n-xs" type="submit">{{'groupDetail.saveChanges' | translate}}</button>                
+                <button class="btn btn-lg btn-white float-right" (click)="onCancel()">{{'groupDetail.cancel' | translate}}</button>
+                <button class="btn btn-lg btn-primary float-right mr-2" type="submit">
+                  <span *ngIf="isSaving" class="loading circle mr-1"></span><i *ngIf="!isSaving" class="fa fa-check mr-1"></i>{{'groupDetail.saveChanges' | translate}}
+                </button>
               </div>
-            </div>
+            </div>  
 
           </form>
         </div>
