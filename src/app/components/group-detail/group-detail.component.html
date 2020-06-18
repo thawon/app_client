@@ -33,7 +33,7 @@
               <label class="col-lg-2 col-form-label">{{'groupDetail.groupType' | translate}}:</label>
               <div class="col-lg-10">
                 <span class="col-form-label">{{ groupType.value.display }}</span>
-                <button [ngClass]="{'d-none': !name.valid, 'd-none': isSaving}"
+                <button [ngClass]="{'d-none': !name.valid || isSaving}"
                         type="button"
                         class="btn btn-info btn-xs pull-right animated fadeInRight"
                         (click)="openGroupTypeModal()">
@@ -41,7 +41,7 @@
                 </button>
               </div>
             </div>
-
+            
             <div class="form-group row">
               <label class="col-lg-2 col-form-label">{{'groupDetail.members' | translate}}: {{'groupDetail.tabToChangeLanguge' | translate}}</label>
               <div class="col-12"
@@ -83,7 +83,7 @@
                 <label class="col-lg-2">{{'groupDetail.connectedGroup' | translate}}:</label>
                 <div class="col-lg-10">
                   <span>{{ connectedGroup.value.name }}</span>                  
-                  <button [ngClass]="{'d-none': !name.valid, 'd-none': isSaving}"
+                  <button [ngClass]="{'d-none': !name.valid || isSaving}"
                           type="button"
                           class="btn btn-info btn-xs pull-right animated fadeInRight"
                           (click)="openAvailableGroupsModal()">

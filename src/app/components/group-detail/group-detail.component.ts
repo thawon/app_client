@@ -220,6 +220,7 @@ export class GroupDetailComponent {
       id: this.id,
       name: this.name.value,
       groupType: this.groupType.value.key,
+      languageCode: this.languageCode.value.key,
       messengerUserId: this.user.userId,
       newConnectedGroupId: this.connectedGroup.value.groupId,
       members: []
