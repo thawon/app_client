@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class StarterViewComponent implements OnDestroy, OnInit {
 
   public nav: any;
+  isRedirect: boolean = false;
 
   public constructor(
     private lineLIFFService: LineLIFFService,
@@ -18,21 +19,16 @@ export class StarterViewComponent implements OnDestroy, OnInit {
 
     this.nav = document.querySelector('nav.navbar');
 
-    //this.router.navigate(['group-detail','5e9487cc631b03537000b08a']);
+    // Line redirects when parameter is specified in LIFF, therefore, capture the redirect
+    // and make it does nothing on the first load
+    this.isRedirect = (decodeURIComponent(window.location.search).indexOf('liff.state') === 1) ? true : false;
+    if (this.isRedirect) return;
 
     let route = this.localStorage.getItem('route');
     if (route) {
       let id = this.localStorage.getItem('id');
-
-      if (route === 'live-translation') {
-        let fromLanguageCode = this.localStorage.getItem('fromLanguageCode');
-        let toLanguageCode = this.localStorage.getItem('toLanguageCode');
-
-        this.router.navigate([`/${route}`, fromLanguageCode, toLanguageCode]).then(() => this.clearLocalStroage());
-      } else {
-        this.router.navigate([`/${route}`, id]).then(() => this.clearLocalStroage());
-      }
-    }    
+      this.router.navigate([`/${route}`, id]).then(() => this.clearLocalStroage());
+    }
   }
 
   public ngOnInit(): any {
@@ -51,7 +47,5 @@ export class StarterViewComponent implements OnDestroy, OnInit {
   clearLocalStroage() {
     this.localStorage.removeItem('route');
     this.localStorage.removeItem('id');
-    this.localStorage.removeItem('fromLanguageCode');
-    this.localStorage.removeItem('toLanguageCode');
   }
 }

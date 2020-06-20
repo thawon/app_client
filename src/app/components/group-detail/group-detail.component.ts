@@ -115,7 +115,7 @@ export class GroupDetailComponent {
       });
     }
   }
-
+  
   initialization(group: Group) {
     this.name.setValue(group.name);
     this.groupType.setValue(getGroupType(group.groupType));

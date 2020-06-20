@@ -29,7 +29,7 @@ const routes: Routes = [
     path: '', component: BlankLayoutComponent,
     children: [
       { path: 'login', component: LoginComponent },
-      { path: 'live-translation/:fromLanguageCode/:toLanguageCode', component: LiveTranslationComponent, canActivate: [LoggedInGuard] },
+      { path: 'live-translation/:id', component: LiveTranslationComponent, canActivate: [LoggedInGuard] },
     ]
   }
 ];

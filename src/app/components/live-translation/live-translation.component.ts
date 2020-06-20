@@ -18,6 +18,8 @@ import { map, filter, debounceTime, tap, switchAll } from 'rxjs/operators';
 
 import { TranslationService } from '../../services/translation.service'
 import { LineLIFFService } from '../../services/line.liff.service';
+import { GroupsService } from '../../services/groups.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-live-translation',
@@ -25,6 +27,7 @@ import { LineLIFFService } from '../../services/line.liff.service';
   styleUrls: ['./live-translation.component.scss']
 })
 export class LiveTranslationComponent implements AfterViewInit {
+  id: string;
 
   @ViewChild('textToTranslate') textToTranslate: ElementRef;
   isShowDidYouMean: boolean;
@@ -42,8 +45,14 @@ export class LiveTranslationComponent implements AfterViewInit {
     private translation: TranslationService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private lineLIFFService: LineLIFFService) {
-    
+    private lineLIFFService: LineLIFFService,
+    private groupService: GroupsService,
+    private user: UserService) {
+
+    this.route.params.subscribe(params => {
+      this.id = params['id'];  
+    });
+
     this.form = this.fb.group({
       text: new FormControl(''),
       fromLanguageCode: new FormControl(''),
@@ -57,11 +66,11 @@ export class LiveTranslationComponent implements AfterViewInit {
     this.toLanguageCode = this.form.controls.toLanguageCode;
     this.didYouMeanText = this.form.controls.didYouMeanText;
     this.translatedText = this.form.controls.translatedText;
-        
-    this.route.params.subscribe(params => {
-      this.fromLanguageCode.setValue(params['fromLanguageCode']);
-      this.toLanguageCode.setValue(params['toLanguageCode']);
-    });    
+
+    this.groupService.getTranslationLanguage(this.id, this.user.userId).subscribe(languages => {
+      this.fromLanguageCode.setValue(languages.from);
+      this.toLanguageCode.setValue(languages.to);
+    });
   }
 
   ngAfterViewInit() {

@@ -28,4 +28,8 @@ export class GroupsService {
   getAvailableConnectedGroups(groupId, messengerUserId, groupType): Observable<ConnectedGroup[]> {
     return this.http.get<any>(`/api/getAvailableConnectedGroup/${groupId}/${messengerUserId}/${groupType}`);
   }
+
+  getTranslationLanguage(groupId, messengerUserId): Observable<any> {
+    return this.http.get<any>(`/api/getTranslationLanguage/${groupId}/${messengerUserId}`);
+  }
 }
