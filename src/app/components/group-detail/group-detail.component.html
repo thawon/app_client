@@ -24,7 +24,7 @@
             <div class="form-group row" [ngClass]="{'has-error': !name.valid}">
               <label class="col-lg-2 col-form-label">{{'groupDetail.groupName' | translate}}:</label>
               <div class="col-lg-10">
-                <input type="text" placeholder="Group name" class="form-control"
+                <input id="nameA" type="text" placeholder="Group name" class="form-control"
                        [formControl]="name">
                 <p *ngIf="!name.valid" class="text-danger animated fadeInRight">Group name is required.</p>
               </div>
@@ -97,6 +97,8 @@
               </div>
 
             </div>
+
+            <!--<button class="btn btn-lg btn-white float-right" (click)="startTour()">How to</button>-->
 
             <div class="form-group row">
               <div class="col">

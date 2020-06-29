@@ -1,0 +1,27 @@
+<ng-template #popContent style="padding:0px">
+  <div class="table-responsive m-t-n pt-2 m-b-n">    
+    <table class="table table-borderless">
+      <tr *ngFor="let replacement of replacements; let i=index;"
+          (click)="RowSelected(replacement);"
+          style="line-height: 40px;">
+        <td style="padding:0px">
+          <span style="color:#808080">{{ replacement }}</span><br>
+          <div class="hr-line-dashed no-margins"></div>
+        </td>
+      </tr>
+
+      <tr style="line-height: 30px;"
+          (click)="RowSelected(null);">
+        <td style="padding:0px">
+          <span style="color:#808080">(Ignore this)</span>
+        </td>
+      </tr>
+    </table>
+  </div>  
+</ng-template>
+<ng-template #popTitle><span style="font-size:14px;">{{ message }}</span></ng-template>
+<span #textSpan
+      [ngClass]="{'bg-warning': !isSelected}"
+      [ngbPopover]="popContent"
+      [popoverTitle]="popTitle"
+      [disablePopover]="isSelected">{{ text }}</span>

@@ -29,7 +29,9 @@ import { LineLIFFService } from '../../services/line.liff.service';
 
 import { groupTypes, getGroupType} from '../../enums/groupType.enum'
 import { supportedLanguages, getLanguage } from '../../enums/supportedLanguages.enum'
-import { Observable } from 'rxjs';
+
+//declare var $: any;
+//declare var Tour: any;
 
 @Component({
   selector: 'app-group-detail',
@@ -92,6 +94,24 @@ export class GroupDetailComponent {
 
     this.retrieveGroup(this.id);
   }
+  
+  //startTour() {
+  //  // Instance the tour
+  //  var tour = new Tour({
+  //    framework: "bootstrap4",
+  //    steps: [
+  //      {
+  //        element: "#nameA",
+  //        title: "Title of my step",
+  //        content: "Introduce new users to your product by walking them through it step by step. 1",
+  //        placement: "top",
+  //        backdrop: true,
+  //      }
+  //    ]
+  //  });
+
+  //  tour.restart();
+  //}
 
   retrieveGroup(id: string) {
     // when Ligo is invited to a group/room, group is created without member
@@ -269,87 +289,3 @@ export class GroupDetailComponent {
     this.lineLIFFService.closeWindow();
   }
 }
-
-//let group = new Group();
-    //group.id = this.id;
-    //group.name = this.name.value;
-
-    //group.members = [];
-
-    //this.members.controls.forEach(m => {
-    //  let member = new Member(),
-    //      memberFormGroup = (<FormGroup>m);
-
-    //  member.id = memberFormGroup.controls.id.value;
-    //  member.userId = memberFormGroup.controls.userId.value;
-    //  member.messengerUserId = memberFormGroup.controls.messengerUserId.value;
-
-    //  member.fromLanguageCode = memberFormGroup.controls.fromLanguageCode.value.key;
-    //  member.toLanguageCode = memberFormGroup.controls.toLanguageCode.value.key;
-
-    //  group.members.push(member)
-    //})
-
-//initialize() {
-  //  // parsing query string
-  //  const queryString = decodeURIComponent(window.location.search).replace('?liff.state=', '');
-  //  const params = new URLSearchParams(queryString);
-
-  //  // isLiff indicate whather the traffic is from Line LIFF
-  //  const isLIFF: boolean = JSON.parse(params.get('isLIFF'));
-
-  //  // liff must be initated prior the call, with paramter (groupid) it causes the page to redirect to the root    
-  //  if (isLIFF) {
-  //    // caches groupid from liff query string and use it after the redirect with no parameter
-
-  //    this.localStorage.setItem('groupid', params.get('groupid'));
-
-  //    // intented redirect without parameter
-  //    window.location.href = `https://liff.line.me/${this.liffId}`;
-
-  //    //this.storage.set('groupid', params.get('groupid')).subscribe(() => { });
-  //  }
-  //  else {
-  //    // usable for both nornal link and from line liff
-
-  //    this.route.params.subscribe(params => { this.id = params['id']; });        
-
-  //    // '0' indicate traffic from LIFF, otherwise id is a objectId
-  //    if (this.id === '0') {
-  //      this.isFromLiFF = true;        
-  //    }      
-  //  }
-
-  //  if (this.isFromLiFF) {
-  //    this.id = this.localStorage.getItem('groupid');
-
-  //    // clear local storage
-  //    this.localStorage.removeItem('groupid')
-
-  //    // initiates liff without paramter
-  //    this.lineLIFFService.init(this.liffId)
-  //      .then(() => {
-  //        this.retrieveGroup(this.id);
-  //      })
-  //      .catch((err) => {
-  //        console.log(err);
-  //      });
-  //  } else {
-  //    this.retrieveGroup(this.id);
-  //  }
-  //}
-
-//first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),
-//function memberLanguageValidator(fromLanguage: AbstractControl, toLanguage: AbstractControl, isLanguageSettingValid: AbstractControl): ValidatorFn {
-//  return (control: AbstractControl): { [key: string]: boolean } | null => {
-//    if (fromLanguage.value.key === toLanguage.value.key) {
-//      isLanguageSettingValid.setValue(false);
-//    } else {
-//      isLanguageSettingValid.setValue(true);
-//    }
-//    return null;
-//  };
-//}
-//member.controls.fromLanguageCode.setValidators(
-//  memberLanguageValidator(member.controls.fromLanguageCode, member.controls.toLanguageCode, member.controls.isLanguageSettingValid));
-//<!--< p * ngIf="!member.controls['isLanguageSettingValid'].value" class="text-danger animated fadeInRight" > From / To Language can not be the same.< /p>-->

@@ -2,23 +2,39 @@
   <form [formGroup]="form"
         (ngSubmit)="onSubmit()">
 
+    <div class="row h-43 bg-primary mt-1">
+      
+    </div>
+
     <div class="row h-43 bg-white border-top border-bottom">
       <div class="col-5 mt-2">
         <span class="align-middle" style="font-size:16px;">{{ fromLanguageCode.value | translate}}</span>
       </div>
-      <div class="col-1 mt-2">
-        <i class="fa fa-angle-right"></i>
+      <div class="col-1 mt-2" (click)="reverse()">
+        <i class="fa fa-retweet"></i>
       </div>
       <div class="col-5  mt-2">
         <span class="align-middle" style="font-size:16px;">{{ toLanguageCode.value | translate}}</span>
       </div>
     </div>
 
-    <div class="row h-95 bg-white border-bottom">
+    <div class="row h-95 bg-white border-bottom shadow-sm">
+      <div class="col-11">
+        <span class="float-left ml-2" style="font-size: 10px;">{{ fromLanguageCode.value | translate | uppercase}}</span>
+      </div>
       <div class="col-9">
         <div class="chat-message-form">
           <div class="form-group">
-            <textarea class="form-control message-input no-borders" #textToTranslate placeholder="{{ 'live-translation.translatePlaceholder' | translate}}" [formControl]="text"></textarea>
+            <div id="textToTranslate"
+                 class="editable h-80 text-left shadow-none ml-2"
+                 style="font-size:16px;"
+                 #textToTranslate contenteditable="true"
+                 (keydown)="onKeydown($event)">
+
+              <div #correctionContainer></div>
+
+            </div>
+
           </div>
         </div>
       </div>
@@ -31,20 +47,24 @@
       <div class="col-11">
         <div class="chat-message-form">
           <div class="form-group">
-            <span *ngIf="isShowDidYouMean" class="text-left float-left ml-2 animated fadeInRight" style="color:#C0C0C0">
+            <span *ngIf="isShowDidYouMean" class="text-left float-left ml-2 animated fadeInRight" style="color:#C0C0C0;">
               <i class="fa fa-comments mr-1"></i>{{ 'live-translation.DidYouMean' | translate}}:
-              <span class="text-success" [innerHTML]="didYouMeanText.value" (click)="translate()"></span>
+              <span class="text-success" [innerHTML]="didYouMeanText.value" (click)="onDidYouMean()"></span>
             </span>
           </div>
         </div>
       </div>
+      <div class="col-11">
+        <button class="btn btn-lg btn-white btn-bitbucket float-left ml-2" style="border:none;" type="button" (click)="check()"><i class="fa fa-ils"></i><br />CHECK</button>
+      </div>
     </div>
 
-    <div *ngIf="isShowTranslation" class="row h-60 border-bottom bg-primary">
-      <div class="col-11 mt-1">
+    <div *ngIf="isShowTranslation" class="row h-60 border-bottom bg-primary mt-2 ml-2 mr-2">
+      <div class="col-11 mt-1 m-l-n">
         <div class="chat-message-form">
           <div class="form-group text-left">
-            <span class="float-left ml-2">{{ translatedText.value }}</span>
+            <span _ngcontent-ilc-c118="" class="float-left ml-2 mt-1" style="font-size: 10px;">{{ toLanguageCode.value | translate | uppercase}}</span><br />
+            <span class="float-left ml-2" style="font-size:16px;">{{ translatedText.value }}</span>
           </div>
         </div>
       </div>

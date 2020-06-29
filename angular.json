@@ -31,12 +31,16 @@
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/font-awesome/css/font-awesome.css",
               "node_modules/animate.css/animate.min.css",
+              "vendor/bootstrap-tour.min.css",
               "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/metismenu/dist/metisMenu.js",
-              "vendor/pace/pace.min.js"
+              "vendor/pace/pace.min.js",
+              "vendor/popper.min.js",
+              "vendor/bootstrap-tour.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js"
             ]
           },
           "configurations": {

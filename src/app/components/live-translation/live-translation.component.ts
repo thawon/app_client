@@ -2,7 +2,10 @@ import {
   Component,
   ElementRef,
   ViewChild,
-  AfterViewInit
+  AfterViewInit,
+  ViewContainerRef,
+  ComponentRef,
+  ComponentFactoryResolver
 } from '@angular/core';
 
 import {
@@ -21,6 +24,18 @@ import { LineLIFFService } from '../../services/line.liff.service';
 import { GroupsService } from '../../services/groups.service';
 import { UserService } from '../../services/user.service';
 
+import { CorrectionComponent } from '../correction/correction.component';
+import { NoCorrectionComponent } from '../no-correction/no-correction.component';
+
+declare var $: any;
+
+function escapeRegExp(string) {
+  return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
 @Component({
   selector: 'app-live-translation',
   templateUrl: './live-translation.component.html',
@@ -29,11 +44,14 @@ import { UserService } from '../../services/user.service';
 export class LiveTranslationComponent implements AfterViewInit {
   id: string;
 
-  @ViewChild('textToTranslate') textToTranslate: ElementRef;
+  @ViewChild('textToTranslate', { read: ViewContainerRef }) textToTranslate: ViewContainerRef;  
+  @ViewChild('correctionContainer', { read: ViewContainerRef }) correctionContainer: ViewContainerRef;
+
   isShowDidYouMean: boolean;
   isTranslating: boolean;
   isShowTranslation: boolean;
-
+  isChecking: boolean = false;
+  
   form: FormGroup;
   text: AbstractControl;
   fromLanguageCode: AbstractControl;
@@ -42,6 +60,7 @@ export class LiveTranslationComponent implements AfterViewInit {
   translatedText: AbstractControl;
 
   constructor(
+    private componentFactoryResolver: ComponentFactoryResolver,
     private translation: TranslationService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -67,20 +86,33 @@ export class LiveTranslationComponent implements AfterViewInit {
     this.didYouMeanText = this.form.controls.didYouMeanText;
     this.translatedText = this.form.controls.translatedText;
 
-    this.groupService.getTranslationLanguage(this.id, this.user.userId).subscribe(languages => {
-      this.fromLanguageCode.setValue(languages.from);
-      this.toLanguageCode.setValue(languages.to);
-    });
+    //this.groupService.getTranslationLanguage(this.id, this.user.userId).subscribe(languages => {
+    //  this.fromLanguageCode.setValue(languages.from);
+    //  this.toLanguageCode.setValue(languages.to);
+    //});
+
+    this.fromLanguageCode.setValue('en');
+    this.toLanguageCode.setValue('th');
   }
 
-  ngAfterViewInit() {
-    this.textToTranslate.nativeElement.focus();
-
-    fromEvent(this.textToTranslate.nativeElement, 'keyup')
+  ngAfterViewInit() {    
+    this.textToTranslate.element.nativeElement.focus();
+    
+    fromEvent(this.textToTranslate.element.nativeElement, 'keyup')
       .pipe(
-        map((e: any) => e.target.value),
+        map((e: any) => {
+          if (e.key === 'ArrowLeft'
+            || e.key === 'ArrowRight'
+            || e.key === 'ArrowUp'
+            || e.key === 'ArrowDown'
+            || e.key === 'Enter') {
+            return '';
+          } else {
+            return e.target.innerText;
+          }
+        }),
         filter((text: string) => text.length > 1),
-        debounceTime(250),
+        debounceTime(1000),
         tap(() => { this.isTranslating = true } ),
         map((query: string) => this.translation.translate(query, this.fromLanguageCode.value, this.toLanguageCode.value)),
         switchAll()
@@ -88,13 +120,12 @@ export class LiveTranslationComponent implements AfterViewInit {
       // act on the return of the search
       .subscribe(
         (translation) => { // on sucesss
-          this.onTranslationSuccess(translation)
+          this.onTranslationSuccess(translation);
         },
         (err: any) => { // on error
           this.onTranslationFail(err);
         }
       );
-
   }  
 
   onTranslationSuccess(translation) {
@@ -105,27 +136,90 @@ export class LiveTranslationComponent implements AfterViewInit {
     this.isShowDidYouMean = false;
     if (translation.didYouMeanText !== '') this.isShowDidYouMean = true;
 
-    let didYouMeanText = translation.didYouMeanText.replace('<span>', '<span class="font-weight-bold">');
+    let didYouMeanText = replaceAll(translation.didYouMeanText, '<span>', '<span class="font-weight-bold">');
     this.didYouMeanText.setValue(didYouMeanText);
 
     this.translatedText.setValue(translation.text);
   }
 
-  onTranslationFail(err:any) {
+  onTranslationFail(err: any) {
     this.isTranslating = false
     console.log(err);
+  }  
+
+  createPlainTextComponent(text: string) {
+    const factory = this.componentFactoryResolver.resolveComponentFactory(NoCorrectionComponent);    
+    let component = this.correctionContainer.createComponent(factory);
+    component.instance.text = text;
   }
 
-  translate() {
-    let text = this.didYouMeanText.value.replace('<span class="font-weight-bold">', '').replace('</span>', '');
+  createCorrectionCorrectionComponent(text: string, message:string, replacements: string[]) {
+    const factory = this.componentFactoryResolver.resolveComponentFactory(CorrectionComponent);
+    let component = this.correctionContainer.createComponent(factory);
+    component.instance.message = message;
+    component.instance.replacements = replacements;
+    component.instance.text = text;
+  }
 
-    this.text.setValue(text);
-    this.textToTranslate.nativeElement.innerText = text;
+  check() {
+    this.isChecking = true;
+    this.translation.check(this.textToTranslate.element.nativeElement.innerText, this.fromLanguageCode.value)
+      .subscribe(corrections => {
+
+        // corrections count is 0, means there is no correction to apply.
+        if (corrections.length === 0) {
+          this.isChecking = false;
+          return;
+        };
+
+        let currentIndex: number = 0;
+        let text: string = this.textToTranslate.element.nativeElement.innerText;
+
+        // clear previously created correction and no-correction components
+        this.correctionContainer.clear(); 
+
+        corrections.forEach(c => {
+          // passed is part of text that passes correction.
+          let passedText = text.substring(currentIndex, c.offset);
+          this.createPlainTextComponent(passedText);
+          
+          let failedText = text.substring(c.offset, c.offset + c.length);
+          this.createCorrectionCorrectionComponent(failedText, c.message, c.replacements);          
+
+          currentIndex = c.offset + c.length;
+          
+          if (corrections[corrections.length - 1] === c) {
+            // last correction, get all the remaining text.
+            let remainingText = text.substring(currentIndex, currentIndex + (text.length - currentIndex));
+            this.createPlainTextComponent(remainingText);            
+          }
+        });
+
+        // remove only text and leave all the correction and no-correction components
+        this.clearTextToTranslateInnerHtml();
+
+        this.isChecking = false;
+      });
+  } 
+
+  onDidYouMean() {
+    let text = this.didYouMeanText.value;
+
+    // replace html and emphasis mark from the service.
+    text = this.replaceBoldText(text);
+    text = this.replaceParentheses(text);
+
+    this.clearTextToTranslate();
+    this.createPlainTextComponent(text);
 
     this.didYouMeanText.setValue('');
     this.isShowDidYouMean = false;
 
     this.isTranslating = true;
+    this.translate(text);
+  }
+
+  translate(text) {
     this.translation.translate(text, this.fromLanguageCode.value, this.toLanguageCode.value)
       .subscribe(
         (translation) => { // on sucesss
@@ -134,11 +228,36 @@ export class LiveTranslationComponent implements AfterViewInit {
         (err: any) => { // on error
           this.onTranslationFail(err);
         }
-      )
+      );
+  }
+
+  onKeydown(e) {
+    if (
+      // prevent correctionContainer from being removed.
+      (e.key === 'Backspace' && this.textToTranslate.element.nativeElement.innerText.toString().trim().length < 1)
+      || e.key === 'Enter') {
+      e.preventDefault();
+    }
+  }  
+
+  reverse() {
+    let fromlanguageCode = this.fromLanguageCode.value;
+    let toLanguageCode = this.toLanguageCode.value;
+
+    this.toLanguageCode.setValue(fromlanguageCode);
+    this.fromLanguageCode.setValue(toLanguageCode);
+
+    let text = this.translatedText.value;
+
+    this.clear();
+    this.createPlainTextComponent(text);
+
+    this.translate(text);
   }
 
   clear() {
-    this.text.setValue('');
+    this.clearTextToTranslate();
+
     this.didYouMeanText.setValue('');
     this.translatedText.setValue('');
 
@@ -146,8 +265,31 @@ export class LiveTranslationComponent implements AfterViewInit {
     this.isShowTranslation = false;
   }
 
+  clearTextToTranslate() {
+    this.correctionContainer.clear();
+    this.clearTextToTranslateInnerHtml();
+  }
+
+  replaceBoldText(text) {
+    text = replaceAll(text, '<span class="font-weight-bold">', '');
+    text = replaceAll(text, '</span>', '');
+
+    return text;
+  }
+
+  replaceParentheses(text) {
+    text = replaceAll(text, '[', '');
+    text = replaceAll(text, ']', '');
+
+    return text;
+  }
+
+  clearTextToTranslateInnerHtml() {
+    $('#textToTranslate').contents().filter((_, el) => el.nodeType === 3).remove();
+  }
+
   onSubmit() {
-    this.lineLIFFService.sendMessageAndClose(this.text.value);
+    this.lineLIFFService.sendMessageAndClose(this.textToTranslate.element.nativeElement.innerText);
   }
 
 }

@@ -26,6 +26,8 @@ import { LiveTranslationComponent } from './components/live-translation/live-tra
 // Services
 import { AuthInterceptorService } from '../app/services/auth-interceptor.service';
 import { AvailableConnectedGroupModalComponent } from './components/available-connected-group-modal/available-connected-group-modal.component';
+import { CorrectionComponent } from './components/correction/correction.component';
+import { NoCorrectionComponent } from './components/no-correction/no-correction.component';
 
 
 @NgModule({
@@ -37,7 +39,9 @@ import { AvailableConnectedGroupModalComponent } from './components/available-co
     LanguageModalComponent,
     SettingComponent,
     LiveTranslationComponent,
-    AvailableConnectedGroupModalComponent
+    AvailableConnectedGroupModalComponent,
+    CorrectionComponent,
+    NoCorrectionComponent
   ],
   imports: [
     LayoutsModule,
