@@ -50,9 +50,14 @@ export class GroupDetailComponent {
   supportedLanguages: any = supportedLanguages;
   isShowRegularGroupControl: boolean;
   isShowConnectedGroupLanguage: boolean;
+  isShowSetupGuide: boolean = false;
+  isConnectedGroupSetupCompleted: boolean = false;
+  targetSetupGroupType: string;
+  associatedSetupGroupType: string;
+  howToSetupSubscribed: boolean = false;
+  howToSetupWatched: boolean = false;
 
   isFromLiFF: boolean = false;
-
   form: FormGroup;
   name: AbstractControl;
   groupType: AbstractControl;
@@ -94,24 +99,29 @@ export class GroupDetailComponent {
 
     this.retrieveGroup(this.id);
   }
-  
-  //startTour() {
-  //  // Instance the tour
-  //  var tour = new Tour({
-  //    framework: "bootstrap4",
-  //    steps: [
-  //      {
-  //        element: "#nameA",
-  //        title: "Title of my step",
-  //        content: "Introduce new users to your product by walking them through it step by step. 1",
-  //        placement: "top",
-  //        backdrop: true,
-  //      }
-  //    ]
-  //  });
 
-  //  tour.restart();
-  //}
+  changeHowToSetupSubscribed(values: any) {
+    this.howToSetupSubscribed = values.currentTarget.checked;
+    this.howToSetupWatched = false;
+
+    this.setupGuideSwitch(this.howToSetupSubscribed);
+    this.targetSetupGroupType = this.groupTypes.subscribed.display;
+    this.associatedSetupGroupType = this.groupTypes.watched.display;
+  }
+
+  changeHowToSetupWatched(values: any) {
+    this.howToSetupWatched = values.currentTarget.checked;
+    this.howToSetupSubscribed = false;
+
+    this.setupGuideSwitch(this.howToSetupWatched);
+    this.targetSetupGroupType = this.groupTypes.watched.display;
+    this.associatedSetupGroupType = this.groupTypes.subscribed.display;
+  }
+
+  setupGuideSwitch(on) {
+    this.isShowSetupGuide = false;
+    if (on) this.isShowSetupGuide = true
+  }
 
   retrieveGroup(id: string) {
     // when Ligo is invited to a group/room, group is created without member
@@ -160,6 +170,7 @@ export class GroupDetailComponent {
 
     this.setShowRegularGroupControl();
     this.setShowConnectedGroupLanguage();
+    this.setConnectedGroupCompleted();
 
     this.isLoading = false;
   }
@@ -198,6 +209,7 @@ export class GroupDetailComponent {
     modalRef.result.then((result) => {
       if (result) {
         language.setValue(result)
+        this.setConnectedGroupCompleted();
       }
     }, (reason) => {
       
@@ -215,7 +227,7 @@ export class GroupDetailComponent {
         this.connectedGroup.setValue(result);
         this.connectedGroupLanguageCode.setValue(getLanguage(result.languageCode));
         this.setShowConnectedGroupLanguage();
-
+        this.setConnectedGroupCompleted();
         this.save(false);
       }
     }, (reason) => {
@@ -229,6 +241,16 @@ export class GroupDetailComponent {
 
   setShowConnectedGroupLanguage() {
     this.isShowConnectedGroupLanguage = (this.connectedGroup.value.groupId !== null);
+  }
+
+  setConnectedGroupCompleted() {
+    if (this.languageCode.value.key !== this.supportedLanguages.notSpecified.key
+      && this.connectedGroup !== null
+      && this.connectedGroup.value.languageCode !== this.supportedLanguages.notSpecified.key) {
+      this.isConnectedGroupSetupCompleted = true;
+    } else {
+      this.isConnectedGroupSetupCompleted = false;
+    }
   }
 
   save(isClose: boolean) {

@@ -3,7 +3,7 @@
         (ngSubmit)="onSubmit()">
 
     <div class="row h-43 bg-primary mt-1">
-      
+
     </div>
 
     <div class="row h-43 bg-white border-top border-bottom">
@@ -55,7 +55,14 @@
         </div>
       </div>
       <div class="col-11">
-        <button class="btn btn-lg btn-white btn-bitbucket float-left ml-2" style="border:none;" type="button" (click)="check()"><i class="fa fa-ils"></i><br />CHECK</button>
+        <ng-template #noSuggestion>
+          <button class="btn btn-warning btn-circle" type="button"><i class="fa fa-check"></i></button> no suggestion.
+        </ng-template>
+        <button class="btn btn-lg btn-success btn-bitbucket float-left ml-2"
+                style="border:none;" type="button"
+                (click)="check(noSuggestion)">
+          <span *ngIf="isChecking" class="loading circle mr-1"></span><i class="fa fa-ils"></i><br />CHECK
+        </button>
       </div>
     </div>
 
@@ -72,8 +79,5 @@
         <span *ngIf="isTranslating" class="float-right loading circle ml-2 fadeInRight"></span>
       </div>
     </div>
-
   </form>
-  
-
 </div>

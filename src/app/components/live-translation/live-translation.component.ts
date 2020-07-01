@@ -23,6 +23,7 @@ import { TranslationService } from '../../services/translation.service'
 import { LineLIFFService } from '../../services/line.liff.service';
 import { GroupsService } from '../../services/groups.service';
 import { UserService } from '../../services/user.service';
+import { ToastService } from '../../services/toast.service';
 
 import { CorrectionComponent } from '../correction/correction.component';
 import { NoCorrectionComponent } from '../no-correction/no-correction.component';
@@ -46,7 +47,7 @@ export class LiveTranslationComponent implements AfterViewInit {
 
   @ViewChild('textToTranslate', { read: ViewContainerRef }) textToTranslate: ViewContainerRef;  
   @ViewChild('correctionContainer', { read: ViewContainerRef }) correctionContainer: ViewContainerRef;
-
+  
   isShowDidYouMean: boolean;
   isTranslating: boolean;
   isShowTranslation: boolean;
@@ -66,7 +67,8 @@ export class LiveTranslationComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private lineLIFFService: LineLIFFService,
     private groupService: GroupsService,
-    private user: UserService) {
+    private user: UserService,
+    private toastService: ToastService) {
 
     this.route.params.subscribe(params => {
       this.id = params['id'];  
@@ -93,6 +95,14 @@ export class LiveTranslationComponent implements AfterViewInit {
 
     this.fromLanguageCode.setValue('en');
     this.toLanguageCode.setValue('th');
+  }
+
+  showCheckNoSuggestion(template) {
+    this.toastService.show(template, {
+      classname: 'bg-success text-light',
+      delay: 2000,
+      autohide: true
+    });
   }
 
   ngAfterViewInit() {    
@@ -159,21 +169,35 @@ export class LiveTranslationComponent implements AfterViewInit {
     component.instance.message = message;
     component.instance.replacements = replacements;
     component.instance.text = text;
+
+    component.instance.selectedText.subscribe((event: string) => {
+      // correction list takes time to close, give it half a second before it closes.
+      // do translation while list is still up, innerText will include all corrections
+      // because it is part of the container.
+      setTimeout(() => {
+        let text: string = this.textToTranslate.element.nativeElement.innerText;
+        this.translate(text);
+      }, 500)
+    });
   }
 
-  check() {
+  check(noSuggestionTemplate) {
+    let text: string = this.textToTranslate.element.nativeElement.innerText;
+
+    if (text.length === 0) return;
+
     this.isChecking = true;
-    this.translation.check(this.textToTranslate.element.nativeElement.innerText, this.fromLanguageCode.value)
+    this.translation.check(text, this.fromLanguageCode.value)
       .subscribe(corrections => {
 
         // corrections count is 0, means there is no correction to apply.
         if (corrections.length === 0) {
           this.isChecking = false;
+          this.showCheckNoSuggestion(noSuggestionTemplate);
           return;
         };
 
-        let currentIndex: number = 0;
-        let text: string = this.textToTranslate.element.nativeElement.innerText;
+        let currentIndex: number = 0;       
 
         // clear previously created correction and no-correction components
         this.correctionContainer.clear(); 
@@ -220,6 +244,8 @@ export class LiveTranslationComponent implements AfterViewInit {
   }
 
   translate(text) {
+    if (text.length === 0) return;
+
     this.translation.translate(text, this.fromLanguageCode.value, this.toLanguageCode.value)
       .subscribe(
         (translation) => { // on sucesss
@@ -289,7 +315,7 @@ export class LiveTranslationComponent implements AfterViewInit {
   }
 
   onSubmit() {
-    this.lineLIFFService.sendMessageAndClose(this.textToTranslate.element.nativeElement.innerText);
+    this.lineLIFFService.sendMessageAndClose(this.textToTranslate.element.nativeElement.innerText.trim());
   }
 
 }

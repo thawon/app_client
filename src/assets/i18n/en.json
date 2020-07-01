@@ -1,9 +1,9 @@
 {
   "Sitetitle": "Angular Multi Language Site",
   "System.language": "English",
-  "en": "English - en",
-  "th": "Thai - th",
-  "zh-CN": "Chinese - zh-CN",
+  "en": "English",
+  "th": "Thai",
+  "zh-CN": "Chinese",
   "na": "Unspecified",
   "groupDetail.header": "Group information",
   "groupDetail.introduction": "details about group shows below",

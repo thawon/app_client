@@ -13,17 +13,47 @@
         <table class="table">
 
           <tbody>
-            <tr *ngFor="let item of groupTypes | keyvalue">
-              <td class="align-middle"><input type="radio" checked class="i-checks" [value]="item.value" [formControl]="groupType"></td>
+            <tr>
+              <td class="align-middle"><input type="radio" checked class="i-checks" [value]="groupTypes.regular" [formControl]="groupType"></td>
               <td>
                 <div class="row">
                   <div class="col">
-                    {{ item.value.display }}
+                    {{ groupTypes.regular.display }}
                   </div>
                 </div>
                 <div class="row">
                   <div class="col">
-                    <small>This is example of project. quite a long text goes here. quite a long text goes here. quite a long text goes here. quite a long text goes here.</small>
+                    <small>real-time translation of chosen language by each user</small>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="align-middle"><input type="radio" checked class="i-checks" [value]="groupTypes.subscribed" [formControl]="groupType"></td>
+              <td>
+                <div class="row">
+                  <div class="col">
+                    {{ groupTypes.subscribed.display }} <span class="label label-primary ml-1">experimental</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <small>group where you use language you'd like to learn. Words translated and sent to watched in watched's chosen language.</small>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="align-middle"><input type="radio" checked class="i-checks" [value]="groupTypes.watched" [formControl]="groupType"></td>
+              <td>
+                <div class="row">
+                  <div class="col">
+                    {{ groupTypes.watched.display }} <span class="label label-primary ml-1">experimental</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <small>group where your friend uses his/her own language. Words translated and sent to Subscribed in Subscribed's chosen language.</small>
                   </div>
                 </div>
               </td>
@@ -43,3 +73,21 @@
 
   </form>
 </div>
+
+<!--<tbody>
+  <tr *ngFor="let item of groupTypes | keyvalue">
+    <td class="align-middle"><input type="radio" checked class="i-checks" [value]="item.value" [formControl]="groupType"></td>
+    <td>
+      <div class="row">
+        <div class="col">
+          {{ item.value.display }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <small>This is example of project. quite a long text goes here. quite a long text goes here. quite a long text goes here. quite a long text goes here.</small>
+        </div>
+      </div>
+    </td>
+  </tr>
+</tbody>-->

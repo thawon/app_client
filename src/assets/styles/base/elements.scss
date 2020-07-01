@@ -571,6 +571,15 @@ a.list-group-item.active, a.list-group-item.active:hover, a.list-group-item.acti
   display: block; /* For Firefox */
 }
 
+.card-header {
+  padding: 0;
+  margin: 1px;
+}
+
+.card-body {
+  padding: 10px 0px 5px 10px;
+}
+
 .h-43 {
   min-height: 43px;
 }

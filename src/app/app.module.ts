@@ -28,6 +28,7 @@ import { AuthInterceptorService } from '../app/services/auth-interceptor.service
 import { AvailableConnectedGroupModalComponent } from './components/available-connected-group-modal/available-connected-group-modal.component';
 import { CorrectionComponent } from './components/correction/correction.component';
 import { NoCorrectionComponent } from './components/no-correction/no-correction.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { NoCorrectionComponent } from './components/no-correction/no-correction.
     LiveTranslationComponent,
     AvailableConnectedGroupModalComponent,
     CorrectionComponent,
-    NoCorrectionComponent
+    NoCorrectionComponent,
+    ToastComponent
   ],
   imports: [
     LayoutsModule,

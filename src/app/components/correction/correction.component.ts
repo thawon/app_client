@@ -3,7 +3,9 @@ import {
   OnInit,
   Input,
   ViewChild,
-  ElementRef
+  ElementRef,
+  Output,
+  EventEmitter
 } from '@angular/core';
 
 @Component({
@@ -18,6 +20,8 @@ export class CorrectionComponent implements OnInit {
   @Input() replacements: string[];
   @Input() text: string;
 
+  @Output() selectedText = new EventEmitter<string>();
+
   isSelected: boolean = false;
 
   constructor() {
@@ -29,5 +33,7 @@ export class CorrectionComponent implements OnInit {
   RowSelected(selected: string) {
     if (selected) this.text = selected;
     this.isSelected = true;
+
+    this.selectedText.emit(selected);
   }
 }

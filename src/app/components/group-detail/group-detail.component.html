@@ -2,8 +2,74 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="ibox ">
+
+        <div class="row">
+          <div class="col-12">
+            <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+              <ngb-panel id="toggle-1" title="First panel">
+                <ng-template ngbPanelHeader>
+                  <div>
+                    <i class="fa fa-info-circle mr-1"></i>
+                    <button ngbPanelToggle class="btn btn-link p-0">How to setup Terraform mode<i class="fa fa-toggle-down ml-1"></i></button>
+                    <span class="label label-primary ml-1">experimental</span>
+                  </div>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="row">
+                    <div class="col-2">
+                      <div class="switch">
+                        <div class="onoffswitch">
+                          <input type="checkbox" class="onoffswitch-checkbox" id="chkHowToSetupSubscribed"
+                                 [checked]="howToSetupSubscribed"
+                                 (change)="changeHowToSetupSubscribed($event)">
+                          <label class="onoffswitch-label" for="chkHowToSetupSubscribed">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-10">
+                      <span class="ml-1">How to setup subscribed group.</span>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-2">
+                      <div class="switch">
+                        <div class="onoffswitch">
+                          <input type="checkbox" class="onoffswitch-checkbox" id="chkHowToSetupWatched"
+                                 [checked]="howToSetupWatched"
+                                 (change)="changeHowToSetupWatched($event)">
+                          <label class="onoffswitch-label" for="chkHowToSetupWatched">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-10">
+                      <span class="ml-1">How to setup watched group.</span>
+                    </div>
+                  </div>
+
+                  <div class="col-12 m-l-n">
+                    Follow the
+                    <span class="label label-warning ml-1">Step 1</span><i class="fa fa-caret-right ml-1"></i>
+                    <span class="label label-warning ml-1">Step 2</span><i class="fa fa-caret-right ml-1"></i>
+                    <span class="label label-warning ml-1">Step 3</span><i class="fa fa-caret-right ml-1"></i>
+                    <span class="label label-warning ml-1">Step 4</span>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+            </ngb-accordion>
+          </div>          
+        </div>
+
         <div class="">
-          <h3>{{'groupDetail.header' | translate}} <small>{{'groupDetail.introduction' | translate}}</small></h3>
+          <h3>{{'groupDetail.header' | translate}}</h3>
         </div>
         <div>
 
@@ -22,7 +88,10 @@
             <!--<label>groupid: {{ id }}</label>-->
 
             <div class="form-group row" [ngClass]="{'has-error': !name.valid}">
-              <label class="col-lg-2 col-form-label">{{'groupDetail.groupName' | translate}}:</label>
+              <label class="col-lg-2 col-form-label">
+                {{'groupDetail.groupName' | translate}}:
+                <sapn *ngIf="isShowSetupGuide" class="label label-warning ml-1" ngbTooltip="Give group a recognizable name." triggers="click:blur">Step 1</sapn>
+              </label>
               <div class="col-lg-10">
                 <input id="nameA" type="text" placeholder="Group name" class="form-control"
                        [formControl]="name">
@@ -30,7 +99,10 @@
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-lg-2 col-form-label">{{'groupDetail.groupType' | translate}}:</label>
+              <label class="col-lg-2 col-form-label">
+                {{'groupDetail.groupType' | translate}}:
+                <sapn *ngIf="isShowSetupGuide" class="label label-warning ml-1" ngbTooltip="Touch 'change' to change type to '{{ targetSetupGroupType }}'" triggers="click:blur">Step 2</sapn>
+              </label>
               <div class="col-lg-10">
                 <span class="col-form-label">{{ groupType.value.display }}</span>
                 <button [ngClass]="{'d-none': !name.valid || isSaving}"
@@ -70,7 +142,10 @@
 
             <div class="form-group row"
                  *ngIf="!isShowRegularGroupControl">
-              <label class="col-lg-2 col-form-label">{{'groupDetail.languageCode' | translate}}: {{'groupDetail.tabToChangeLanguge' | translate}}</label>
+              <label class="col-lg-2 col-form-label">
+                {{'groupDetail.languageCode' | translate}}:
+                <sapn *ngIf="isShowSetupGuide" class="label label-warning ml-1" ngbTooltip="Choose desire language. Text gets translated into connected Watched Group's chosen language." triggers="click:blur">Step 3</sapn>
+              </label>
               <div class="col-lg-10">
                 <language [language]="languageCode.value" [isEnabled]="true"
                           (click)="openLanguageModal(languageCode, languageCode)"></language>
@@ -80,7 +155,10 @@
             <div class="form-group row"
                  *ngIf="!isShowRegularGroupControl">
               <div class="col-12">
-                <label class="col-lg-2">{{'groupDetail.connectedGroup' | translate}}:</label>
+                <label class="col-lg-2">
+                  <i *ngIf="isConnectedGroupSetupCompleted" class="fa fa-link mr-1"></i>{{'groupDetail.connectedGroup' | translate}}:
+                  <sapn *ngIf="isShowSetupGuide" class="label label-warning ml-1" ngbTooltip="Tab 'change' to connect to a {{ associatedSetupGroupType }}. (Proceed only if you have created a {{ associatedSetupGroupType }}.)" triggers="click:blur">Step 4</sapn>
+                </label>
                 <div class="col-lg-10">
                   <span>{{ connectedGroup.value.name }}</span>
                   <button [ngClass]="{'d-none': !name.valid || isSaving}"
@@ -96,9 +174,18 @@
                 </div>
               </div>
 
-            </div>
+              <div *ngIf="isConnectedGroupSetupCompleted" class="row">
+                <div class="col-1">
+                  <i class="fa fa-info-circle mr-1"></i>
+                </div>
+                <div class="col-11 col-11 m-l-n">
+                  <p class="text-break font-italic">{{ languageCode.value.key | translate }} occurs in this group is translated into {{ connectedGroupLanguageCode.value.key | translate }} and send to {{ connectedGroup.value.name }}.</p>
+                </div>
 
-            <!--<button class="btn btn-lg btn-white float-right" (click)="startTour()">How to</button>-->
+              </div>
+
+
+            </div>
 
             <div class="form-group row">
               <div class="col">
