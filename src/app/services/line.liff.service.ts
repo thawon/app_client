@@ -64,7 +64,7 @@ export class LineLIFFService {
               code = language.substring(0, language.indexOf('-'));
           
           this.translate.use(code);
-                    
+
           this.isClientApp = liff.isInClient();
           
           return Promise.resolve(liff.getProfile());

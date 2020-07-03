@@ -28,5 +28,15 @@
   "availableConnectedGroupModal.select": "เลือก",
   "availableConnectedGroupModal.cancel": "ยกเลิก",
   "live-translation.DidYouMean": "คุณหมายถึง",
-  "live-translation.translatePlaceholder": "ป้อนข้อความ"
+  "live-translation.check": "ตรวจสอบ",
+  "live-translation.send": "ส่ง",
+  "live-translation.suggestion": "เสนอแนะ",
+  "live-translation.noSuggestion": "ไม่มีข้อเสนอแนะ",
+  "liveTranslationTranslatePlaceholder": "ป้อนข้อความ",
+  "liveTranslationTourStep1Title": "พิมพ์ข้อความ",
+  "liveTranslationTourStep1Content": "พิมพ์ข้อความของคุณที่นี่",
+  "liveTranslationTourStep2Title": "ตรวจสอบ",
+  "liveTranslationTourStep2Content": "กดที่นี่เพื่อตรวจสอบความหมายก่อนส่ง",
+  "liveTranslationTourStep3Title": "ส่งข้อความ",
+  "liveTranslationTourStep3Content": "ส่งข้อความไปยังแอปพลิเคชันไลน์"
 }

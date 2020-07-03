@@ -39,29 +39,29 @@
         </div>
       </div>
       <div class="col-1">
-        <button class="btn btn-primary btn-circle float-left mt-1" type="submit"> <i class="fa fa-check"></i></button>
-        <button class="btn btn-outline btn-circle mt-3" type="button" (click)="clear()"> <i class="fa fa-times"></i> </button>
+        <button class="btn btn-lg btn-block btn-circle m-t-n" type="button" (click)="clear()"> <i class="fa fa-times"></i> </button>
       </div>
       <div class="col-2">
       </div>
       <div class="col-11">
-        <div class="chat-message-form">
-          <div class="form-group">
-            <span *ngIf="isShowDidYouMean" class="text-left float-left ml-2 animated fadeInRight" style="color:#C0C0C0;">
-              <i class="fa fa-comments mr-1"></i>{{ 'live-translation.DidYouMean' | translate}}:
-              <span class="text-success" [innerHTML]="didYouMeanText.value" (click)="onDidYouMean()"></span>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="col-11">
-        <ng-template #noSuggestion>
-          <button class="btn btn-warning btn-circle" type="button"><i class="fa fa-check"></i></button> no suggestion.
-        </ng-template>
-        <button class="btn btn-lg btn-success btn-bitbucket float-left ml-2"
+        <button id="btnCheck"
+                class="btn btn-lg btn-bitbucket float-left ml-2"
                 style="border:none;" type="button"
-                (click)="check(noSuggestion)">
-          <span *ngIf="isChecking" class="loading circle mr-1"></span><i class="fa fa-ils"></i><br />CHECK
+                (click)="check()">
+          <span *ngIf="isChecking" class="loading circle mr-1"></span><i class="fa fa-check"></i><br /><span style="font-size: 12px;">{{ "live-translation.check" | translate}}</span>
+        </button>
+        <button id="btnSend"
+                class="btn btn-lg btn-bitbucket float-left ml-2"
+                style="border:none;" type="submit">
+          <i class="fa fa-send-o"></i><br /><span style="font-size: 12px;">{{ "live-translation.send" | translate}}</span>
+        </button>
+        <ng-template #noSuggestion>
+          <button class="btn btn-warning btn-circle" type="button"><i class="fa fa-check"></i></button> {{ "live-translation.noSuggestion" | translate}}
+        </ng-template>
+        <button class="btn btn-lg btn-bitbucket float-right ml-2"
+                style="border:none;" type="button"
+                (click)="getSuggestion(noSuggestion)">
+          <span *ngIf="isGettingSuggestion" class="loading circle mr-1"></span><i class="fa fa-ils"></i><br /><span style="font-size: 12px;">{{ "live-translation.suggestion" | translate}}</span>
         </button>
       </div>
     </div>

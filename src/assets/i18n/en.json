@@ -28,5 +28,15 @@
   "availableConnectedGroupModal.select": "Select",
   "availableConnectedGroupModal.cancel": "Cancel",
   "live-translation.DidYouMean": "Did you mean",
-  "live-translation.translatePlaceholder": "Enter message text"
+  "live-translation.translatePlaceholder": "Enter message text",
+  "live-translation.check": "Check",
+  "live-translation.send": "Send",
+  "live-translation.suggestion": "Suggestion",
+  "live-translation.noSuggestion": "No suggestion",
+  "liveTranslationTourStep1Title": "Enter text",
+  "liveTranslationTourStep1Content": "Type in your text here.",
+  "liveTranslationTourStep2Title": "Check",
+  "liveTranslationTourStep2Content": "Tab here to check the meaning before sending",
+  "liveTranslationTourStep3Title": "Send message",
+  "liveTranslationTourStep3Content": "Send text to Line application."
 }

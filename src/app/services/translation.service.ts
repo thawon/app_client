@@ -12,17 +12,12 @@ export class TranslationService {
   constructor(private http: HttpClient) { }
 
   translate(text: string, fromLanguageCode: string, toLanguageCode: string): Observable<any> {
-    return this.http.get<any>(`/api/translate/${text}/${fromLanguageCode}/${toLanguageCode}`);
-
-    //return of({
-    //  didYouMeanText: 'this is blah',
-    //  text: 'this is blah',
-    //});
+    return this.http.get<any>(`/api/translate/${encodeURIComponent(text)}/${fromLanguageCode}/${toLanguageCode}`);
   }
 
   
 
   check(text: string, languageCode: string): Observable<Correction[]> {
-    return this.http.get<any>(`/api/check/${text}/${languageCode}`);
+    return this.http.get<any>(`/api/check/${encodeURIComponent(text)}/${languageCode}`);
   }
 }
