@@ -91,13 +91,13 @@ export class LiveTranslationComponent implements AfterViewInit {
     this.toLanguageCode = this.form.controls.toLanguageCode;
     this.translatedText = this.form.controls.translatedText;
 
-    //this.groupService.getTranslationLanguage(this.id, this.user.userId).subscribe(languages => {
-    //  this.fromLanguageCode.setValue(languages.from);
-    //  this.toLanguageCode.setValue(languages.to);
-    //});
+    this.groupService.getTranslationLanguage(this.id, this.user.userId).subscribe(languages => {
+      this.fromLanguageCode.setValue(languages.from);
+      this.toLanguageCode.setValue(languages.to);
+    });
 
-    this.fromLanguageCode.setValue('en');
-    this.toLanguageCode.setValue('th');
+    //this.fromLanguageCode.setValue('en');
+    //this.toLanguageCode.setValue('th');
   }
 
   showCheckNoSuggestion(template) {
