@@ -16,11 +16,11 @@ import { LoggedInGuard } from './logged-in.guard';
 
 const routes: Routes = [
   // Main redirect
-  { path: '', redirectTo: 'starterview', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: '', component: BasicLayoutComponent,
     children: [
-      { path: 'starterview', component: StarterViewComponent, canActivate: [LoggedInGuard] },      
+      { path: 'home', component: StarterViewComponent, canActivate: [LoggedInGuard] },      
       { path: 'group-detail/:id', component: GroupDetailComponent, canActivate: [LoggedInGuard] },
       { path: 'setting', component: SettingComponent, canActivate: [LoggedInGuard] }
     ]

@@ -48,12 +48,13 @@ function replaceAll(str, find, replace) {
 export class LiveTranslationComponent implements AfterViewInit {
   id: string;
 
-  @ViewChild('textToTranslate', { read: ViewContainerRef }) textToTranslate: ViewContainerRef;  
+  @ViewChild('textToTranslate', { read: ViewContainerRef }) textToTranslate: ViewContainerRef;
   @ViewChild('correctionContainer', { read: ViewContainerRef }) correctionContainer: ViewContainerRef;
-  
+
   //isShowDidYouMean: boolean;
   isTranslating: boolean;
   isShowTranslation: boolean;
+  isShowNotSupportedSuggestion: boolean;
   isChecking: boolean = false;
   isGettingSuggestion: boolean = false;
 
@@ -76,7 +77,7 @@ export class LiveTranslationComponent implements AfterViewInit {
     public translateService: TranslateService) {
 
     this.route.params.subscribe(params => {
-      this.id = params['id'];  
+      this.id = params['id'];
     });
 
     this.form = this.fb.group({
@@ -94,6 +95,8 @@ export class LiveTranslationComponent implements AfterViewInit {
     this.groupService.getTranslationLanguage(this.id, this.user.userId).subscribe(languages => {
       this.fromLanguageCode.setValue(languages.from);
       this.toLanguageCode.setValue(languages.to);
+
+      this.setIsShowNotSupportedSuggestion();
     });
 
     //this.fromLanguageCode.setValue('en');
@@ -108,12 +111,12 @@ export class LiveTranslationComponent implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {    
+  ngAfterViewInit() {
     this.textToTranslate.element.nativeElement.focus();
 
     let isDoNotShowLiveTranslationTour: boolean = JSON.parse(this.localStorage.getItem('doNotShowLiveTranslationTour'));
-    if (!isDoNotShowLiveTranslationTour) this.startTour();    
-  }  
+    if (!isDoNotShowLiveTranslationTour) this.startTour();
+  }
 
   onTranslationSuccess(translation) {
     this.isShowTranslation = true;
@@ -124,7 +127,7 @@ export class LiveTranslationComponent implements AfterViewInit {
   }
 
   // this function has to be invoked in ngAfterViewInit()
-  startTour() {   
+  startTour() {
     this.translateService.get([
       'liveTranslationTourStep1Title',
       'liveTranslationTourStep1Content',
@@ -170,15 +173,15 @@ export class LiveTranslationComponent implements AfterViewInit {
   onTranslationFail(err: any) {
     this.isTranslating = false
     console.log(err);
-  }  
+  }
 
   createPlainTextComponent(text: string) {
-    const factory = this.componentFactoryResolver.resolveComponentFactory(NoCorrectionComponent);    
+    const factory = this.componentFactoryResolver.resolveComponentFactory(NoCorrectionComponent);
     let component = this.correctionContainer.createComponent(factory);
     component.instance.text = text;
   }
 
-  createCorrectionCorrectionComponent(text: string, message:string, replacements: string[]) {
+  createCorrectionCorrectionComponent(text: string, message: string, replacements: string[]) {
     const factory = this.componentFactoryResolver.resolveComponentFactory(CorrectionComponent);
     let component = this.correctionContainer.createComponent(factory);
     component.instance.message = message;
@@ -204,7 +207,7 @@ export class LiveTranslationComponent implements AfterViewInit {
   getSuggestion(noSuggestionTemplate) {
     let text: string = this.textToTranslate.element.nativeElement.innerText;
 
-    if (text.length === 0) return;
+    if (text.length === 0 || this.isShowNotSupportedSuggestion) return;
 
     this.isGettingSuggestion = true;
     this.translation.check(text, this.fromLanguageCode.value)
@@ -284,6 +287,8 @@ export class LiveTranslationComponent implements AfterViewInit {
     this.clear();
     this.createPlainTextComponent(text);
 
+    this.setIsShowNotSupportedSuggestion();
+
     this.translate(text);
   }
 
@@ -318,6 +323,14 @@ export class LiveTranslationComponent implements AfterViewInit {
 
   clearTextToTranslateInnerHtml() {
     $('#textToTranslate').contents().filter((_, el) => el.nodeType === 3).remove();
+  }
+
+  setIsShowNotSupportedSuggestion() {
+    this.isShowNotSupportedSuggestion = false;
+    if (this.fromLanguageCode.value !== 'en'
+      && this.fromLanguageCode.value !== 'zh-Hans') {
+      this.isShowNotSupportedSuggestion = true;
+    }
   }
 
   onSubmit() {

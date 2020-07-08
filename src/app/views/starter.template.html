@@ -1,23 +1,91 @@
 <div class="wrapper wrapper-content animated fadeInRight">
-  <div class="row">
-    <div class="col-lg-12">
-      <!--[ngClass]="{'d-none': isRedirect}"-->
-      <div class="ibox">
-        <div class="ibox-title">
-          The conversation facilitator
-        </div>
-        <div class="ibox-content">
-          <div class="text-center m-t-lg m-b-lg">
-            <h1>
-              Ligo
-            </h1>
+
+  <div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+      <h2>Profile</h2>
+      <h4>Welcome to Ligo - The Conversation Facilitator</h4>
+    </div>
+  </div>
+
+  <div class="row m-b-lg m-t-lg">
+    <div class="col-md-6">
+
+      <div class="profile-image">
+        <img src="{{ pictureUrl.value }}" class="rounded-circle circle-border m-b-md" alt="profile">
+      </div>
+      <div class="profile-info">
+        <div class="">
+          <div>
+            <h2 class="no-margins">
+              {{ name.value }}
+            </h2>
+            <h4><small><b>STANDARD ACCOUNT</b></small><span class="badge badge-primary ml-1">BETA</span></h4>
             <small>
-              Enjoy conversations with foreigners by having your words translated in real-time.
+              Joined At: {{ createdAt.value }} <br />
+              Language: {{ language.value | translate }}
             </small>
-            <!--<button (click)="closewindow()">close</button>-->
           </div>
         </div>
       </div>
     </div>
+    <div class="col-md-3">
+      <table class="table small m-b-xs">
+        <tbody>
+          <tr>
+            <td>
+              <strong>Daily Message Send Quota:</strong> 10
+            </td>
+            <td>
+              <strong>Remaining: </strong> {{ pushMessageQuota.value }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-lg-10 mb-3">
+      <h4><u>Go To Groups</u><i class="fa fa-toggle-right ml-1"></i></h4>
+    </div>
+
   </div>
+
+  <div class="row m-b-lg m-t-lg">
+    <div class="col-lg-10 mb-3">
+      <h4>Functionalities</h4>
+      <hr class="mt-1 mb-1">
+      There are useful features offered by Ligo. To access them, in Line application chart room or group, just type in their keyword without quotation marks.
+    </div>
+    <div class="ibox">
+      <div class="ibox-title">
+        <h5>Live Translation</h5>
+      </div>
+      <div class="ibox-content">
+        <div class="team-members">
+          <img class="d-block w-100" src="/assets/images/liveTranslation.jpg">
+        </div>
+        <h4>Keyword "l"</h4>
+        <p>
+          When using an unfamiliar language, sometime we are unsure whether what we say is exactly what we think it means. The Live Translation helps ensuring
+          we conveys the right message before sending.
+        </p>
+      </div>
+    </div>
+
+    <div class="ibox">
+      <div class="ibox-title">
+        <h5>Language Setting</h5>
+      </div>
+      <div class="ibox-content">
+        <div class="team-members">
+          <img class="d-block w-100" src="/assets/images/GroupDetails.jpg">
+        </div>
+        <h4>Keyword "s"</h4>
+        <p>
+          The feature grants you an ability to configure the desired languages in chat room or group.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
 </div>

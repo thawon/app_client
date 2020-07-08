@@ -62,6 +62,7 @@
                 style="border:none;" type="button"
                 (click)="getSuggestion(noSuggestion)">
           <span *ngIf="isGettingSuggestion" class="loading circle mr-1"></span><i class="fa fa-ils"></i><br /><span style="font-size: 12px;">{{ "live-translation.suggestion" | translate}}</span>
+          <br *ngIf="isShowNotSupportedSuggestion" /><span *ngIf="isShowNotSupportedSuggestion" style="font-size: 12px;">(not supported)</span>
         </button>
       </div>
     </div>
