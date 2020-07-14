@@ -30,9 +30,6 @@ import { LineLIFFService } from '../../services/line.liff.service';
 import { groupTypes, getGroupType} from '../../enums/groupType.enum'
 import { supportedLanguages, getLanguage } from '../../enums/supportedLanguages.enum'
 
-//declare var $: any;
-//declare var Tour: any;
-
 @Component({
   selector: 'app-group-detail',
   templateUrl: './group-detail.component.html',
@@ -48,15 +45,7 @@ export class GroupDetailComponent {
 
   groupTypes: any = groupTypes;
   supportedLanguages: any = supportedLanguages;
-  isShowRegularGroupControl: boolean;
-  isShowConnectedGroupLanguage: boolean;
-  isShowSetupGuide: boolean = false;
-  isConnectedGroupSetupCompleted: boolean = false;
-  targetSetupGroupType: string;
-  associatedSetupGroupType: string;
-  howToSetupSubscribed: boolean = false;
-  howToSetupWatched: boolean = false;
-
+  
   isFromLiFF: boolean = false;
   form: FormGroup;
   name: AbstractControl;
@@ -100,29 +89,6 @@ export class GroupDetailComponent {
     this.retrieveGroup(this.id);
   }
 
-  changeHowToSetupSubscribed(values: any) {
-    this.howToSetupSubscribed = values.currentTarget.checked;
-    this.howToSetupWatched = false;
-
-    this.setupGuideSwitch(this.howToSetupSubscribed);
-    this.targetSetupGroupType = this.groupTypes.subscribed.display;
-    this.associatedSetupGroupType = this.groupTypes.watched.display;
-  }
-
-  changeHowToSetupWatched(values: any) {
-    this.howToSetupWatched = values.currentTarget.checked;
-    this.howToSetupSubscribed = false;
-
-    this.setupGuideSwitch(this.howToSetupWatched);
-    this.targetSetupGroupType = this.groupTypes.watched.display;
-    this.associatedSetupGroupType = this.groupTypes.subscribed.display;
-  }
-
-  setupGuideSwitch(on) {
-    this.isShowSetupGuide = false;
-    if (on) this.isShowSetupGuide = true
-  }
-
   retrieveGroup(id: string) {
     // when Ligo is invited to a group/room, group is created without member
     // member is created when:
@@ -149,13 +115,7 @@ export class GroupDetailComponent {
   initialization(group: Group) {
     this.name.setValue(group.name);
     this.groupType.setValue(getGroupType(group.groupType));
-    this.languageCode.setValue(getLanguage(group.languageCode));
-
-    group.connectedGroup = new ConnectedGroup(group.connectedGroup);
     
-    this.connectedGroup.setValue(group.connectedGroup);
-    this.connectedGroupLanguageCode.setValue(getLanguage(group.connectedGroup.languageCode));
-
     group.members.forEach(m => {
       this.members.push(new FormGroup({
         id: new FormControl(m.id),
@@ -167,39 +127,9 @@ export class GroupDetailComponent {
         toLanguageCode: new FormControl(getLanguage(m.toLanguageCode))
       }));
     });
-
-    this.setShowRegularGroupControl();
-    this.setShowConnectedGroupLanguage();
-    this.setConnectedGroupCompleted();
-
+    
     this.isLoading = false;
-  }
-
-  openGroupTypeModal() {
-    const modalRef = this.modalService.open(GroupTypeModalComponent);
-    modalRef.componentInstance.input = this.groupType.value;
-
-    modalRef.result.then((result) => {
-      if (result) {
-
-        if (result !== this.groupType.value) {
-          // clear connected group when group type changes
-          let unspecifedConnectedGroup: ConnectedGroup = new ConnectedGroup();
-
-          this.connectedGroup.setValue(unspecifedConnectedGroup);
-          this.connectedGroupLanguageCode.setValue(getLanguage(unspecifedConnectedGroup.languageCode));
-        }
-
-        this.groupType.setValue(result)
-        this.setShowRegularGroupControl();
-        this.setShowConnectedGroupLanguage();
-
-        this.save(false);
-      }
-    }, (reason) => {
-
-    });
-  }
+  } 
 
   openLanguageModal(language: AbstractControl, alreadySelectedLanguage: AbstractControl) {
     const modalRef = this.modalService.open(LanguageModalComponent);
@@ -209,50 +139,12 @@ export class GroupDetailComponent {
     modalRef.result.then((result) => {
       if (result) {
         language.setValue(result)
-        this.setConnectedGroupCompleted();
       }
     }, (reason) => {
       
     });
   }
-
-  openAvailableGroupsModal() {
-    const modalRef = this.modalService.open(AvailableConnectedGroupModalComponent);
-    modalRef.componentInstance.input = this.connectedGroup.value;
-    modalRef.componentInstance.groupId = this.id;
-    modalRef.componentInstance.groupType = this.groupType.value.key;
-
-    modalRef.result.then((result) => {
-      if (result) {
-        this.connectedGroup.setValue(result);
-        this.connectedGroupLanguageCode.setValue(getLanguage(result.languageCode));
-        this.setShowConnectedGroupLanguage();
-        this.setConnectedGroupCompleted();
-        this.save(false);
-      }
-    }, (reason) => {
-
-    });
-  }
-
-  setShowRegularGroupControl() {
-    this.isShowRegularGroupControl = (this.groupType.value === this.groupTypes.regular);
-  }
-
-  setShowConnectedGroupLanguage() {
-    this.isShowConnectedGroupLanguage = (this.connectedGroup.value.groupId !== null);
-  }
-
-  setConnectedGroupCompleted() {
-    if (this.languageCode.value.key !== this.supportedLanguages.notSpecified.key
-      && this.connectedGroup !== null
-      && this.connectedGroup.value.languageCode !== this.supportedLanguages.notSpecified.key) {
-      this.isConnectedGroupSetupCompleted = true;
-    } else {
-      this.isConnectedGroupSetupCompleted = false;
-    }
-  }
-
+  
   save(isClose: boolean) {
     // this update class on css
     this.form.markAllAsTouched();
@@ -262,9 +154,7 @@ export class GroupDetailComponent {
       id: this.id,
       name: this.name.value,
       groupType: this.groupType.value.key,
-      languageCode: this.languageCode.value.key,
       messengerUserId: this.user.userId,
-      newConnectedGroupId: this.connectedGroup.value.groupId,
       members: []
     };
 
@@ -286,15 +176,8 @@ export class GroupDetailComponent {
 
     this.service.saveGroup(data).subscribe(
       data => {
-        console.log("group has been successfully.", data);
-
+        console.log("group has been saved successfully.", data);
         if (isClose) this.lineLIFFService.closeWindow();
-
-        //if (this.isFromLiFF) {
-        //  //this.lineLIFFService.closeWindow();
-        //} else {
-
-        //}
       },
       error => { console.log("Error", error); },
       () => {

@@ -24,11 +24,7 @@ export class GroupsService {
   addMember(messengerUserId, groupId): Observable<any> {
     return this.http.get<any>(`/api/addMember/${messengerUserId}/${groupId}`);
   }
-
-  getAvailableConnectedGroups(groupId, messengerUserId, groupType): Observable<ConnectedGroup[]> {
-    return this.http.get<any>(`/api/getAvailableConnectedGroup/${groupId}/${messengerUserId}/${groupType}`);
-  }
-
+  
   getTranslationLanguage(groupId, messengerUserId): Observable<any> {
     return this.http.get<any>(`/api/getTranslationLanguage/${groupId}/${messengerUserId}`);
   }

@@ -52,15 +52,15 @@ export class AvailableConnectedGroupModalComponent implements OnInit {
 
     this.isLoading = true;
 
-    this.groupService.getAvailableConnectedGroups(this.groupId, this.user.userId, this.groupType)
-      .subscribe(connectedGroups => {
-        this.availableGroups = connectedGroups;
+    //this.groupService.getAvailableConnectedGroups(this.groupId, this.user.userId, this.groupType)
+    //  .subscribe(connectedGroups => {
+    //    this.availableGroups = connectedGroups;
 
-        let selectedGroup = connectedGroups.find(cg => cg.groupId === this.input.groupId);
-        this.connectedGroup.setValue(selectedGroup);
+    //    let selectedGroup = connectedGroups.find(cg => cg.groupId === this.input.groupId);
+    //    this.connectedGroup.setValue(selectedGroup);
 
-        this.isLoading = false;
-      });
+    //    this.isLoading = false;
+    //  });
   }
 
   onSubmit(value) {
