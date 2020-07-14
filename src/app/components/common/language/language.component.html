@@ -1,6 +1,4 @@
-<!--<img *ngIf="language.key !== supportedLanguages.notSpecified.key" src="{{ language.path }}" class="rounded img-sm" [ngClass]="{'no-borders': lineLIFFService.isClientApp}"/>-->
-<!--<span class="badge badge-success p-xxs">{{ language.key | translate }}</span>-->
-<button type="button" class="btn btn-sm" [ngClass]="{'btn-link': !isEnabled, 'btn-default':isEnabled}">
-  <img *ngIf="language.key !== supportedLanguages.notSpecified.key" src="{{ language.path }}" class="rounded img-sm" />
+<button type="button" class="btn btn-sm" [ngClass]="{'btn-link': !isEnabled, 'btn-default':isEnabled}" >
+  Tab here to select language:  
   <span class="ml-1">{{ language.key | translate }}</span>
 </button>

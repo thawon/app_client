@@ -42,6 +42,7 @@ export class GroupDetailComponent {
 
   isLoading: boolean;
   isSaving: boolean;
+  selectedLanguage: string;
 
   groupTypes: any = groupTypes;
   supportedLanguages: any = supportedLanguages;
@@ -58,7 +59,7 @@ export class GroupDetailComponent {
   connectedGroupLanguageCode: AbstractControl;
 
   constructor(private service: GroupsService,
-    private user: UserService,
+    public user: UserService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private modalService: NgbModal,    
@@ -73,18 +74,12 @@ export class GroupDetailComponent {
     this.form = this.fb.group({
       name: new FormControl('', Validators.required),
       groupType: new FormControl('', Validators.required),
-      languageCode: new FormControl(''),
-      members: new FormArray([]),
-      connectedGroup: new FormControl(''),
-      connectedGroupLanguageCode: new FormControl('')
+      members: new FormArray([])
     });
 
     this.name = this.form.controls.name;
     this.groupType = this.form.controls.groupType;
-    this.languageCode = this.form.controls.languageCode;
     this.members = this.form.controls.members as FormArray;
-    this.connectedGroup = this.form.controls.connectedGroup;
-    this.connectedGroupLanguageCode = this.form.controls.connectedGroupLanguageCode;
 
     this.retrieveGroup(this.id);
   }
@@ -176,8 +171,8 @@ export class GroupDetailComponent {
 
     this.service.saveGroup(data).subscribe(
       data => {
-        console.log("group has been saved successfully.", data);
-        if (isClose) this.lineLIFFService.closeWindow();
+        console.log('group has been saved successfully.', data);                
+        if (isClose) this.lineLIFFService.sendMessageAndClose('c-i');
       },
       error => { console.log("Error", error); },
       () => {
