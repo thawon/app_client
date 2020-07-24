@@ -1,10 +1,7 @@
 import {
   Component,
-  Optional,
-  Inject,
   OnInit
 } from '@angular/core';
-
 import {
   FormControl,
   FormBuilder,
@@ -12,9 +9,14 @@ import {
   Validators,
   AbstractControl
 } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { supportedLanguages } from '../../../enums/supportedLanguages.enum'
+import { UserService } from '../../../services/user.service'
+import { LanguageService } from '../../../services/language.service';
+import { SupportedLanguage } from '../../../models/supported-language.model'
+
 
 @Component({
   selector: 'app-language-modal',
@@ -24,13 +26,23 @@ import { supportedLanguages } from '../../../enums/supportedLanguages.enum'
 export class LanguageModalComponent implements OnInit {
   public input;
   public alreadySelectedLanguage;
-
-  supportedLanguages: any;
-
+  
   form: FormGroup;
   language: AbstractControl;
 
-  constructor(private fb: FormBuilder, public activeModal: NgbActiveModal) {  
+  supportedLanguages: Observable<SupportedLanguage[]>;
+  filter = new FormControl('');
+
+  constructor(
+    public user: UserService,
+    private languageService: LanguageService,
+    private fb: FormBuilder,
+    public activeModal: NgbActiveModal) {
+
+    this.supportedLanguages = this.filter.valueChanges.pipe(
+      startWith(''),
+      map(text => this.search(text))
+    );
   }
 
   ngOnInit(): void {
@@ -38,12 +50,32 @@ export class LanguageModalComponent implements OnInit {
       language: new FormControl(this.input, Validators.required)
     });
     this.language = this.form.controls.language;
-    
-    this.supportedLanguages = Object.keys(supportedLanguages)
-      // fitler out language that has been selected.
-      .filter(key => supportedLanguages[key].key !== this.alreadySelectedLanguage.key)
-      .map(key => supportedLanguages[key])
-      .sort((a, b) => a.sortOrder - b.sortOrder);
+  }
+
+  RowSelected(selected: SupportedLanguage) {
+    this.language.setValue(selected);
+  }
+
+  search(text: string): SupportedLanguage[] {
+    return this.languageService.getSupportedLanguages(this.language.value.languageCode).filter(language => {
+      const term = text.toLowerCase();
+      
+      return (this.user.language === 'en') ? language.displayNameEN.toLowerCase().includes(term) : null
+        || (this.user.language === 'th') ? language.displayNameTH.toLowerCase().includes(term) : null
+        || (this.user.language === 'ja') ? language.displayNameJA.toLowerCase().includes(term) : null
+        || (this.user.language === 'zh') ? language.displayNameZH.toLowerCase().includes(term) : null
+        || language.nativeName.toLowerCase().includes(term);
+
+      //return //language.displayNameEN.toLowerCase().includes(term)
+      //('en' === 'en') ? language.nativeName.toLowerCase().includes(term) : null
+      //  || language.nativeName.toLowerCase().includes(term);
+      //  //|| ('' === '') ? language.nativeName.toLowerCase().includes(term) : null;
+    })
+      .sort((n1, n2) => {
+        if (n1.sortOrder < n2.sortOrder) return 1;
+        if (n1.sortOrder > n2.sortOrder) return -1;
+        return 0;
+      });
   }
 
   onSubmit(value) {

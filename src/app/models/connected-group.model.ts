@@ -1,5 +1,3 @@
-import { supportedLanguages } from '../enums/supportedLanguages.enum'
-
 export class ConnectedGroup {
   groupId: string;
   name: string;
@@ -8,6 +6,6 @@ export class ConnectedGroup {
   constructor(obj?: any) {
     this.groupId = obj && obj.groupId || null;
     this.name = obj && obj.name || '-';
-    this.languageCode = obj && obj.languageCode || supportedLanguages.notSpecified.key;
+    //this.languageCode = obj && obj.languageCode || supportedLanguages.notSpecified.key;
   }
 }

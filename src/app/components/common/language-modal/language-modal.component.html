@@ -5,31 +5,44 @@
   </button>
 </div>
 <div class="modal-body">
-  <p class="text-info">{{'languageModel.instruction' | translate}}</p>
   <form [formGroup]="form"
         (ngSubmit)="onSubmit(form.value.language)">
 
-    <div class="form-group row">
-      <div class="table-responsive">
-        <table class="table">
-          <tbody>
-            <tr *ngFor="let item of supportedLanguages ">
-              <td class="align-middle"><input type="radio" class="i-checks align-middle" [value]="item" [formControl]="language"></td>
-              <td>
-                <div class="row">
-                  <div class="col">
-                    <img *ngIf="item.key !== 'na'" src="{{ item.path }}" class="rounded img-sm" />
-                    <span class="p-xxs m-r">{{ item.key | translate }}</span>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="form-group form-inline">
+      Search: <input class="ml-2" style="width:82%" type="text" [formControl]="filter" />
     </div>
 
-    <div class="form-group row">
+    <div class="table-responsive" style="height: 300px; overflow-y: auto;">
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Language</th>
+            <th scope="col">Native</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let lang of supportedLanguages | async; index as i"
+              (click)="RowSelected(lang);"
+              [ngClass]="{'highted-row': (lang === language.value)}" style="height: 40px;">
+            <th scope="row">
+              <i class="fa mt-2" [ngClass]="{'fa-check-circle': (lang === language.value)}"></i>
+            </th>
+            <td class="align-middle">
+              <ngb-highlight *ngIf="user.language === 'en'" [result]="lang.displayNameEN" [term]="filter.value"></ngb-highlight>
+              <ngb-highlight *ngIf="user.language === 'th'" [result]="lang.displayNameTH" [term]="filter.value"></ngb-highlight>
+              <ngb-highlight *ngIf="user.language === 'ja'" [result]="lang.displayNameJA" [term]="filter.value"></ngb-highlight>
+              <ngb-highlight *ngIf="user.language === 'zh'" [result]="lang.displayNameZH" [term]="filter.value"></ngb-highlight>
+            </td>
+            <td class="align-middle">
+              <ngb-highlight [result]="lang.nativeName" [term]="filter.value"></ngb-highlight>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="form-group row mt-3">
       <div class="col">
         <button class="btn btn-lg btn-white float-right" (click)="activeModal.dismiss()">{{'languageModel.cancel' | translate}}</button>
         <button class="btn btn-lg btn-primary float-right mr-2" type="submit"><i class="fa fa-check mr-1"></i>{{'languageModel.select' | translate}}</button>

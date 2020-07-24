@@ -64,6 +64,7 @@ export class LineLIFFService {
               code = language.substring(0, language.indexOf('-'));
           
           this.translate.use(code);
+          this.user.language = code;
 
           this.isClientApp = liff.isInClient();
           
@@ -71,8 +72,8 @@ export class LineLIFFService {
         })
         .then((p) => {
           this.user.userId = p.userId;
-          this.user.displayName = p.displayName;
-          
+          this.user.displayName = p.displayName;          
+
           let isFriendedWithLigo = JSON.parse(this.localStorage.getItem('isFriendedWithLigo')),
             promise: any = Promise.resolve({ status: isFriendedWithLigo });
 

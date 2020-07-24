@@ -1,4 +1,4 @@
 <button type="button" class="btn btn-sm" [ngClass]="{'btn-link': !isEnabled, 'btn-default':isEnabled}" >
   Tab here to select language:  
-  <span class="ml-1">{{ language.key | translate }}</span>
+  <span *ngIf="language.languageCode === 'na'" class="ml-1">Turned off</span><span class="ml-1">{{ language.nativeName }}</span>
 </button>

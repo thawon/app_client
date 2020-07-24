@@ -8,7 +8,7 @@ import {
   AbstractControl
 } from '@angular/forms';
 
-import { supportedLanguages } from '../../enums/supportedLanguages.enum'
+//import { supportedLanguages } from '../../enums/supportedLanguages.enum'
 
 @Component({
   selector: 'app-setting',
@@ -29,12 +29,12 @@ export class SettingComponent implements OnInit {
     });
     this.language = this.form.controls.language;
 
-    this.supportedLanguages = Object.keys(supportedLanguages)
-      // fitler out language that has been selected.
-      .filter(key => supportedLanguages[key].key !== supportedLanguages.notSpecified.key
-        && supportedLanguages[key].key !== supportedLanguages.chineseSimplified.key)
-      .map(key => supportedLanguages[key])
-      .sort((a, b) => a.sortOrder - b.sortOrder);
+    //this.supportedLanguages = Object.keys(supportedLanguages)
+    //  // fitler out language that has been selected.
+    //  .filter(key => supportedLanguages[key].key !== supportedLanguages.notSpecified.key
+    //    && supportedLanguages[key].key !== supportedLanguages.chineseSimplified.key)
+    //  .map(key => supportedLanguages[key])
+    //  .sort((a, b) => a.sortOrder - b.sortOrder);
   }
 
   onChange(selected: AbstractControl) {

@@ -17,18 +17,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { GroupsService } from '../../services/groups.service';
 import { UserService } from '../../services/user.service';
+import { LanguageService } from '../../services/language.service';
+import { LineLIFFService } from '../../services/line.liff.service';
 import { Group } from '../../models/group.model';
 import { Member } from '../../models/member.model';
-import { ConnectedGroup } from '../../models/connected-group.model';
 
-import { GroupTypeModalComponent } from '../common/group-type-modal/group-type-modal.component';
 import { LanguageModalComponent } from '../common/language-modal/language-modal.component';
-import { AvailableConnectedGroupModalComponent } from '../available-connected-group-modal/available-connected-group-modal.component';
-
-import { LineLIFFService } from '../../services/line.liff.service';
-
 import { groupTypes, getGroupType} from '../../enums/groupType.enum'
-import { supportedLanguages, getLanguage } from '../../enums/supportedLanguages.enum'
 
 @Component({
   selector: 'app-group-detail',
@@ -45,7 +40,6 @@ export class GroupDetailComponent {
   selectedLanguage: string;
 
   groupTypes: any = groupTypes;
-  supportedLanguages: any = supportedLanguages;
   
   isFromLiFF: boolean = false;
   form: FormGroup;
@@ -55,11 +49,11 @@ export class GroupDetailComponent {
   members: FormArray;
 
   connectedGroup: AbstractControl;
-  getLanguage: any = getLanguage;
   connectedGroupLanguageCode: AbstractControl;
 
   constructor(private service: GroupsService,
     public user: UserService,
+    private languageService: LanguageService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private modalService: NgbModal,    
@@ -118,8 +112,8 @@ export class GroupDetailComponent {
         messengerUserId: new FormControl(m.messengerUserId),
         name: new FormControl(m.name),
         pictureUrl: new FormControl(m.pictureUrl),
-        fromLanguageCode: new FormControl(getLanguage(m.fromLanguageCode)),
-        toLanguageCode: new FormControl(getLanguage(m.toLanguageCode))
+        fromLanguageCode: new FormControl(this.languageService.getLanguage(m.fromLanguageCode)),
+        toLanguageCode: new FormControl(this.languageService.getLanguage(m.toLanguageCode))
       }));
     });
     
@@ -161,8 +155,8 @@ export class GroupDetailComponent {
       member.userId = memberFormGroup.controls.userId.value;
       member.messengerUserId = memberFormGroup.controls.messengerUserId.value;
 
-      member.fromLanguageCode = memberFormGroup.controls.fromLanguageCode.value.key;
-      member.toLanguageCode = memberFormGroup.controls.toLanguageCode.value.key;
+      member.fromLanguageCode = memberFormGroup.controls.fromLanguageCode.value.languageCode;
+      member.toLanguageCode = memberFormGroup.controls.toLanguageCode.value.languageCode;
 
       data.members.push(member)
     })

@@ -17,8 +17,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GroupsService } from '../../services/groups.service';
 import { UserService } from '../../services/user.service';
 
-import { getLanguage } from '../../enums/supportedLanguages.enum'
-
 @Component({
   selector: 'app-available-connected-group-modal',
   templateUrl: './available-connected-group-modal.component.html',
@@ -35,7 +33,7 @@ export class AvailableConnectedGroupModalComponent implements OnInit {
   connectedGroup: AbstractControl;
 
   availableGroups: any;
-  getLanguage: any = getLanguage;
+  //getLanguage: any = getLanguage;
 
   constructor(
     private fb: FormBuilder,
