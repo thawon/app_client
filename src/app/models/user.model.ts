@@ -5,7 +5,7 @@ export class User {
   createdAt: Date;  
   language: string;
   pictureUrl: string;
-  pushMessageQuota: number;
+  translationMessageQuota: number;
 
   constructor() {}
 }

@@ -33,7 +33,7 @@ export class StarterViewComponent implements OnDestroy, OnInit {
   name: AbstractControl;
   createdAt: AbstractControl;
   language: AbstractControl;
-  pushMessageQuota: AbstractControl;
+  translationMessageQuota: AbstractControl;
   pictureUrl: AbstractControl;
 
   public constructor(
@@ -60,20 +60,20 @@ export class StarterViewComponent implements OnDestroy, OnInit {
       name: new FormControl(''),
       createdAt: new FormControl(''),
       language: new FormControl(''),
-      pushMessageQuota: new FormControl(''),
+      translationMessageQuota: new FormControl(''),
       pictureUrl: new FormControl('')
     });
     this.name = this.form.controls.name;
     this.createdAt = this.form.controls.createdAt;
     this.language = this.form.controls.language;
-    this.pushMessageQuota = this.form.controls.pushMessageQuota;
+    this.translationMessageQuota = this.form.controls.translationMessageQuota;
     this.pictureUrl = this.form.controls.pictureUrl;    
 
     this.userService.register(this.userService.userId).subscribe(user => {
       this.name.setValue(user.name);
       this.createdAt.setValue(new Date(user.createdAt).toDateString());
       this.language.setValue(user.language);
-      this.pushMessageQuota.setValue(user.pushMessageQuota);
+      this.translationMessageQuota.setValue(user.translationMessageQuota);
       this.pictureUrl.setValue(user.pictureUrl);      
     });
   }
