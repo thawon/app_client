@@ -60,9 +60,16 @@ export class LineLIFFService {
           }
           
           // set language
+          // (getLanguage() = Gets the language settings of the environment in which the LIFF app is running (device).)
           let language = liff.getLanguage(),
-              code = language.substring(0, language.indexOf('-'));
+              code = language.substring(0, 2);
           
+          // when language cannot be obtained or language is not supported, set default language to English
+          code = (code !== 'en'
+            && code !== 'th'
+            && code !== 'ja'
+            && code !== 'zh') ? 'en' : code;
+
           this.translate.use(code);
           this.user.language = code;
 
@@ -75,7 +82,7 @@ export class LineLIFFService {
           this.user.displayName = p.displayName;          
 
           let isFriendedWithLigo = JSON.parse(this.localStorage.getItem('isFriendedWithLigo')),
-            promise: any = Promise.resolve({ status: isFriendedWithLigo });
+            promise: any = Promise.resolve({ status: isFriendedWithLigo });          
 
           if (!isFriendedWithLigo) {
             // system only checks whether user is friended with Ligo once,
@@ -89,7 +96,7 @@ export class LineLIFFService {
           return promise;
         })
         .then((res: any) => {
-          this.localStorage.setItem('isFriendedWithLigo', res.status);          
+          this.localStorage.setItem('isFriendedWithLigo', res.status);                    
 
           if (!res.status) {
             // user is not friend with Ligo, user must be friended with Ligo to use the service.
@@ -108,7 +115,7 @@ export class LineLIFFService {
             }
           } else {
             let token = this.localStorage.getItem('token'),
-              getToken: any = Promise.resolve(token);
+              getToken: any = Promise.resolve(token);            
 
             if (
               // token can mean first time access or cache has been cleared.
