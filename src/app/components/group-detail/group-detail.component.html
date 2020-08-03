@@ -16,14 +16,12 @@
                 (ngSubmit)="onSubmit()">
 
             <div class="form-group row">
-              <div class="col-12"
-                   formArrayName="members"
-                   *ngFor="let member of members.controls; index as i">
-                <div *ngIf="member.controls['messengerUserId'].value === user.userId">
+              <div class="col-12">
+                <div>
                  
                   <div class="row mt-1">
                     <div class="col-12">
-                      <h2 class="no-margins">Hello! {{ member.controls['name'].value }}</h2>
+                      <h2 class="no-margins">Hello! {{ member.value.name }}</h2>
                       <p class="text-info">To help Ligo assist you with language translation, Please answer the question below:</p>
                     </div>
                   </div>
@@ -32,10 +30,11 @@
                       <label>What language you'd like Ligo to translate your messages to?</label>
                     </div>
                     <div class="col-12">
-                      <language [language]="member.controls['toLanguageCode'].value" [isEnabled]="true"
-                                (click)="openLanguageModal(member.controls['toLanguageCode'], member.controls['fromLanguageCode'])"></language>
+                      <language [language]="memberToLanguage.value" [isEnabled]="true"
+                                (click)="openLanguageModal(memberToLanguage, memberFromLanguage)"></language>
                     </div>
                   </div>
+
                 </div>
                 
               </div>

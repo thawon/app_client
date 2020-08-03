@@ -46,7 +46,11 @@ export class GroupDetailComponent {
   name: AbstractControl;
   groupType: AbstractControl;
   languageCode: AbstractControl;
-  members: FormArray;
+  member: AbstractControl;
+  memberFromLanguage: AbstractControl;
+  memberToLanguage: AbstractControl;
+
+  //members: FormArray;
 
   connectedGroup: AbstractControl;
   connectedGroupLanguageCode: AbstractControl;
@@ -68,12 +72,16 @@ export class GroupDetailComponent {
     this.form = this.fb.group({
       name: new FormControl('', Validators.required),
       groupType: new FormControl('', Validators.required),
-      members: new FormArray([])
+      member: new FormControl('', Validators.required),
+      memberFromLanguage: new FormControl(''),
+      memberToLanguage: new FormControl('')
     });
 
     this.name = this.form.controls.name;
     this.groupType = this.form.controls.groupType;
-    this.members = this.form.controls.members as FormArray;
+    this.member = this.form.controls.member;
+    this.memberFromLanguage = this.form.controls.memberFromLanguage;
+    this.memberToLanguage = this.form.controls.memberToLanguage;
 
     this.retrieveGroup(this.id);
   }
@@ -104,18 +112,9 @@ export class GroupDetailComponent {
   initialization(group: Group) {
     this.name.setValue(group.name);
     this.groupType.setValue(getGroupType(group.groupType));
-    
-    group.members.forEach(m => {
-      this.members.push(new FormGroup({
-        id: new FormControl(m.id),
-        userId: new FormControl(m.userId),
-        messengerUserId: new FormControl(m.messengerUserId),
-        name: new FormControl(m.name),
-        pictureUrl: new FormControl(m.pictureUrl),
-        fromLanguageCode: new FormControl(this.languageService.getLanguage(m.fromLanguageCode)),
-        toLanguageCode: new FormControl(this.languageService.getLanguage(m.toLanguageCode))
-      }));
-    });
+    this.member.setValue(group.member);
+    this.memberFromLanguage.setValue(this.languageService.getLanguage(group.member.fromLanguageCode));
+    this.memberToLanguage.setValue(this.languageService.getLanguage(group.member.toLanguageCode));
     
     this.isLoading = false;
   } 
@@ -144,22 +143,14 @@ export class GroupDetailComponent {
       name: this.name.value,
       groupType: this.groupType.value.key,
       messengerUserId: this.user.userId,
-      members: []
+      member: {
+        id: this.member.value._id,
+        userId: this.member.value.userId,
+        messengerUserId: this.member.value.messengerUserId,
+        fromLanguageCode: this.memberFromLanguage.value.languageCode,
+        toLanguageCode: this.memberToLanguage.value.languageCode
+      }
     };
-
-    this.members.controls.forEach(m => {
-      let member = new Member(),
-        memberFormGroup = (<FormGroup>m);
-
-      member.id = memberFormGroup.controls.id.value;
-      member.userId = memberFormGroup.controls.userId.value;
-      member.messengerUserId = memberFormGroup.controls.messengerUserId.value;
-
-      member.fromLanguageCode = memberFormGroup.controls.fromLanguageCode.value.languageCode;
-      member.toLanguageCode = memberFormGroup.controls.toLanguageCode.value.languageCode;
-
-      data.members.push(member)
-    })
 
     this.isSaving = true;
 
