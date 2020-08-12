@@ -65,11 +65,6 @@ export class LanguageModalComponent implements OnInit {
         || (this.user.language === 'ja') ? language.displayNameJA.toLowerCase().includes(term) : null
         || (this.user.language === 'zh') ? language.displayNameZH.toLowerCase().includes(term) : null
         || language.nativeName.toLowerCase().includes(term);
-
-      //return //language.displayNameEN.toLowerCase().includes(term)
-      //('en' === 'en') ? language.nativeName.toLowerCase().includes(term) : null
-      //  || language.nativeName.toLowerCase().includes(term);
-      //  //|| ('' === '') ? language.nativeName.toLowerCase().includes(term) : null;
     })
       .sort((n1, n2) => {
         if (n1.sortOrder < n2.sortOrder) return 1;

@@ -15,7 +15,7 @@ export class SystemService {
     return this.http.get<any>(`/api/system`);
   }
 
-  getSupportedLanguages(languageCode): Observable<SupportedLanguage[]> {
-    return this.http.get<any>(`/api/system/getSupportedLanguages/${languageCode}`);
-  }
+  //getSupportedLanguages(languageCode): Observable<SupportedLanguage[]> {
+  //  return this.http.get<any>(`/api/system/getSupportedLanguages/${languageCode}`);
+  //}
 }

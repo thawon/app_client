@@ -9,7 +9,7 @@
         (ngSubmit)="onSubmit(form.value.language)">
 
     <div class="form-group form-inline">
-      Search: <input class="ml-2" style="width:82%" type="text" [formControl]="filter" />
+      {{'languageModel.search' | translate}}: <input class="ml-2" style="width:82%" type="text" [formControl]="filter" />
     </div>
 
     <div class="table-responsive" style="height: 300px; overflow-y: auto;">
@@ -17,8 +17,8 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Language</th>
-            <th scope="col">Native</th>
+            <th scope="col">{{'languageModel.language' | translate}}</th>
+            <th scope="col">{{'languageModel.native' | translate}}</th>
           </tr>
         </thead>
         <tbody>

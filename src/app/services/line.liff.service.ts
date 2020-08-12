@@ -67,8 +67,10 @@ export class LineLIFFService {
           // when language cannot be obtained or language is not supported, set default language to English
           code = (code !== 'en'
             && code !== 'th'
-            && code !== 'ja'
-            && code !== 'zh') ? 'en' : code;
+            //TODO: uncomment when ready to support Japanese and Chinese
+            //&& code !== 'ja'
+            //&& code !== 'zh'
+          ) ? 'en' : code;
 
           this.translate.use(code);
           this.user.language = code;
@@ -102,7 +104,10 @@ export class LineLIFFService {
             // user is not friend with Ligo, user must be friended with Ligo to use the service.
             if (this.isClientApp) {
               // send a message to chat room, asking user to add Ligo as friend.
-              this.sendMessage('To use service, please add Ligo as friend. ' + `http://line.me/ti/p/%40${this.lineAtId}`)
+              this.translate.get('addFriend').toPromise()
+                .then((text:string) => {
+                  return this.sendMessage(`${text.replace('[name]', this.user.displayName)}\nhttp://line.me/ti/p/%40${this.lineAtId}`);
+                })
                 .then(() => {
                   liff.closeWindow();
                 })
