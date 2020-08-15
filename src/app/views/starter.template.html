@@ -21,7 +21,7 @@
             </h2>
             <h4><small><b>{{'starter.standardAccount' | translate}}</b></small><span class="badge badge-primary ml-1">{{'starter.beta' | translate}}</span></h4>
             <small>
-              {{'starter.joinedAt' | translate}}: {{ createdAt.value }} <br />
+              {{'starter.joinedAt' | translate}}: {{ createdAt.value | date:'dd/MM/yyyy' }} <br />
               {{'starter.language' | translate}}: {{ language.value | translate }}
             </small>
           </div>
