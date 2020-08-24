@@ -13,7 +13,7 @@ export class UserService {
   public displayName: string;
   public language: string
 
-  constructor(private http: HttpClient) { }
+  constructor(public http: HttpClient) { }
 
   isCheckFriendWithLigo(messengerUserId): Observable<boolean> {
     return this.http.get<boolean>(`/api/checkFriendWithLigo/${messengerUserId}`);
