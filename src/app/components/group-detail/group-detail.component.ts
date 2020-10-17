@@ -157,7 +157,7 @@ export class GroupDetailComponent {
     this.service.saveGroup(data).subscribe(
       data => {
         console.log('group has been saved successfully.', data);                
-        if (isClose) this.lineLIFFService.sendMessageAndClose('c-i');
+        if (isClose) this.lineLIFFService.sendMessageAndClose('show me my language setup.');
       },
       error => { console.log("Error", error); },
       () => {
