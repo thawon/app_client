@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-sm" [ngClass]="{'btn-link': !isEnabled, 'btn-default':isEnabled}">
+<button type="button" class="btn btn-sm" [ngClass]="{'btn-link': !isEnabled, 'btn-default':isEnabled}"><i class="fa fa-hand-o-up mr-1"></i>
   {{'language.tapHereToSelect' | translate}}:
   <span *ngIf="user.language === 'en'" class="ml-1">{{ language.displayNameEN }}</span>
   <span *ngIf="user.language === 'th'" class="ml-1">{{ language.displayNameTH }}</span>

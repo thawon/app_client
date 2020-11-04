@@ -51,24 +51,3 @@ export class AuthInterceptorService implements HttpInterceptor {
       );    
   }  
 }
-    //return this.storage.get('token')
-    //  .pipe(
-    //    concatMap(token => {
-
-    //      req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
-    //      req = req.clone({ headers: req.headers.set('Content-Type', 'application/json') });
-    //      req = req.clone({ headers: req.headers.set('Accept', 'application/json') });
-
-    //      return next.handle(req)
-    //        .pipe(
-    //          catchError((error: HttpErrorResponse) => {
-    //            //401 UNAUTHORIZED - SECTION 2
-    //            if (error && error.status === 401) {
-    //              console.log("ERROR 401 UNAUTHORIZED")
-    //            }
-    //            const err = error.error.message || error.statusText;
-    //            return throwError(error);
-    //          })
-    //        );
-    //    })
-    //);

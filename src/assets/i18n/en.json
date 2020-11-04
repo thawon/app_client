@@ -9,6 +9,8 @@
   "groupDetail.greeting": "Hello",
   "groupDetail.introduction": "To help Ligo assist you with language translation, please answer the question below",
   "groupDetail.whatLanguageToTranslate": "What language you'd like Ligo to translate your messages to?",
+  "groupDetail.example": "Example",
+  "groupDetail.setupLanguageExample": "If you are chatting with a Thai person, you should select Thai language. Ligo will translate your message to Thai.",
   "groupDetail.saveChanges": "Done",
   "groupDetail.cancel": "Close",
   "language.tapHereToSelect": "Tap here to select language",

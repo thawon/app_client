@@ -9,6 +9,8 @@
   "groupDetail.greeting": "ฮัลโหล",
   "groupDetail.introduction": "กรุณาตอบคำถามด้านล่างเพื่อช่วย Ligo ในการแปลภาษา",
   "groupDetail.whatLanguageToTranslate": "คุณต้องการแปลข้อความเป็นภาษาอะไร?",
+  "groupDetail.example": "ยกตัวอย่างเช่น",
+  "groupDetail.setupLanguageExample": "สมมุติว่าเพื่อนคุณเป็นคนญี่ปุ่น คุณควรเลือกภาษาญี่ปุ่น แล้วข้อความของคุณจะถูกแปลเป็นภาษาญี่ปุ่น",
   "groupDetail.saveChanges": "บันทึก",
   "groupDetail.cancel": "ยกเลิก",
   "language.tapHereToSelect": "แตะตรงนี้เพื่อเปลี่ยนภาษา",
