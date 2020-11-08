@@ -21,6 +21,7 @@ import { LanguageService } from '../../services/language.service';
 import { LineLIFFService } from '../../services/line.liff.service';
 import { Group } from '../../models/group.model';
 import { Member } from '../../models/member.model';
+import { TranslateService } from '@ngx-translate/core';
 
 import { LanguageModalComponent } from '../common/language-modal/language-modal.component';
 import { groupTypes, getGroupType} from '../../enums/groupType.enum'
@@ -61,14 +62,15 @@ export class GroupDetailComponent {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private modalService: NgbModal,    
-    private lineLIFFService: LineLIFFService) {
+    private lineLIFFService: LineLIFFService,
+    private translate: TranslateService) {
 
     this.isLoading = true;
 
     this.route.params.subscribe(params => {
       this.id = params['id'];
     });  
-
+    
     this.form = this.fb.group({
       name: new FormControl('', Validators.required),
       groupType: new FormControl('', Validators.required),
@@ -172,5 +174,10 @@ export class GroupDetailComponent {
 
   onCancel() {
     this.lineLIFFService.closeWindow();
+  }
+
+  changeLanguage(languageCode: string): void {
+    this.translate.use(languageCode);
+    this.user.language = languageCode;
   }
 }
