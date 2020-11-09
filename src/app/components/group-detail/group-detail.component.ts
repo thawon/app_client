@@ -158,8 +158,20 @@ export class GroupDetailComponent {
 
     this.service.saveGroup(data).subscribe(
       data => {
-        console.log('group has been saved successfully.', data);                
-        if (isClose) this.lineLIFFService.sendMessageAndClose('show me my language setup.');
+        console.log('group has been saved successfully.', data);
+
+        // display current language setup in user prefered language
+        let message;
+        switch (this.user.language) {
+          case 'th':
+            message = 'แสดงการตั้งค่าภาษาของฉัน';
+            break;
+          default:
+            message = 'show me my language setup.';
+            break;
+        }
+
+        if (isClose) this.lineLIFFService.sendMessageAndClose(message);
       },
       error => { console.log("Error", error); },
       () => {
