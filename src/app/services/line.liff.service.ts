@@ -44,6 +44,7 @@ export class LineLIFFService {
       if (params.get('route')) {
         this.localStorage.setItem('route', params.get('route'));
         this.localStorage.setItem('id', params.get('id'));
+        this.localStorage.setItem('lang', params.get('lang'));
       } 
 
       // workaround methods lose references during unit test
@@ -80,9 +81,7 @@ export class LineLIFFService {
           }
           
           // set language
-          // (getLanguage() = Gets the language settings of the environment in which the LIFF app is running (device).)
-          let language = this.liffWrapper.getLanguage(),
-              code = language.substring(0, 2);
+          let code = this.localStorage.getItem('lang');
           
           // when language cannot be obtained or language is not supported, set default language to English
           code = (code !== 'en'

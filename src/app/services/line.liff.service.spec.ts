@@ -127,7 +127,10 @@ describe('LineLIFFService', () => {
 
     spyOn(userService, 'isCheckFriendWithLigo').and.returnValue(of({ status: true }));
 
-    spyOn(localStorage, 'getItem').withArgs('token').and.returnValue(null)
+    spyOn(localStorage, 'getItem')
+      .withArgs('token').and.returnValue(null)
+      .withArgs('lang').and.returnValue(null);
+
     spyOn(localStorage, 'setItem').and.callFake(() => { });
 
     spyOn(auth, 'getToken').and.returnValue(Promise.resolve(token));
@@ -162,7 +165,10 @@ describe('LineLIFFService', () => {
 
     spyOn(userService, 'isCheckFriendWithLigo').and.returnValue(of({ status: true }));
 
-    spyOn(localStorage, 'getItem').withArgs('token').and.returnValue({})
+    spyOn(localStorage, 'getItem')
+      .withArgs('token').and.returnValue({})
+      .withArgs('lang').and.returnValue(null);
+
     spyOn(localStorage, 'setItem').and.callFake(() => { });
     spyOn(windowWrapper, 'jwtDecode').and.returnValue({ payload: { exp: 1000000009 } });
 
@@ -209,7 +215,7 @@ describe('LineLIFFService', () => {
 
     service.isLoggedIn()
       .then(() => {
-        expect(localStorage.getItem).not.toHaveBeenCalled();
+        expect(localStorage.getItem).not.toHaveBeenCalledWith('token');
         expect(localStorage.setItem).not.toHaveBeenCalled();
         expect(auth.getToken).not.toHaveBeenCalled();
 
@@ -257,7 +263,7 @@ describe('LineLIFFService', () => {
 
     service.isLoggedIn()
       .then(() => {
-        expect(localStorage.getItem).not.toHaveBeenCalled();
+        expect(localStorage.getItem).not.toHaveBeenCalledWith('token');
         expect(localStorage.setItem).not.toHaveBeenCalled();
         expect(auth.getToken).not.toHaveBeenCalled();
 
