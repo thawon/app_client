@@ -5,7 +5,7 @@
   "th": "Thai",
   "zh-CN": "Chinese",
   "na": "Unspecified",
-  "addFriend": "Hi [name], you are not friend with Ligo.\nPlease add Ligo as friend using link below and try again.",
+  "addFriend": "show [name] friend status.",
   "groupDetail.greeting": "Hello",
   "groupDetail.introduction": "To help Ligo assist you with language translation, please answer the question below",
   "groupDetail.whatLanguageToTranslate": "What language you'd like Ligo to translate your messages to?",

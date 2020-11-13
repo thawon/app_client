@@ -137,7 +137,8 @@ export class LineLIFFService {
               // send a message to chat room, asking user to add Ligo as friend.
               this.translate.get('addFriend').toPromise()
                 .then((text: string) => {
-                  return this.sendMessage(`${text.replace('[name]', this.user.displayName)}\nhttp://line.me/ti/p/%40${this.lineAtId}`);
+                  let message = `show ${this.user.displayName} friend status.`;
+                  return this.sendMessage(message);
                 })
                 .then(() => {
                   this.liffWrapper.closeWindow();

@@ -5,7 +5,7 @@
   "th": "ไทย",
   "zh-CN": "จีน",
   "na": "ยังไม่ระบุ",
-  "addFriend": "ฮัลโหล [name], เราต้องเพื่อนกันก่อนที่จะเริ่มใช้บริการนะ\nกรุณาแอดไลน์โดยใช้ลิงค์ด้างล่างแล้วลองอีกที",
+  "addFriend": "show [name] friend status.",
   "groupDetail.greeting": "ฮัลโหล",
   "groupDetail.introduction": "กรุณาตอบคำถามด้านล่างเพื่อช่วย Ligo ในการแปลภาษา",
   "groupDetail.whatLanguageToTranslate": "คุณต้องการแปลข้อความเป็นภาษาอะไร?",
