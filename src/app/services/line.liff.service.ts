@@ -86,6 +86,7 @@ export class LineLIFFService {
           // when language cannot be obtained or language is not supported, set default language to English
           code = (code !== 'en'
             && code !== 'th'
+            && code !== 'zh'
             //TODO: uncomment when ready to support Japanese and Chinese
             //&& code !== 'ja'
             //&& code !== 'zh'

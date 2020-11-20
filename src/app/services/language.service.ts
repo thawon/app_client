@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { SupportedLanguage } from '../models/supported-language.model'
 
 const supportedLanguages: SupportedLanguage[] = [
-  { languageCode: 'na', displayNameEN: 'Turn off', displayNameTH: 'ปิด', displayNameJA: '消す', displayNameZH: '关掉', nativeName: '', sortOrder: 7 },
+  { languageCode: 'na', displayNameEN: 'Turn off', displayNameTH: 'ปิด', displayNameJA: '消す', displayNameZH: '關閉', nativeName: '', sortOrder: 7 },
   { languageCode: 'en', displayNameEN: 'English', displayNameTH: 'อังกฤษ', displayNameJA: '英語', displayNameZH: '英语', nativeName: 'English', sortOrder: 5 },
   { languageCode: 'ja', displayNameEN: 'Japanese', displayNameTH: 'ญี่ปุ่น', displayNameJA: '日本語', displayNameZH: '日语', nativeName: '日本語', sortOrder: 4 },
   { languageCode: 'th', displayNameEN: 'Thai', displayNameTH: 'ไทย', displayNameJA: 'タイ語', displayNameZH: '泰语', nativeName: 'ไทย', sortOrder: 3 },

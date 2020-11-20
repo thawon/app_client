@@ -166,6 +166,9 @@ export class GroupDetailComponent {
           case 'th':
             message = 'แสดงการตั้งค่าภาษาของฉัน';
             break;
+          case 'zh':
+            message = '告訴我我的語言設置';
+            break;
           default:
             message = 'show me my language setup.';
             break;
