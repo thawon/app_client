@@ -1,3 +1,5 @@
+import { MLTLanguageCode } from './mlt.model';
+
 export class Member {
   id: string;
   userId: string;
@@ -6,6 +8,7 @@ export class Member {
   pictureUrl: string;
   fromLanguageCode?: string;
   toLanguageCode?: string;
+  MLTLanguageCodes?: [MLTLanguageCode]
 
   constructor() { }
 }

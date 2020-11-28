@@ -25,19 +25,23 @@ import { SupportedLanguage } from '../../../models/supported-language.model'
 })
 export class LanguageModalComponent implements OnInit {
   public input;
-  public alreadySelectedLanguage;
+  public isNaAllowed: boolean = true;
+  public alreadySelectedLanguages = [];
   
   form: FormGroup;
   language: AbstractControl;
 
   supportedLanguages: Observable<SupportedLanguage[]>;
   filter = new FormControl('');
+  isValid: boolean = true;
 
   constructor(
     public user: UserService,
     private languageService: LanguageService,
     private fb: FormBuilder,
     public activeModal: NgbActiveModal) {
+
+    if (this.alreadySelectedLanguages.length === 0) this.alreadySelectedLanguages.push({ languageCode: 'dm' });
 
     this.supportedLanguages = this.filter.valueChanges.pipe(
       startWith(''),
@@ -57,15 +61,17 @@ export class LanguageModalComponent implements OnInit {
   }
 
   search(text: string): SupportedLanguage[] {
-    return this.languageService.getSupportedLanguages(this.language.value.languageCode).filter(language => {
-      const term = text.toLowerCase();
-      
-      return (this.user.language === 'en') ? language.displayNameEN.toLowerCase().includes(term) : null
-        || (this.user.language === 'th') ? language.displayNameTH.toLowerCase().includes(term) : null
-        || (this.user.language === 'ja') ? language.displayNameJA.toLowerCase().includes(term) : null
-        || (this.user.language === 'zh') ? language.displayNameZH.toLowerCase().includes(term) : null
-        || language.nativeName.toLowerCase().includes(term);
-    })
+    return this.languageService.getSupportedLanguages(this.language.value.languageCode)
+      .filter(language => !this.alreadySelectedLanguages.some(a => a.languageCode === language.languageCode))
+      .filter(language => {
+        const term = text.toLowerCase();
+
+        return (this.user.language === 'en') ? language.displayNameEN.toLowerCase().includes(term) : null
+          || (this.user.language === 'th') ? language.displayNameTH.toLowerCase().includes(term) : null
+            || (this.user.language === 'ja') ? language.displayNameJA.toLowerCase().includes(term) : null
+              || (this.user.language === 'zh') ? language.displayNameZH.toLowerCase().includes(term) : null
+              || language.nativeName.toLowerCase().includes(term);
+      })
       .sort((n1, n2) => {
         if (n1.sortOrder < n2.sortOrder) return 1;
         if (n1.sortOrder > n2.sortOrder) return -1;
@@ -74,6 +80,12 @@ export class LanguageModalComponent implements OnInit {
   }
 
   onSubmit(value) {
+    this.isValid = true;
+    if (!this.isNaAllowed && value.languageCode === 'na') {
+      this.isValid = false;
+      return;
+    }
+
     this.activeModal.close(value);
   }
 

@@ -22,6 +22,7 @@ import { LineLIFFService } from '../../services/line.liff.service';
 import { Group } from '../../models/group.model';
 import { Member } from '../../models/member.model';
 import { TranslateService } from '@ngx-translate/core';
+import { SupportedLanguage } from '../../models/supported-language.model'
 
 import { LanguageModalComponent } from '../common/language-modal/language-modal.component';
 import { groupTypes, getGroupType} from '../../enums/groupType.enum'
@@ -38,8 +39,12 @@ export class GroupDetailComponent {
 
   isLoading: boolean;
   isSaving: boolean;
+  isShowMultipleLanguageTranslation: boolean;
+  maxMLTLanguage: number = 2;
+  MLTchecked: boolean;
   selectedLanguage: string;
 
+  turnOffLanguage: SupportedLanguage;
   groupTypes: any = groupTypes;
   
   isFromLiFF: boolean = false;
@@ -50,11 +55,7 @@ export class GroupDetailComponent {
   member: AbstractControl;
   memberFromLanguage: AbstractControl;
   memberToLanguage: AbstractControl;
-
-  //members: FormArray;
-
-  connectedGroup: AbstractControl;
-  connectedGroupLanguageCode: AbstractControl;
+  languages = [];
 
   constructor(private service: GroupsService,
     public user: UserService,
@@ -66,6 +67,7 @@ export class GroupDetailComponent {
     private translate: TranslateService) {
 
     this.isLoading = true;
+    this.turnOffLanguage = this.languageService.getLanguage('na');
 
     this.route.params.subscribe(params => {
       this.id = params['id'];
@@ -117,21 +119,62 @@ export class GroupDetailComponent {
     this.member.setValue(group.member);
     this.memberFromLanguage.setValue(this.languageService.getLanguage(group.member.fromLanguageCode));
     this.memberToLanguage.setValue(this.languageService.getLanguage(group.member.toLanguageCode));
-    
+    this.languages = group.member.MLTLanguageCodes.map(mlt => this.languageService.getLanguage(mlt.toLanguageCode));
+
     this.isLoading = false;
+    this.setShowMultipleLanguageTranslation();
+    this.MLTchecked = (this.languages.length > 0) ? true: false;
   } 
 
-  openLanguageModal(language: AbstractControl, alreadySelectedLanguage: AbstractControl) {
+  getSelectedLanguages() {
+    let result = [];
+
+    // get chosen toLanguage and MLT langauges
+    result.push(this.memberToLanguage.value);
+    this.languages.map(l => result.push(l));
+
+    return result;
+  }
+
+  openLanguageModal(language: AbstractControl) {
     const modalRef = this.modalService.open(LanguageModalComponent);
+
+    // filter out 'na' in case user want to turn off language.
+    let alreadySelectedLanguages = this.getSelectedLanguages()
+      .filter(lg => (lg.languageCode !== this.turnOffLanguage.languageCode && lg.languageCode !== language.value.languageCode));
+
+    modalRef.componentInstance.alreadySelectedLanguages = alreadySelectedLanguages;
     modalRef.componentInstance.input = language.value;
-    modalRef.componentInstance.alreadySelectedLanguage = alreadySelectedLanguage.value;
 
     modalRef.result.then((result) => {
       if (result) {
-        language.setValue(result)
+        language.setValue(result);
+
+        // clear MLT when translation is turned off.
+        if (result.languageCode === this.turnOffLanguage.languageCode) this.clearMLTLanguage();
+        this.setShowMultipleLanguageTranslation();
       }
     }, (reason) => {
       
+    });
+  }
+
+  openLanguageModalForMultipleLanguageTranslation() {
+    const modalRef = this.modalService.open(LanguageModalComponent);
+
+    // 'na' is set to hide when select language for MLT
+    modalRef.componentInstance.isNaAllowed = false;
+    // tell language selection which languages user has chosen already so it will not show on the list.
+    modalRef.componentInstance.alreadySelectedLanguages = this.getSelectedLanguages();
+    // promt user to the first thing on the list which is 'na', but user must select a langauge
+    modalRef.componentInstance.input = this.languageService.getLanguage(this.turnOffLanguage.languageCode);
+
+    modalRef.result.then((result) => {
+      if (result) {
+        this.languages.push(result);
+      }
+    }, (reason) => {
+
     });
   }
   
@@ -150,7 +193,8 @@ export class GroupDetailComponent {
         userId: this.member.value.userId,
         messengerUserId: this.member.value.messengerUserId,
         fromLanguageCode: this.memberFromLanguage.value.languageCode,
-        toLanguageCode: this.memberToLanguage.value.languageCode
+        toLanguageCode: this.memberToLanguage.value.languageCode,
+        MLTLanguageCodes: this.languages.map(lang => lang.languageCode)
       }
     };
 
@@ -194,5 +238,25 @@ export class GroupDetailComponent {
   changeLanguage(languageCode: string): void {
     this.translate.use(languageCode);
     this.user.language = languageCode;
+  }
+
+  onMLTcheckedChange(e) {
+    if (!e.target.checked) this.clearMLTLanguage();
+  }
+
+  setShowMultipleLanguageTranslation() {    
+    let isTurnOff = (this.memberToLanguage.value.languageCode === this.turnOffLanguage.languageCode);
+
+    // MLT only is allowed to be setup after user turn on translation
+    this.isShowMultipleLanguageTranslation = !(isTurnOff);
+    if (isTurnOff) this.MLTchecked = false;
+  }
+
+  removeLanguage(index) {
+    this.languages.splice(index, 1);
+  }
+
+  clearMLTLanguage() {
+    this.languages = [];
   }
 }

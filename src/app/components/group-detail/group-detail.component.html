@@ -22,17 +22,21 @@
                     <div class="col-12">
                       <button type="button" class="btn btn-outline btn-default mr-1 mb-3" style="width:80px;"
                               [ngClass]="{'btn-primary': user.language === 'en'}"
-                              (click)="changeLanguage('en')">English</button>
+                              (click)="changeLanguage('en')">
+                        English
+                      </button>
                       <button type="button" class="btn btn-outline btn-default mr-1 mb-3" style="width:80px;"
                               [ngClass]="{'btn-primary': user.language === 'th'}"
-                              (click)="changeLanguage('th')">ภาษาไทย</button>
+                              (click)="changeLanguage('th')">
+                        ภาษาไทย
+                      </button>
                       <button type="button" class="btn btn-outline btn-default mr-1 mb-3" style="width:90px;"
                               [ngClass]="{'btn-primary': user.language === 'zh'}"
-                              (click)="changeLanguage('zh')">中文(繁体)</button>
+                              (click)="changeLanguage('zh')">
+                        中文(繁体)
+                      </button>
                     </div>
                   </div>
-
-                  
 
                   <div class="row mt-1">
                     <div class="col-12">
@@ -40,26 +44,75 @@
                       <p class="text-info">{{'groupDetail.introduction' | translate}}:</p>
                     </div>
                   </div>
+
                   <div class="row mt-3">
                     <div class="col-12">
                       <label style="font-size:16px;">{{'groupDetail.whatLanguageToTranslate' | translate}}</label>
                     </div>
                     <div class="col-12">
                       <language [language]="memberToLanguage.value" [isEnabled]="true"
-                                (click)="openLanguageModal(memberToLanguage, memberFromLanguage)"></language>
+                                (click)="openLanguageModal(memberToLanguage)"></language>
                       <p>
                         <br />
                         <span class="badge badge-info">{{'groupDetail.example' | translate}}:</span><br />
                         {{'groupDetail.setupLanguageExample' | translate}}
                       </p>
+                    </div>
+                  </div>                  
 
+                  <div class="row mt-3">
+                    <div class="col-12">
+                      <label *ngIf="isShowMultipleLanguageTranslation" style="font-size:16px;">
+                        <input type="checkbox" class="i-checks"
+                               [(ngModel)]="MLTchecked"
+                               [ngModelOptions]="{standalone: true}"
+                               (change)="onMLTcheckedChange($event)"> {{'groupDetail.iWantMLT' | translate}}
+                      </label>
+                      <label *ngIf="MLTchecked" style="font-size:16px;">{{'groupDetail.addMLTLanguages' | translate}}</label>
+                    </div>
+                    <div *ngIf="MLTchecked" class="col-12">
+                      <button type="button"
+                              *ngIf="languages.length < maxMLTLanguage"
+                              class="btn btn-sm btn-default"
+                              (click)="openLanguageModalForMultipleLanguageTranslation()">
+                        <i class="fa fa-hand-o-up mr-1"></i>{{'groupDetail.tapHereToAddMLTLanguages' | translate}}
+                      </button>
+                      <span *ngIf="languages.length === maxMLTLanguage" class="text-info">({{'groupDetail.youHaveMaxMLT' | translate}})</span>
+                      <table *ngIf="languages.length > 0" class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">{{'languageModel.language' | translate}}</th>
+                            <th scope="col">
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let language of languages; index as i">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>
+                              <span *ngIf="user.language === 'en'" class="ml-1">{{ language.displayNameEN }}</span>
+                              <span *ngIf="user.language === 'th'" class="ml-1">{{ language.displayNameTH }}</span>
+                              <span *ngIf="user.language === 'ja'" class="ml-1">{{ language.displayNameJA }}</span>
+                              <span *ngIf="user.language === 'zh'" class="ml-1">{{ language.displayNameZH }}</span>
+                            </td>
+                            <td>
+                              <button class="btn btn-xs btn-danger" type="button" (click)="removeLanguage(i)"><i class="fa fa-times mr-1"></i>Remove</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
 
+
                 </div>
-                
+
               </div>
             </div>
+
+           
+
 
             <div class="form-group row">
               <div class="col">
