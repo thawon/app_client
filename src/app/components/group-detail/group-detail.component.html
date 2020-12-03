@@ -97,7 +97,7 @@
                               <span *ngIf="user.language === 'zh'" class="ml-1">{{ language.displayNameZH }}</span>
                             </td>
                             <td>
-                              <button class="btn btn-xs btn-danger" type="button" (click)="removeLanguage(i)"><i class="fa fa-times mr-1"></i>Remove</button>
+                              <button class="btn btn-xs btn-danger" type="button" (click)="removeLanguage(i)"><i class="fa fa-times mr-1"></i>{{'groupDetail.removeMLT' | translate}}</button>
                             </td>
                           </tr>
                         </tbody>
