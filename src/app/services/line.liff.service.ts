@@ -68,7 +68,7 @@ export class LineLIFFService {
 
       return this.system.getSystemVariable().toPromise()
         .then((system) => {
-          
+
           this.LIFFId = system.LIFFId;
           this.lineAtId = system.lineAtId;
 
@@ -79,7 +79,7 @@ export class LineLIFFService {
           if (!this.liffWrapper.isLoggedIn()) {
             this.liffWrapper.login();
           }
-          
+
           // set language
           let code = this.localStorage.getItem('lang');
           
@@ -105,26 +105,11 @@ export class LineLIFFService {
 
           return this.userService.isCheckFriendWithLigo(p.userId).toPromise();
         })
-        .then((friend: any) => {
+        .then((friend: any) => {          
           if (!friend.status) throw new Error('UserIsNotFriended');
 
-          return Promise.resolve();          
-        })
-        .then(() => {
-          let token = this.localStorageService.getItem('token'),
-            getToken: any = Promise.resolve(token);
-
-          if (
-            // token can mean first time access or cache has been cleared.
-            !token
-            // token return from local storage as it does not exist (undefined)
-            || token === 'undefined'
-            // when token is expired.
-            || Date.now() >= this.windowWrapperService.jwtDecode(token).payload.exp * 1000) {
-            getToken = this.auth.getToken({ name: this.user.displayName, id: this.user.userId });
-          }
-
-          return getToken;
+          // always get new token
+          return this.auth.getToken({ name: this.user.displayName, id: this.user.userId });   
         })
         .then((token: string) => {
           this.localStorageService.setItem('token', token);
