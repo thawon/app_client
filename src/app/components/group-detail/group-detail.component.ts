@@ -64,7 +64,7 @@ export class GroupDetailComponent {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private modalService: NgbModal,    
-    public lineLIFFService: LineLIFFService,
+    private lineLIFFService: LineLIFFService,
     private translate: TranslateService) {
 
     this.isLoading = true;
@@ -219,10 +219,7 @@ export class GroupDetailComponent {
       data => {
         console.log('group has been saved successfully.', data);
 
-        if (!this.lineLIFFService.isClientApp) {
-          this.isSaveSuccessfully = true;
-          return;
-        }
+        this.isSaveSuccessfully = true;        
 
         // display current language setup in user prefered language
         let message;
