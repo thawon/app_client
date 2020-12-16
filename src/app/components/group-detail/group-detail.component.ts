@@ -39,6 +39,7 @@ export class GroupDetailComponent {
 
   isLoading: boolean;
   isSaving: boolean;
+  isSaveSuccessfully: boolean = false;
   isShowMultipleLanguageTranslation: boolean;
   maxMLTLanguage: number = 2;
   MLTchecked: boolean;
@@ -63,7 +64,7 @@ export class GroupDetailComponent {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private modalService: NgbModal,    
-    private lineLIFFService: LineLIFFService,
+    public lineLIFFService: LineLIFFService,
     private translate: TranslateService) {
 
     this.isLoading = true;
@@ -91,26 +92,39 @@ export class GroupDetailComponent {
   }
 
   retrieveGroup(id: string) {
-    // when Ligo is invited to a group/room, group is created without member
-    // member is created when:
-    // (1) user joins the group/room
-    // (2) or tab on the group setting link sent when Ligo is invited.
-    if (this.lineLIFFService.isClientApp) {
-      // isClientApp indicates that user tabs the group setting link
-      this.service.addMember(this.user.userId, id).toPromise()
-        .then(() => {
-          return this.service.getGroup(id, this.user.userId).toPromise();
-        })
-        .then((group) => {
-          // after adding user as a member, then initialise the form.
-          this.initialization(group);
-        });
-    } else {
-      // form is accessed from website, no need to check and add user.
-      this.service.getGroup(id, this.user.userId).subscribe(group => {
+    //// when Ligo is invited to a group/room, group is created without member
+    //// member is created when:
+    //// (1) user joins the group/room
+    //// (2) or tab on the group setting link sent when Ligo is invited.
+    this.service.addMember(this.user.userId, id).toPromise()
+      .then(() => {
+        return this.service.getGroup(id, this.user.userId).toPromise();
+      })
+      .then((group) => {
+        // after adding user as a member, then initialise the form.
         this.initialization(group);
       });
-    }
+
+    //// when Ligo is invited to a group/room, group is created without member
+    //// member is created when:
+    //// (1) user joins the group/room
+    //// (2) or tab on the group setting link sent when Ligo is invited.
+    //if (this.lineLIFFService.isClientApp) {
+    //  // isClientApp indicates that user tabs the group setting link
+    //  this.service.addMember(this.user.userId, id).toPromise()
+    //    .then(() => {
+    //      return this.service.getGroup(id, this.user.userId).toPromise();
+    //    })
+    //    .then((group) => {
+    //      // after adding user as a member, then initialise the form.
+    //      this.initialization(group);
+    //    });
+    //} else {
+    //  // form is accessed from website, no need to check and add user.
+    //  this.service.getGroup(id, this.user.userId).subscribe(group => {
+    //    this.initialization(group);
+    //  });
+    //}
   }
   
   initialization(group: Group) {
@@ -199,10 +213,16 @@ export class GroupDetailComponent {
     };
 
     this.isSaving = true;
+    this.isSaveSuccessfully = false;
 
     this.service.saveGroup(data).subscribe(
       data => {
         console.log('group has been saved successfully.', data);
+
+        if (!this.lineLIFFService.isClientApp) {
+          this.isSaveSuccessfully = true;
+          return;
+        }
 
         // display current language setup in user prefered language
         let message;
