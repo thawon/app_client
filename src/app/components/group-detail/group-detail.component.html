@@ -53,18 +53,16 @@
                       <span class="badge badge-warning"> <i class="fa fa-warning mr-1"></i>{{'groupDetail.example' | translate}}:</span><br />
                       {{'groupDetail.setupLanguageExample' | translate}}
                     </p>
-                    <div class="row">
-                      <div class="col-12">
-                        <button type="button" class="btn btn-sm btn-outline">
-                          {{'groupDetail.fromLanguage' | translate}}<br />({{'groupDetail.autoDetected' | translate}})
-                        </button>
-                        <button type="button" class="btn btn-sm btn-outline">
-                          <i class="fa fa-arrow-right"></i><br />
-                          ({{'groupDetail.translateTo' | translate}})
-                        </button>
-                        <language [language]="memberToLanguage.value" [isEnabled]="true"
-                                  (click)="openLanguageModal(memberToLanguage)"></language>
-                      </div>
+                    <div class="col-12">
+                      <button type="button" class="btn btn-sm btn-outline">
+                        {{'groupDetail.fromLanguage' | translate}}<br />({{'groupDetail.autoDetected' | translate}})
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline">
+                        <i class="fa fa-arrow-right"></i><br />
+                        ({{'groupDetail.translateTo' | translate}})
+                      </button>
+                      <language [language]="memberToLanguage.value" [isEnabled]="true"
+                                (click)="openLanguageModal(memberToLanguage)"></language>
                     </div>
                     
                   </div>
