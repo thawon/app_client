@@ -45,30 +45,39 @@
                     </div>
                   </div>
 
-                  <div class="row mt-3">
+                  <div class="row mt-3 mb-3">
                     <div class="col-12">
                       <label style="font-size:16px;">{{'groupDetail.whatLanguageToTranslate' | translate}}</label>
                     </div>
-                    <div class="col-12">
-                      <language [language]="memberToLanguage.value" [isEnabled]="true"
-                                (click)="openLanguageModal(memberToLanguage)"></language>
-                      <p>
-                        <br />
-                        <span class="badge badge-info">{{'groupDetail.example' | translate}}:</span><br />
-                        {{'groupDetail.setupLanguageExample' | translate}}
-                      </p>
+                    <p class="border border-info p-xs mt-1">
+                      <span class="badge badge-warning"> <i class="fa fa-warning mr-1"></i>{{'groupDetail.example' | translate}}:</span><br />
+                      {{'groupDetail.setupLanguageExample' | translate}}
+                    </p>
+                    <div class="row">
+                      <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-outline">
+                          {{'groupDetail.fromLanguage' | translate}}<br />({{'groupDetail.autoDetected' | translate}})
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline">
+                          <i class="fa fa-arrow-right"></i><br />
+                          ({{'groupDetail.translateTo' | translate}})
+                        </button>
+                        <language [language]="memberToLanguage.value" [isEnabled]="true"
+                                  (click)="openLanguageModal(memberToLanguage)"></language>
+                      </div>
                     </div>
+                    
                   </div>
-
+                  <br />                  
                   <div class="row mt-3">
                     <div class="col-12">
-                      <label *ngIf="isShowMultipleLanguageTranslation" style="font-size:16px;">
+                      <label *ngIf="isShowMultipleLanguageTranslation">
                         <input type="checkbox" class="i-checks"
                                [(ngModel)]="MLTchecked"
                                [ngModelOptions]="{standalone: true}"
                                (change)="onMLTcheckedChange($event)"> {{'groupDetail.iWantMLT' | translate}}
                       </label>
-                      <label *ngIf="MLTchecked" style="font-size:16px;">{{'groupDetail.addMLTLanguages' | translate}}</label>
+                      <label *ngIf="MLTchecked">{{'groupDetail.addMLTLanguages' | translate}}</label>
                     </div>
                     <div *ngIf="MLTchecked" class="col-12">
                       <button type="button"

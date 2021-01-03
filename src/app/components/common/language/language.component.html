@@ -1,7 +1,12 @@
-<button type="button" class="btn btn-sm" [ngClass]="{'btn-link': !isEnabled, 'btn-default':isEnabled}"><i class="fa fa-hand-o-up mr-1"></i>
-  {{'language.tapHereToSelect' | translate}}:
-  <span *ngIf="user.language === 'en'" class="ml-1">{{ language.displayNameEN }}</span>
-  <span *ngIf="user.language === 'th'" class="ml-1">{{ language.displayNameTH }}</span>
-  <span *ngIf="user.language === 'ja'" class="ml-1">{{ language.displayNameJA }}</span>
-  <span *ngIf="user.language === 'zh'" class="ml-1">{{ language.displayNameZH }}</span>
+<button type="button" class="btn btn-sm" [ngClass]="{'btn-link': !isEnabled, 'btn-primary':isEnabled}">
+  <span class="badge badge-success">
+    <i class="fa fa-hand-o-up mr-1"></i>
+    {{'language.tapHere' | translate}}
+  </span>
+  <br />
+  {{'language.tapHereToSelect' | translate}}:<br />
+  <span *ngIf="user.language === 'en'" class="font-weight-bold ml-1">{{ language.displayNameEN }}</span>
+  <span *ngIf="user.language === 'th'" class="font-weight-bold ml-1">{{ language.displayNameTH }}</span>
+  <span *ngIf="user.language === 'ja'" class="font-weight-bold ml-1">{{ language.displayNameJA }}</span>
+  <span *ngIf="user.language === 'zh'" class="font-weight-bold ml-1">{{ language.displayNameZH }}</span>
 </button>
