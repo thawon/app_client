@@ -1,0 +1,103 @@
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox ">
+        <div>
+
+          <div *ngIf="isLoading" class="sk-spinner sk-spinner-three-bounce">
+            <div class="sk-bounce1"></div>
+            <div class="sk-bounce2"></div>
+            <div class="sk-bounce3"></div>
+          </div>
+
+          <form [ngClass]="{'d-none': isLoading}"
+                [formGroup]="form"
+                (ngSubmit)="onSubmit()">
+
+            <div class="form-group row">
+              <div class="col-12">
+                <div>
+
+                  <div class="row mt-1">
+                    <div class="col-12">
+                      <button type="button" class="btn btn-outline btn-default mr-1 mb-3" style="width:80px;"
+                              [ngClass]="{'btn-primary': user.language === 'en'}"
+                              (click)="changeLanguage('en')">
+                        English
+                      </button>
+                      <button type="button" class="btn btn-outline btn-default mr-1 mb-3" style="width:80px;"
+                              [ngClass]="{'btn-primary': user.language === 'th'}"
+                              (click)="changeLanguage('th')">
+                        ภาษาไทย
+                      </button>
+                      <!--<button type="button" class="btn btn-outline btn-default mr-1 mb-3" style="width:90px;"
+                              [ngClass]="{'btn-primary': user.language === 'zh'}"
+                              (click)="changeLanguage('zh')">
+                        中文(繁体)
+                      </button>-->
+                    </div>
+                  </div>
+
+                  <div class="row mt-1">
+                    <div class="col-12">
+                      <h2 class="no-margins">{{'permissionList.greeting' | translate}}! {{ name.value }}</h2>
+                    </div>
+                  </div>
+
+                  <div class="row mt-3">
+                    <div class="col-12">
+                      <label style="font-size:16px;">{{'permissionList.whoHasYourPermission' | translate}}:</label>
+                    </div>
+                    <div class="col-12">
+                      <span *ngIf="!isShowPermissions" class="text-info">({{'permissionList.noBodyYourPermission' | translate}})</span>
+                      <table *ngIf="isShowPermissions" class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">{{'permissionList.permissionFriendNameTitle' | translate}}</th>
+                            <th scope="col">
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let permission of permissions; index as i">
+                            <td *ngIf="!permission.isRemoved">
+                              <img alt="image" class="rounded-circle img-sm" src="{{ permission.pictureUrl }}">
+                              <span class="ml-1">{{ permission.name }}</span>
+                            </td>
+                            <td *ngIf="!permission.isRemoved">
+                              <button class="btn btn-xs btn-danger" type="button" (click)="removeLanguage(i)"><i class="fa fa-times mr-1"></i>{{'permissionList.removePermission' | translate}}</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <div *ngIf="isSaveSuccessfully" class="form-group row animated fadeInRight">
+              <div class="col">
+                <p>
+                  <span class="badge badge-success float-right"><i class="fa fa-check mr-1"></i>{{'permissionList.saveSuccessfully' | translate}}</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col">
+                <button type="button" class="btn btn-lg btn-white float-right" (click)="onCancel()">{{'permissionList.cancel' | translate}}</button>
+                <button class="btn btn-lg btn-primary float-right mr-2" type="submit">
+                  <span *ngIf="isSaving" class="loading circle mr-1"></span><i *ngIf="!isSaving" class="fa fa-check mr-1"></i>{{'permissionList.saveChanges' | translate}}
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

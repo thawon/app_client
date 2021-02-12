@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-import { SupportedLanguage } from '../models/supported-language.model';
+import { Group } from '../models/group.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SystemService {
+export class SystemService {  
+  public group: Group = null;
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +16,8 @@ export class SystemService {
     return this.http.get<any>(`/api/system`);
   }
 
-  //getSupportedLanguages(languageCode): Observable<SupportedLanguage[]> {
-  //  return this.http.get<any>(`/api/system/getSupportedLanguages/${languageCode}`);
-  //}
+  logError(data): Observable<any> {
+    return this.http.put<any>(`/api/logFrontEndError`, data);
+  }
+
 }

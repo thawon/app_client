@@ -4,7 +4,7 @@
     {{'language.tapHere' | translate}}
   </span>
   <br />
-  {{'language.tapHereToSelect' | translate}}:<br />
+  {{ fromToLanguage | translate}}:<br />
   <span *ngIf="user.language === 'en'" class="font-weight-bold ml-1">{{ language.displayNameEN }}</span>
   <span *ngIf="user.language === 'th'" class="font-weight-bold ml-1">{{ language.displayNameTH }}</span>
   <span *ngIf="user.language === 'ja'" class="font-weight-bold ml-1">{{ language.displayNameJA }}</span>

@@ -23,6 +23,7 @@ import { Group } from '../../models/group.model';
 import { Member } from '../../models/member.model';
 import { TranslateService } from '@ngx-translate/core';
 import { SupportedLanguage } from '../../models/supported-language.model'
+import { SystemService } from '../../services/system.service';
 
 import { LanguageModalComponent } from '../common/language-modal/language-modal.component';
 import { groupTypes, getGroupType} from '../../enums/groupType.enum'
@@ -49,6 +50,8 @@ export class GroupDetailComponent {
   groupTypes: any = groupTypes;
   
   isFromLiFF: boolean = false;
+  isSetupForFriend: boolean = false;
+
   form: FormGroup;
   name: AbstractControl;
   groupType: AbstractControl;
@@ -65,7 +68,9 @@ export class GroupDetailComponent {
     private fb: FormBuilder,
     private modalService: NgbModal,    
     private lineLIFFService: LineLIFFService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private system: SystemService,
+  ) {
 
     this.isLoading = true;
     this.turnOffLanguage = this.languageService.getLanguage('na');
@@ -98,33 +103,18 @@ export class GroupDetailComponent {
     //// (2) or tab on the group setting link sent when Ligo is invited.
     this.service.addMember(this.user.userId, id).toPromise()
       .then(() => {
-        return this.service.getGroup(id, this.user.userId).toPromise();
+        if (this.system.group) {
+          // redirected from group-detail-member-selection component          
+          return Promise.resolve(this.system.group);
+        } else {
+          // user tap on the old version of language setup picture
+          return this.service.getGroup(id, this.user.userId).toPromise();
+        }
       })
       .then((group) => {
         // after adding user as a member, then initialise the form.
         this.initialization(group);
       });
-
-    //// when Ligo is invited to a group/room, group is created without member
-    //// member is created when:
-    //// (1) user joins the group/room
-    //// (2) or tab on the group setting link sent when Ligo is invited.
-    //if (this.lineLIFFService.isClientApp) {
-    //  // isClientApp indicates that user tabs the group setting link
-    //  this.service.addMember(this.user.userId, id).toPromise()
-    //    .then(() => {
-    //      return this.service.getGroup(id, this.user.userId).toPromise();
-    //    })
-    //    .then((group) => {
-    //      // after adding user as a member, then initialise the form.
-    //      this.initialization(group);
-    //    });
-    //} else {
-    //  // form is accessed from website, no need to check and add user.
-    //  this.service.getGroup(id, this.user.userId).subscribe(group => {
-    //    this.initialization(group);
-    //  });
-    //}
   }
   
   initialization(group: Group) {
@@ -137,7 +127,9 @@ export class GroupDetailComponent {
 
     this.isLoading = false;
     this.setShowMultipleLanguageTranslation();
-    this.MLTchecked = (this.languages.length > 0) ? true: false;
+    this.MLTchecked = (this.languages.length > 0) ? true : false;
+    
+    this.isSetupForFriend = (group.member.messengerUserId !== this.user.userId);
   } 
 
   getSelectedLanguages() {
@@ -148,6 +140,28 @@ export class GroupDetailComponent {
     this.languages.map(l => result.push(l));
 
     return result;
+  }
+
+  openLanguageModalAll(language: AbstractControl) {
+    const modalRef = this.modalService.open(LanguageModalComponent);
+
+    // user cannot select 'na' for 'From Langauage'
+    modalRef.componentInstance.isNaAllowed = false;
+    modalRef.componentInstance.alreadySelectedLanguages = [this.languageService.getLanguage(this.turnOffLanguage.languageCode)];
+
+    modalRef.componentInstance.input = language.value;
+
+    modalRef.result.then((result) => {
+      if (result) {
+        language.setValue(result);
+
+        // clear MLT when translation is turned off.
+        if (result.languageCode === this.turnOffLanguage.languageCode) this.clearMLTLanguage();
+        this.setShowMultipleLanguageTranslation();
+      }
+    }, (reason) => {
+
+    });
   }
 
   openLanguageModal(language: AbstractControl) {
@@ -222,18 +236,22 @@ export class GroupDetailComponent {
         this.isSaveSuccessfully = true;        
 
         // display current language setup in user prefered language
-        let message;
+        let message,
+          partOfMemberId = this.member.value._id.substr(this.member.value._id.length - 4);
+
         switch (this.user.language) {
           case 'th':
-            message = 'แสดงการตั้งค่าภาษาของฉัน';
+            message = '^แสดงการตั้งค่าภาษา.';
             break;
           case 'zh':
-            message = '告訴我我的語言設置';
+            message = '^告訴語言設置.';
             break;
           default:
-            message = 'show me my language setup.';
+            message = '^show language setup.';
             break;
         }
+        // Tagging last 4 digit of member.id. This will be used to identifying member in the group
+        message = `${message} ${this.member.value.name} ~${partOfMemberId}`;
 
         if (isClose) this.lineLIFFService.sendMessageAndClose(message);
       },

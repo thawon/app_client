@@ -71,7 +71,7 @@ export class LineLIFFService {
 
           this.LIFFId = system.LIFFId;
           this.lineAtId = system.lineAtId;
-
+          
           return Promise.resolve(this.liffWrapper.init(this.LIFFId));
         })
         .then(() => {
@@ -102,16 +102,16 @@ export class LineLIFFService {
         .then((p) => {
           this.user.userId = p.userId;
           this.user.displayName = p.displayName;   
-
+                    
           return this.userService.isCheckFriendWithLigo(p.userId).toPromise();
         })
         .then((friend: any) => {          
           if (!friend.status) throw new Error('UserIsNotFriended');
-
+          
           // always get new token
           return this.auth.getToken({ name: this.user.displayName, id: this.user.userId });   
         })
-        .then((token: string) => {
+        .then((token: string) => {          
           this.localStorageService.setItem('token', token);
           resolve(this.liffWrapper.isLoggedIn());
         })
@@ -141,6 +141,22 @@ export class LineLIFFService {
             }
           } else {
             reject(err);
+            
+            //// log error
+            //let data = {
+            //  messengerUserId: this.user.userId,
+            //  errorName: err.name,
+            //  errorMessage: err.message,
+            //  errorStack: err.stack
+            //};
+
+            //this.system.logError(data).toPromise()
+            //  .then(() => {
+            //    console.log('log error successfully.')
+            //  })
+            //  .catch((err: Error) => {
+            //    console.log(err);
+            //  });
           }
         });
 

@@ -29,6 +29,8 @@ import { AvailableConnectedGroupModalComponent } from './components/available-co
 import { CorrectionComponent } from './components/correction/correction.component';
 import { NoCorrectionComponent } from './components/no-correction/no-correction.component';
 import { ToastComponent } from './components/toast/toast.component';
+import { PermissionListComponent } from './components/permission-list/permission-list.component';
+import { GroupDetailMemberSelectionComponent } from './components/group-detail-member-selection/group-detail-member-selection.component';
 
 
 @NgModule({
@@ -43,7 +45,9 @@ import { ToastComponent } from './components/toast/toast.component';
     AvailableConnectedGroupModalComponent,
     CorrectionComponent,
     NoCorrectionComponent,
-    ToastComponent
+    ToastComponent,
+    PermissionListComponent,
+    GroupDetailMemberSelectionComponent
   ],
   imports: [
     LayoutsModule,

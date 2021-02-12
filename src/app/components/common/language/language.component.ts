@@ -13,6 +13,7 @@ import { UserService } from '../../../services/user.service'
 export class LanguageComponent {  
   @Input() language: any;
   @Input() isEnabled: any;
+  @Input() fromToLanguage: string;
 
   constructor(public user: UserService) {
   }
