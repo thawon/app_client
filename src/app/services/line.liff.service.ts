@@ -140,23 +140,7 @@ export class LineLIFFService {
               resolve(false);
             }
           } else {
-            reject(err);
-            
-            //// log error
-            //let data = {
-            //  messengerUserId: this.user.userId,
-            //  errorName: err.name,
-            //  errorMessage: err.message,
-            //  errorStack: err.stack
-            //};
-
-            //this.system.logError(data).toPromise()
-            //  .then(() => {
-            //    console.log('log error successfully.')
-            //  })
-            //  .catch((err: Error) => {
-            //    console.log(err);
-            //  });
+            reject(err);            
           }
         });
 

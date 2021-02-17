@@ -103,7 +103,10 @@ const supportedLanguages: SupportedLanguage[] = [
   { languageCode: 'tt', displayNameEN: 'Tatar', displayNameTH: 'ทาทาร์', displayNameJA: 'タタール語', displayNameZH: '鞑靼语', nativeName: 'татарча' },
   { languageCode: 'te', displayNameEN: 'Telugu', displayNameTH: 'เตลูกู', displayNameJA: 'テルグ語', displayNameZH: '泰卢固语', nativeName: 'తెలుగు' },
   { languageCode: 'tr', displayNameEN: 'Turkish', displayNameTH: 'ตุรกี', displayNameJA: 'トルコ語', displayNameZH: '土耳其语', nativeName: 'Türkçe' },
-  { languageCode: 'tk', displayNameEN: 'Turkmen', displayNameTH: 'เติร์กเมน', displayNameJA: 'トルクメン語', displayNameZH: '土库曼语', nativeName: 'түркmенче' },
+
+  // Translation API does not support Turkmen. 
+  //{ languageCode: 'tk', displayNameEN: 'Turkmen', displayNameTH: 'เติร์กเมน', displayNameJA: 'トルクメン語', displayNameZH: '土库曼语', nativeName: 'түркmенче' },
+
   { languageCode: 'uk', displayNameEN: 'Ukrainian', displayNameTH: 'ยูเครน', displayNameJA: 'ウクライナ語', displayNameZH: '乌克兰语', nativeName: 'Українська' },
   { languageCode: 'ur', displayNameEN: 'Urdu', displayNameTH: 'อูรดู', displayNameJA: 'ウルドゥ語', displayNameZH: '乌尔都语', nativeName: '(urdū) اردو' },
   { languageCode: 'ug', displayNameEN: 'Uyghur', displayNameTH: 'อุยกูร์', displayNameJA: 'ウイグル語', displayNameZH: '维吾尔语', nativeName: '	Уйғур' },
