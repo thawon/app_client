@@ -44,7 +44,7 @@ export class LineLIFFService {
       if (params.get('route')) {
         this.localStorage.setItem('route', params.get('route'));
         this.localStorage.setItem('id', params.get('id'));
-        this.localStorage.setItem('lang', params.get('lang'));
+        this.localStorage.setItem('urlLang', params.get('lang'));
       } 
 
       // workaround methods lose references during unit test
@@ -81,15 +81,16 @@ export class LineLIFFService {
           }
 
           // set language
-          let code = this.localStorage.getItem('lang');
-          
+          let urlLang = this.localStorage.getItem('urlLang'),
+             code = this.localStorage.getItem('lang');
+
+          // set code to url language when there is not user selected language
+          code = (!code) ? urlLang : code;
+
           // when language cannot be obtained or language is not supported, set default language to English
           code = (code !== 'en'
             && code !== 'th'
             && code !== 'zh'
-            //TODO: uncomment when ready to support Japanese and Chinese
-            //&& code !== 'ja'
-            //&& code !== 'zh'
           ) ? 'en' : code;
           
           this.translate.use(code);

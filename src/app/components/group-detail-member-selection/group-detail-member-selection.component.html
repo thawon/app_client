@@ -20,26 +20,6 @@
 
                   <div class="row mt-1">
                     <div class="col-12">
-                      <button type="button" class="btn btn-outline btn-default mr-1 mb-3" style="width:80px;"
-                              [ngClass]="{'btn-primary': user.language === 'en'}"
-                              (click)="changeLanguage('en')">
-                        English
-                      </button>
-                      <button type="button" class="btn btn-outline btn-default mr-1 mb-3" style="width:80px;"
-                              [ngClass]="{'btn-primary': user.language === 'th'}"
-                              (click)="changeLanguage('th')">
-                        ภาษาไทย
-                      </button>
-                      <button type="button" class="btn btn-outline btn-default mr-1 mb-3" style="width:90px;"
-                              [ngClass]="{'btn-primary': user.language === 'zh'}"
-                              (click)="changeLanguage('zh')">
-                        中文(繁体)
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="row mt-1">
-                    <div class="col-12">
                       <h2 class="no-margins">{{'groupDetailMemberSelection.greeting' | translate}}! {{ name.value }}</h2>
                     </div>
                   </div>

@@ -11,7 +11,7 @@ const supportedLanguages: SupportedLanguage[] = [
   { languageCode: 'zh-CN', displayNameEN: 'Chinese(Simp.)', displayNameTH: 'จีน (ตัวย่อ)', displayNameJA: '中国語(簡体)', displayNameZH: '中文(简体)', nativeName: '汉语', sortOrder: 1 },
   { languageCode: 'jw', displayNameEN: 'Javanese', displayNameTH: 'ชวา', displayNameJA: 'ジャワ語', displayNameZH: '印尼爪哇语', nativeName: 'Basa Jawa', },
   { languageCode: 'su', displayNameEN: 'Sundanese', displayNameTH: 'ซุนดา', displayNameJA: 'スンダ語', displayNameZH: '印尼巽他语', nativeName: 'Basa Sunda' },
-  { languageCode: 'ms', displayNameEN: 'Malay', displayNameTH: 'มาเลย์', displayNameJA: 'マレー語', displayNameZH: '', nativeName: 'Bahasa melayu' },
+  { languageCode: 'ms', displayNameEN: 'Malay', displayNameTH: 'มาเลย์', displayNameJA: 'マレー語', displayNameZH: '馬來語', nativeName: 'Bahasa melayu' },
   { languageCode: 'vi', displayNameEN: 'Vietnamese', displayNameTH: 'เวียดนาม', displayNameJA: 'ベトナム語', displayNameZH: '马来语', nativeName: 'tiếng việt' },
   { languageCode: 'af', displayNameEN: 'Afrikaans', displayNameTH: 'แอฟริกา', displayNameJA: 'アフリカーンス語', displayNameZH: '布尔语(南非荷兰语)', nativeName: 'Afrikaans' },
   { languageCode: 'sq', displayNameEN: 'Albanian', displayNameTH: 'แอลเบเนีย', displayNameJA: 'アルバニア語', displayNameZH: '阿尔巴尼亚语', nativeName: 'shqip / gjuha shqipe' },

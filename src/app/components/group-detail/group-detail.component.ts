@@ -21,7 +21,6 @@ import { LanguageService } from '../../services/language.service';
 import { LineLIFFService } from '../../services/line.liff.service';
 import { Group } from '../../models/group.model';
 import { Member } from '../../models/member.model';
-import { TranslateService } from '@ngx-translate/core';
 import { SupportedLanguage } from '../../models/supported-language.model'
 import { SystemService } from '../../services/system.service';
 
@@ -68,7 +67,6 @@ export class GroupDetailComponent {
     private fb: FormBuilder,
     private modalService: NgbModal,    
     private lineLIFFService: LineLIFFService,
-    private translate: TranslateService,
     private system: SystemService,
   ) {
 
@@ -236,22 +234,13 @@ export class GroupDetailComponent {
         this.isSaveSuccessfully = true;        
 
         // display current language setup in user prefered language
-        let message,
+        let message = '^show language setup.',
           partOfMemberId = this.member.value._id.substr(this.member.value._id.length - 4);
-
-        switch (this.user.language) {
-          case 'th':
-            message = '^แสดงการตั้งค่าภาษา.';
-            break;
-          case 'zh':
-            message = '^告訴語言設置.';
-            break;
-          default:
-            message = '^show language setup.';
-            break;
-        }
+        
         // Tagging last 4 digit of member.id. This will be used to identifying member in the group
-        message = `${message} ${this.member.value.name} ~${partOfMemberId}`;
+        // Tagging language code of selected language. This will be used to display language
+        // `^show language setup. Michael Jr. Wright ~ad47en`
+        message = `${message} ${this.member.value.name} ~${partOfMemberId}${this.user.language}`;
 
         if (isClose) this.lineLIFFService.sendMessageAndClose(message);
       },
@@ -268,12 +257,7 @@ export class GroupDetailComponent {
 
   onCancel() {
     this.lineLIFFService.closeWindow();
-  }
-
-  changeLanguage(languageCode: string): void {
-    this.translate.use(languageCode);
-    this.user.language = languageCode;
-  }
+  }  
 
   onMLTcheckedChange(e) {
     if (!e.target.checked) this.clearMLTLanguage();

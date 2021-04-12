@@ -12,7 +12,6 @@ import { ActivatedRoute } from '@angular/router';
 import { GroupsService } from '../../services/groups.service';
 import { UserService } from '../../services/user.service';
 import { LineLIFFService } from '../../services/line.liff.service';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-permission-list',
@@ -36,8 +35,7 @@ export class PermissionListComponent implements OnInit {
     public user: UserService,
     private lineLIFFService: LineLIFFService,
     private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private translate: TranslateService
+    private fb: FormBuilder
   ) {
 
     this.isLoading = true;
@@ -86,12 +84,7 @@ export class PermissionListComponent implements OnInit {
 
   onCancel() {
     this.lineLIFFService.closeWindow();
-  }
-
-  changeLanguage(languageCode: string): void {
-    this.translate.use(languageCode);
-    this.user.language = languageCode;
-  }
+  }  
 
   save(isClose: boolean) {
     // this update class on css
@@ -116,18 +109,8 @@ export class PermissionListComponent implements OnInit {
       data => {
         this.isSaveSuccessfully = true;
 
-        let message;
-        switch (this.user.language) {
-          case 'th':
-            message = '^แสดงใครมีสิทธิ์ตั้งค่าของฉัน';
-            break;
-          case 'zh':
-            message = '^告訴我誰有權為我設置語言';
-            break;
-          default:
-            message = '^show me who has my permission.';
-            break;
-        }
+        let message = '^show me who has my permission.';
+        message = `${message} ~${this.user.language}`;
 
         if (isClose) this.lineLIFFService.sendMessageAndClose(message);
       },

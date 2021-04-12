@@ -1,23 +1,49 @@
 <div class="row border-bottom">
   <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
-      <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" (click)="toggleNavigation($event)" href="#" ><i class="fa fa-bars"></i> </a>
+      <!--<a class="navbar-minimalize minimalize-styl-2 btn btn-primary" (click)="toggleNavigation($event)" href="#" ><i class="fa fa-bars"></i> </a>-->
       <form role="search" class="navbar-form-custom" method="post" action="#">
         <!--<div class="form-group">
           <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
-        </div>-->
+        </div>-->        
       </form>
     </div>
-    <!--<ul class="nav navbar-top-links navbar-right">
-      <li>
-        <a [routerLink]="['/setting']"><span class="nav-label badge m-r">{{'System.language' | translate}}</span></a>
-      </li>
-      <li>
-        <a [routerLink]="['/login']">
-          <i class="fa fa-sign-out"></i> Log out
+
+    <ul class="nav navbar-top-links navbar-right">
+      <li class="dropdown" style="width: 100px">
+        <a class="dropdown-toggle count-info m-r" data-toggle="dropdown" href="#">
+          <i class="fa fa-language"></i>  {{'System.language' | translate}}
         </a>
+        <ul class="dropdown-menu dropdown-messages" style="width: 150px">
+          <li>
+            <div class="table-responsive">
+              <table class="table table-borderless">
+                <tbody>
+                  <tr (click)="RowSelected('en');"
+                      [ngClass]="{'highted-row': (user.language === 'en')}" style="height: 40px;">
+                    <td class="align-middle">
+                      EN - English
+                    </td>
+                  </tr>
+                  <tr (click)="RowSelected('th');"
+                      [ngClass]="{'highted-row': (user.language === 'th')}" style="height: 40px;">
+                    <td class="align-middle">
+                      TH - ไทย
+                    </td>
+                  </tr>
+                  <tr (click)="RowSelected('zh');"
+                      [ngClass]="{'highted-row': (user.language === 'zh')}" style="height: 40px;">
+                    <td class="align-middle">
+                      ZH-TW - 中文(繁体)
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+        </ul>
       </li>
-    </ul>-->
+    </ul>
 
   </nav>
 </div>

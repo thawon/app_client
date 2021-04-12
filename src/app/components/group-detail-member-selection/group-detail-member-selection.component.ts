@@ -14,7 +14,6 @@ import { Router } from '@angular/router';
 import { GroupsService } from '../../services/groups.service';
 import { UserService } from '../../services/user.service';
 import { LineLIFFService } from '../../services/line.liff.service';
-import { TranslateService } from '@ngx-translate/core';
 import { SystemService } from '../../services/system.service';
 import { Group } from '../../models/group.model';
 import { Member } from '../../models/member.model';
@@ -40,7 +39,6 @@ export class GroupDetailMemberSelectionComponent implements OnInit {
     private lineLIFFService: LineLIFFService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private translate: TranslateService,
     private router: Router,
     private system: SystemService,
   ) {
@@ -125,10 +123,4 @@ export class GroupDetailMemberSelectionComponent implements OnInit {
   onSubmit(): void {
     this.lineLIFFService.closeWindow();
   }
-
-  changeLanguage(languageCode: string): void {
-    this.translate.use(languageCode);
-    this.user.language = languageCode;
-  }
-
 }
