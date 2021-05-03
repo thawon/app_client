@@ -33,6 +33,13 @@
               <ngb-highlight *ngIf="user.language === 'th'" [result]="lang.displayNameTH" [term]="filter.value"></ngb-highlight>
               <ngb-highlight *ngIf="user.language === 'ja'" [result]="lang.displayNameJA" [term]="filter.value"></ngb-highlight>
               <ngb-highlight *ngIf="user.language === 'zh'" [result]="lang.displayNameZH" [term]="filter.value"></ngb-highlight>
+              <ngb-highlight *ngIf="user.language === 'it'" [result]="lang.displayNameIT" [term]="filter.value"></ngb-highlight>
+              <ngb-highlight *ngIf="user.language === 'es'" [result]="lang.displayNameES" [term]="filter.value"></ngb-highlight>
+              <ngb-highlight *ngIf="user.language === 'ko'" [result]="lang.displayNameKO" [term]="filter.value"></ngb-highlight>
+              <ngb-highlight *ngIf="user.language === 'id'" [result]="lang.displayNameID" [term]="filter.value"></ngb-highlight>
+              <ngb-highlight *ngIf="user.language === 'vi'" [result]="lang.displayNameVI" [term]="filter.value"></ngb-highlight>
+              <ngb-highlight *ngIf="user.language === 'de'" [result]="lang.displayNameDE" [term]="filter.value"></ngb-highlight>
+              <ngb-highlight *ngIf="user.language === 'pt'" [result]="lang.displayNamePT" [term]="filter.value"></ngb-highlight>
             </td>
             <td class="align-middle">
               <ngb-highlight [result]="lang.nativeName" [term]="filter.value"></ngb-highlight>
@@ -43,7 +50,7 @@
     </div>
 
     <p *ngIf="!isValid" class="mt-3">
-      <span class="text-danger">Please select a language.</span>      
+      <span class="text-danger">{{'languageModel.selectALanguage' | translate}}</span>      
     </p>
 
     <div class="form-group row mt-3">

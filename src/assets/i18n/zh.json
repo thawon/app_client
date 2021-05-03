@@ -1,6 +1,6 @@
 {
   "Sitetitle": "Angular Multi Language Site",
-  "System.language": "中文(繁体)",
+  "System.language": "繁体中文",
   "en": "English",
   "th": "Thai",
   "zh-CN": "Chinese",
@@ -37,6 +37,7 @@
   "languageModel.search": "搜尋",
   "languageModel.language": "語言",
   "languageModel.native": "名稱",
+  "languageModel.selectALanguage": "請選擇一種語言。",
   "languageModel.select": "選擇",
   "languageModel.cancel": "取消",
   "starter.header": "Profile",

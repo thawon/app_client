@@ -70,7 +70,14 @@ export class LanguageModalComponent implements OnInit {
           || (this.user.language === 'th') ? language.displayNameTH.toLowerCase().includes(term) : null
             || (this.user.language === 'ja') ? language.displayNameJA.toLowerCase().includes(term) : null
               || (this.user.language === 'zh') ? language.displayNameZH.toLowerCase().includes(term) : null
-              || language.nativeName.toLowerCase().includes(term);
+                || (this.user.language === 'it') ? language.displayNameIT.toLowerCase().includes(term) : null
+                  || (this.user.language === 'es') ? language.displayNameES.toLowerCase().includes(term) : null
+                    || (this.user.language === 'ko') ? language.displayNameKO.toLowerCase().includes(term) : null
+                      || (this.user.language === 'id') ? language.displayNameID.toLowerCase().includes(term) : null
+                        || (this.user.language === 'vi') ? language.displayNameVI.toLowerCase().includes(term) : null
+                          || (this.user.language === 'de') ? language.displayNameDE.toLowerCase().includes(term) : null
+                            || (this.user.language === 'pt') ? language.displayNamePT.toLowerCase().includes(term) : null
+                  || language.nativeName.toLowerCase().includes(term);
       })
       .sort((n1, n2) => {
         if (n1.sortOrder < n2.sortOrder) return 1;

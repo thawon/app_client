@@ -37,6 +37,7 @@
   "languageModel.search": "ค้นหา",
   "languageModel.language": "ภาษา",
   "languageModel.native": "ชื่อพื้นเมือง",
+  "languageModel.selectALanguage": "กรุณาเลือกภาษา",
   "languageModel.select": "เลือก",
   "languageModel.cancel": "ยกเลิก",
   "starter.header": "ข้อมูลส่วนตัว",
