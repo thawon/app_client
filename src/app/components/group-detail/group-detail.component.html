@@ -93,6 +93,8 @@
                               <span *ngIf="user.language === 'vi'" class="ml-1">{{ language.displayNameVI }}</span>
                               <span *ngIf="user.language === 'de'" class="ml-1">{{ language.displayNameDE }}</span>
                               <span *ngIf="user.language === 'pt'" class="ml-1">{{ language.displayNamePT }}</span>
+                              <span *ngIf="user.language === 'fr'" class="ml-1">{{ language.displayNameFR }}</span>
+                              <span *ngIf="user.language === 'tr'" class="ml-1">{{ language.displayNameTR }}</span>
                             </td>
                             <td>
                               <button class="btn btn-xs btn-danger" type="button" (click)="removeLanguage(i)"><i class="fa fa-times mr-1"></i>{{'groupDetail.removeMLT' | translate}}</button>

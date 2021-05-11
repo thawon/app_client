@@ -21,7 +21,7 @@
   "groupDetail.iWantMLTForFriendPart2": "'s messages to more than one language.",
   "groupDetail.addMLTLanguages": "Please add languages below.",
   "groupDetail.tapHereToAddMLTLanguages": "Tap here to add language",
-  "groupDetail.youHaveMaxMLT": "You have maximum of 2 languages.",
+  "groupDetail.youHaveMaxMLT": "You can have maximum of 2 languages.",
   "groupDetail.removeMLT": "Remove",
   "groupDetail.saveSuccessfully": "Your setup has been saved successfully.",
   "groupDetail.saveChanges": "Done",

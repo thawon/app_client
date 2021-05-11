@@ -19,36 +19,36 @@
             <div class="row">
               <div class="col">
                 <button type="button" class="btn btn-outline btn-default mr-2 mb-3" style="width:80px;"
-                        [ngClass]="{'btn-primary': user.language === 'en'}"
+                        [ngClass]="{'btn-primary font-weight-bold': user.language === 'en'}"
                         (click)="changeLanguage('en')">
                   English
                 </button>
                 <button type="button" class="btn btn-outline btn-default mr-2 mb-3" style="width:80px;"
-                        [ngClass]="{'btn-primary': user.language === 'ja'}"
+                        [ngClass]="{'btn-primary font-weight-bold': user.language === 'ja'}"
                         (click)="changeLanguage('ja')">
                   日本語
                 </button>
                 <button type="button" class="btn btn-outline btn-default mb-3" style="width:80px;"
-                        [ngClass]="{'btn-primary': user.language === 'th'}"
+                        [ngClass]="{'btn-primary font-weight-bold': user.language === 'th'}"
                         (click)="changeLanguage('th')">
                   ไทย
                 </button>
-              </div>              
+              </div>
             </div>
             <div class="row">
               <div class="col">
                 <button type="button" class="btn btn-outline btn-default mr-2 mb-3" style="width:80px;"
-                        [ngClass]="{'btn-primary': user.language === 'zh'}"
+                        [ngClass]="{'btn-primary font-weight-bold': user.language === 'zh'}"
                         (click)="changeLanguage('zh')">
                   繁体中文
                 </button>
                 <button type="button" class="btn btn-outline btn-default mr-2 mb-3" style="width:80px;"
-                        [ngClass]="{'btn-primary': user.language === 'it'}"
+                        [ngClass]="{'btn-primary font-weight-bold': user.language === 'it'}"
                         (click)="changeLanguage('it')">
                   Italiano
                 </button>
                 <button type="button" class="btn btn-outline btn-default mb-3" style="width:80px;"
-                        [ngClass]="{'btn-primary': user.language === 'es'}"
+                        [ngClass]="{'btn-primary font-weight-bold': user.language === 'es'}"
                         (click)="changeLanguage('es')">
                   Español
                 </button>
@@ -57,17 +57,17 @@
             <div class="row">
               <div class="col">
                 <button type="button" class="btn btn-outline btn-default mr-2 mb-3" style="width:80px;"
-                        [ngClass]="{'btn-primary': user.language === 'ko'}"
+                        [ngClass]="{'btn-primary font-weight-bold': user.language === 'ko'}"
                         (click)="changeLanguage('ko')">
                   한국어
                 </button>
                 <button type="button" class="btn btn-outline btn-default mr-2 mb-3" style="width:80px;"
-                        [ngClass]="{'btn-primary': user.language === 'id'}"
+                        [ngClass]="{'btn-primary font-weight-bold': user.language === 'id'}"
                         (click)="changeLanguage('id')">
                   Indonesia
                 </button>
                 <button type="button" class="btn btn-outline btn-default mb-3" style="width:80px;"
-                        [ngClass]="{'btn-primary': user.language === 'vi'}"
+                        [ngClass]="{'btn-primary font-weight-bold': user.language === 'vi'}"
                         (click)="changeLanguage('vi')">
                   Tiếng Việt
                 </button>
@@ -76,17 +76,31 @@
             <div class="row">
               <div class="col">
                 <button type="button" class="btn btn-outline btn-default mr-2 mb-3" style="width:80px;"
-                        [ngClass]="{'btn-primary': user.language === 'de'}"
+                        [ngClass]="{'btn-primary font-weight-bold': user.language === 'de'}"
                         (click)="changeLanguage('de')">
                   Deutsch
                 </button>
                 <button type="button" class="btn btn-outline btn-default mr-2 mb-3" style="width:80px;"
-                        [ngClass]="{'btn-primary': user.language === 'pt'}"
+                        [ngClass]="{'btn-primary font-weight-bold': user.language === 'pt'}"
                         (click)="changeLanguage('pt')">
                   Português
                 </button>
+                <button type="button" class="btn btn-outline btn-default mb-3" style="width:80px;"
+                        [ngClass]="{'btn-primary font-weight-bold': user.language === 'fr'}"
+                        (click)="changeLanguage('fr')">
+                  Français
+                </button>
               </div>
-            </div>         
+            </div>
+            <div class="row">
+              <div class="col">
+                <button type="button" class="btn btn-outline btn-default mr-2 mb-3" style="width:80px;"
+                        [ngClass]="{'btn-primary font-weight-bold': user.language === 'tr'}"
+                        (click)="changeLanguage('tr')">
+                  Türkçe
+                </button>
+              </div>
+            </div>
           </li>
         </ul>
       </li>
