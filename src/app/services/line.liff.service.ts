@@ -101,6 +101,7 @@ export class LineLIFFService {
             && code !== 'pt'
             && code !== 'fr'
             && code !== 'tr'
+            && code !== 'ru'
           ) ? 'en' : code;
           
           this.translate.use(code);

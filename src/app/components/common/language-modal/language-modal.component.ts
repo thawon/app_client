@@ -79,6 +79,7 @@ export class LanguageModalComponent implements OnInit {
                             || (this.user.language === 'pt') ? language.displayNamePT.toLowerCase().includes(term) : null
                               || (this.user.language === 'fr') ? language.displayNameFR.toLowerCase().includes(term) : null
                                 || (this.user.language === 'tr') ? language.displayNameTR.toLowerCase().includes(term) : null
+                                  || (this.user.language === 'ru') ? language.displayNameRU.toLowerCase().includes(term) : null
                   || language.nativeName.toLowerCase().includes(term);
       })
       .sort((n1, n2) => {

@@ -99,6 +99,11 @@
                         (click)="changeLanguage('tr')">
                   Türkçe
                 </button>
+                <button type="button" class="btn btn-outline btn-default mr-2 mb-3" style="width:80px;"
+                        [ngClass]="{'btn-primary font-weight-bold': user.language === 'ru'}"
+                        (click)="changeLanguage('ru')">
+                  Русский
+                </button>
               </div>
             </div>
           </li>
