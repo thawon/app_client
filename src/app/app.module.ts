@@ -31,6 +31,10 @@ import { NoCorrectionComponent } from './components/no-correction/no-correction.
 import { ToastComponent } from './components/toast/toast.component';
 import { PermissionListComponent } from './components/permission-list/permission-list.component';
 import { GroupDetailMemberSelectionComponent } from './components/group-detail-member-selection/group-detail-member-selection.component';
+import { StartTrialModalComponent } from './components/start-trial-modal/start-trial-modal.component';
+import { SubscriptionComponent } from './components/subscription/subscription.component';
+import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
+import { CancelSubscriptionModalComponent} from './components/cancel-subscription-modal/cancel-subscription-modal.component';
 
 
 @NgModule({
@@ -47,7 +51,11 @@ import { GroupDetailMemberSelectionComponent } from './components/group-detail-m
     NoCorrectionComponent,
     ToastComponent,
     PermissionListComponent,
-    GroupDetailMemberSelectionComponent
+    GroupDetailMemberSelectionComponent,
+    StartTrialModalComponent,
+    SubscriptionComponent,
+    PaymentSuccessComponent,
+    CancelSubscriptionModalComponent
   ],
   imports: [
     LayoutsModule,

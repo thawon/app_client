@@ -1,0 +1,104 @@
+<div class="wrapper wrapper-content">
+
+  <div class="row">
+    <div class="col text-center">
+      <h2>Subscription Plans and Pricing</h2>
+      <p>Please selet from the following</p>      
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col">
+      <div class="ibox">
+        <div class="ibox-title" style="background-color:#53A4E7">
+          <h5 style="color:#ffffff">MONTHLY PLAN <i class="fa fa-soundcloud ml-1"></i></h5>
+          <div class="ibox-tools">
+          </div>
+        </div>
+        <div class="ibox-content text-center">
+          <h1>฿60.00THB<small>/month</small></h1>
+          <h4>(approx. US$1.89)</h4>
+          <br />
+          <p>
+            - Unlimited real-time translation
+            <br />
+            - Support 100+ languages
+          </p>
+
+          <p>(<i>billed monthly</i>)</p>
+
+          <p>By clicking<br /> I've read and agree to <a href="#">terms & condition</a></p>
+
+          <button [disabled]="isProcessing" class="col-sm-12 btn btn-lg btn-primary" type="button"
+                  (click)="process('MONTHLY_PLAN_v0', 'isProcessing_SUBSCRIBE_AND_RENEW_MONTHLY_PLAN_v0', 'isShowError_MONTHLY_PLAN_v0')">
+            <div *ngIf="!card">
+              <span *ngIf="isProcessing_SUBSCRIBE_AND_RENEW_MONTHLY_PLAN_v0" class="loading circle mr-1"></span>SUBSCRIBE
+            </div>
+            <div *ngIf="card">
+              <span *ngIf="isProcessing_SUBSCRIBE_AND_RENEW_MONTHLY_PLAN_v0" class="loading circle mr-1"></span>RENEW <span class="badge badge-info">Make payment using: {{ card.brand }} ({{ card.lastDigits }})</span>
+            </div>
+          </button>
+
+          <button [disabled]="isProcessing" *ngIf="card" class="col-sm-12 btn btn-lg btn-primary mt-2" type="button"
+                  (click)="subscribe('MONTHLY_PLAN_v0', 'isProcessing_ANOTHER_CARD_MONTHLY_PLAN_v0', 'isShowError_MONTHLY_PLAN_v0')">
+            <span *ngIf="isProcessing_ANOTHER_CARD_MONTHLY_PLAN_v0" class="loading circle mr-1"></span>USE ANOTHER CREDIT CARD
+          </button>
+
+          <div *ngIf="isShowError_MONTHLY_PLAN_v0" class="animated fadeInRight">
+            <span class="badge badge-danger text-wrap mt-2">
+              <i class="fa fa-warning mr-1"></i>
+              Your payment has not been successfully processed. The failure was due to '{{ this.failedMessage }}'
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="ibox">
+        <div class="ibox-title" style="background-color:#FFB571">
+          <h5 style="color:#ffffff">3 MONTH PLAN <i class="fa fa-soundcloud ml-1"></i></h5>
+          <div class="ibox-tools">
+          </div>
+        </div>
+        <div class="ibox-content text-center">
+          <h1>฿155.00THB<small>/ 3month</small></h1>
+          <h4>(approx. US$4.80)</h4>
+          <br />
+          <p>
+            - Unlimited real-time translation
+            <br />
+            - Support 100+ languages
+          </p>
+
+          <p>(<i>billed every 3 month</i>)</p>
+
+          <p>By clicking<br /> I've read and agree to <a href="https://example.com/">terms & condition</a></p>
+
+          <button [disabled]="isProcessing" class="col-sm-12 btn btn-lg btn-primary" type="button"
+                  (click)="process('3_MONTH_PLAN_v0', 'isProcessing_SUBSCRIBE_AND_RENEW_3_MONTH_PLAN_v0', 'isShowError_3_MONTH_PLAN_v0')">
+            <div *ngIf="!card">
+              <span *ngIf="isProcessing_SUBSCRIBE_AND_RENEW_3_MONTH_PLAN_v0" class="loading circle mr-1"></span>SUBSCRIBE
+            </div>
+            <div *ngIf="card">
+              <span *ngIf="isProcessing_SUBSCRIBE_AND_RENEW_3_MONTH_PLAN_v0" class="loading circle mr-1"></span>RENEW <span class="badge badge-info">Make payment using: {{ card.brand }} ({{ card.lastDigits }})</span>
+            </div>
+          </button>
+
+          <button [disabled]="isProcessing" *ngIf="card" class="col-sm-12 btn btn-lg btn-primary mt-2" type="button"
+                  (click)="subscribe('3_MONTH_PLAN_v0', 'isProcessing_ANOTHER_CARD_3_MONTH_PLAN_v0', 'isShowError_3_MONTH_PLAN_v0')">
+            <span *ngIf="isProcessing_ANOTHER_CARD_3_MONTH_PLAN_v0" class="loading circle mr-1"></span>USE ANOTHER CREDIT CARD
+          </button>
+
+          <div *ngIf="isShowError_3_MONTH_PLAN_v0" class="animated fadeInRight">
+            <span class="badge badge-danger text-wrap mt-2">
+              <i class="fa fa-warning mr-1"></i>
+              Your payment has not been successfully processed. The failure was due to '{{ this.failedMessage }}'
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>

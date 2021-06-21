@@ -5,7 +5,13 @@ export class User {
   createdAt: Date;  
   language: string;
   pictureUrl: string;
-  translationMessageQuota: number;
+  charUsed: number;
+  topUpAt: Date;
+  subscription: any;
+  nextBillingAt: Date;
+  card: any;
+  custId: string;
+  receipts: any;
 
   constructor() {}
 }

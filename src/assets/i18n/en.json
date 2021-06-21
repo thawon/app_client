@@ -48,7 +48,7 @@
   "starter.language": "Language",
   "starter.dailyTranslationQuota": "Daily translation quota",
   "starter.character": "characters",
-  "starter.dailyTranslationUsed": "Used",
+  "starter.dailyTranslationUsed": "Remaining daily quota",
 
   "permissionList.greeting": "Hello",
   "permissionList.whoHasYourPermission": "The friends below have your permission to set up language for you",

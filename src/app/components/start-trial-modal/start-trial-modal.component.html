@@ -1,0 +1,71 @@
+<div class="modal-header">
+  <h5 class="modal-title">Start Free Trial</h5>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form"
+        (ngSubmit)="onSubmit()">
+
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2>How your free trial works</h2>
+        <p>Try the {{ system.trialPeriodLength }}-day free trial, no credit card required</p>
+      </div>
+    </div>
+
+    <div class="row features-block">
+      <div class="col-lg-12">
+        <div id="vertical-timeline" class="vertical-container light-timeline center-orientation">
+
+          <div class="vertical-timeline-block">
+            <div class="vertical-timeline-icon navy-bg">
+              <i class="fa fa-handshake-o"></i>
+            </div>
+            <div class="vertical-timeline-content">
+              <h3>Today</h3>
+              <span>
+                Start your unlimited access to 100+ real-time language translation.
+              </span>
+            </div>
+          </div>
+
+          <div class="vertical-timeline-block">
+            <div class="vertical-timeline-icon navy-bg">
+              <i class="fa fa-thermometer-0"></i>
+            </div>
+            <div class="vertical-timeline-content">
+              <h3>In {{ system.trialPeriodLength }} Days</h3>
+              <span>
+                After the free trial period is over, you will be back to the Standard Plan or subscribe for ฿60(baht)/month. <a href="">view plans</a>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isShowError" class="mb-2 text-center animated fadeInRight">
+      <span class="badge badge-danger text-wrap mt-2">
+        Please tick that you agree to terms & condition
+      </span>
+    </div>
+
+    <div class="mb-2 text-center">
+      <input type="checkbox" class="i-checks"
+             [(ngModel)]="isAcceptedTerm"
+             [ngModelOptions]="{standalone: true}"><span> I've read and agree to <a href="https://example.com/">terms & condition</a></span>
+    </div>
+    <div class="form-group row">
+      <div class="col">
+        <button [disabled]="isSaving" class="btn btn-lg btn-white float-right" (click)="onCancel()">Cancel</button>
+        <button [disabled]="isSaving" class="btn btn-lg btn-primary float-right mr-2" type="submit">
+          <span *ngIf="isSaving" class="loading circle mr-1"></span><i *ngIf="!isSaving" class="fa fa-check mr-1"></i>Start my {{ system.trialPeriodLength }}-day free trial
+        </button>
+      </div>
+    </div>
+
+  </form>
+</div>

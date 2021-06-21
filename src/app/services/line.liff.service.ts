@@ -71,90 +71,121 @@ export class LineLIFFService {
 
           this.LIFFId = system.LIFFId;
           this.lineAtId = system.lineAtId;
-          
-          return Promise.resolve(this.liffWrapper.init(this.LIFFId));
-        })
-        .then(() => {
-          
-          if (!this.liffWrapper.isLoggedIn()) {
-            this.liffWrapper.login();
-          }
+
+          this.system.trialPeriodLength = system.trialPeriodLength;
+          this.system.SUBSCRIPTION_STATUS_TYPE = system.SUBSCRIPTION_STATUS_TYPE;
+          this.system.maxDailyCharQuota = system.maxDailyCharQuota;
 
           // set language
-          let urlLang = this.localStorage.getItem('urlLang'),
-             code = this.localStorage.getItem('lang');
+          let code = 'en';
 
-          // set code to url language when there is not user selected language
-          code = (!code) ? urlLang : code;
-
-          // when language cannot be obtained or language is not supported, set default language to English
-          code = (code !== 'en'
-            && code !== 'th'
-            && code !== 'zh'
-            && code !== 'ja'
-            && code !== 'it'
-            && code !== 'es'
-            && code !== 'ko'
-            && code !== 'id'
-            && code !== 'vi'
-            && code !== 'de'
-            && code !== 'pt'
-            && code !== 'fr'
-            && code !== 'tr'
-            && code !== 'ru'
-          ) ? 'en' : code;
-          
           this.translate.use(code);
           this.user.language = code;
+          this.user.userId = 'Uacdb08c33ec68d486bfaa9b63a559133';
+          this.user.displayName = 'Michael Jr. Wright';
 
-          this.isClientApp = this.liffWrapper.isInClient();
-          
-          return Promise.resolve(this.liffWrapper.getProfile());
+          return this.auth.getToken({ name: this.user.displayName, id: this.user.userId });
         })
-        .then((p) => {
-          this.user.userId = p.userId;
-          this.user.displayName = p.displayName;   
-                    
-          return this.userService.isCheckFriendWithLigo(p.userId).toPromise();
-        })
-        .then((friend: any) => {          
-          if (!friend.status) throw new Error('UserIsNotFriended');
-          
-          // always get new token
-          return this.auth.getToken({ name: this.user.displayName, id: this.user.userId });   
-        })
-        .then((token: string) => {          
+        .then((token: string) => {
           this.localStorageService.setItem('token', token);
-          resolve(this.liffWrapper.isLoggedIn());
+          resolve(true);
         })
         .catch((err: Error) => {
-          if (err.message === 'UserIsNotFriended') {
-
-            // user is not friend with Ligo, user must be friended with Ligo to use the service.
-            if (this.isClientApp) {
-              // send a message to chat room, asking user to add Ligo as friend.
-              this.translate.get('addFriend').toPromise()
-                .then((text: string) => {
-                  let message = `show ${this.user.displayName} friend status.`;
-                  return this.sendMessage(message);
-                })
-                .then(() => {
-                  this.liffWrapper.closeWindow();
-
-                  resolve(false);
-                })
-                .catch((err) => {
-                  console.log('error', err);
-                });
-            } else {
-              // redirect to adding Ligo as friend page.
-              this.windowWrapperService.redirect(`http://line.me/ti/p/%40${this.lineAtId}`);
-              resolve(false);
-            }
-          } else {
-            reject(err);            
-          }
+          reject(err);
         });
+
+      //return this.system.getSystemVariable().toPromise()
+      //  .then((system) => {
+
+      //    this.LIFFId = system.LIFFId;
+      //    this.lineAtId = system.lineAtId;
+
+      //    this.system.trialPeriodLength = system.trialPeriodLength;
+      //    this.system.SUBSCRIPTION_STATUS_TYPE = system.SUBSCRIPTION_STATUS_TYPE;
+
+      //    return Promise.resolve(this.liffWrapper.init(this.LIFFId));
+      //  })
+      //  .then(() => {
+          
+      //    if (!this.liffWrapper.isLoggedIn()) {
+      //      this.liffWrapper.login();
+      //    }
+
+      //    // set language
+      //    let urlLang = this.localStorage.getItem('urlLang'),
+      //       code = this.localStorage.getItem('lang');
+
+      //    // set code to url language when there is not user selected language
+      //    code = (!code) ? urlLang : code;
+
+      //    // when language cannot be obtained or language is not supported, set default language to English
+      //    code = (code !== 'en'
+      //      && code !== 'th'
+      //      && code !== 'zh'
+      //      && code !== 'ja'
+      //      && code !== 'it'
+      //      && code !== 'es'
+      //      && code !== 'ko'
+      //      && code !== 'id'
+      //      && code !== 'vi'
+      //      && code !== 'de'
+      //      && code !== 'pt'
+      //      && code !== 'fr'
+      //      && code !== 'tr'
+      //      && code !== 'ru'
+      //    ) ? 'en' : code;
+          
+      //    this.translate.use(code);
+      //    this.user.language = code;
+
+      //    this.isClientApp = this.liffWrapper.isInClient();
+          
+      //    return Promise.resolve(this.liffWrapper.getProfile());
+      //  })
+      //  .then((p) => {
+      //    this.user.userId = p.userId;
+      //    this.user.displayName = p.displayName;   
+                    
+      //    return this.userService.isCheckFriendWithLigo(p.userId).toPromise();
+      //  })
+      //  .then((friend: any) => {          
+      //    if (!friend.status) throw new Error('UserIsNotFriended');
+          
+      //    // always get new token
+      //    return this.auth.getToken({ name: this.user.displayName, id: this.user.userId });   
+      //  })
+      //  .then((token: string) => {          
+      //    this.localStorageService.setItem('token', token);
+      //    resolve(this.liffWrapper.isLoggedIn());
+      //  })
+      //  .catch((err: Error) => {
+      //    if (err.message === 'UserIsNotFriended') {
+
+      //      // user is not friend with Ligo, user must be friended with Ligo to use the service.
+      //      if (this.isClientApp) {
+      //        // send a message to chat room, asking user to add Ligo as friend.
+      //        this.translate.get('addFriend').toPromise()
+      //          .then((text: string) => {
+      //            let message = `show ${this.user.displayName} friend status.`;
+      //            return this.sendMessage(message);
+      //          })
+      //          .then(() => {
+      //            this.liffWrapper.closeWindow();
+
+      //            resolve(false);
+      //          })
+      //          .catch((err) => {
+      //            console.log('error', err);
+      //          });
+      //      } else {
+      //        // redirect to adding Ligo as friend page.
+      //        this.windowWrapperService.redirect(`http://line.me/ti/p/%40${this.lineAtId}`);
+      //        resolve(false);
+      //      }
+      //    } else {
+      //      reject(err);            
+      //    }
+      //  });
 
     });
   }
