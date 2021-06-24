@@ -10,8 +10,8 @@
 
     <div class="row">
       <div class="col-lg-12 text-center">
-        <h2>How your free trial works</h2>
-        <p>Try the {{ system.trialPeriodLength }}-day free trial, no credit card required</p>
+        <h2>{{'startTrialModal.howTrialWork' | translate}}</h2>
+        <p>{{ ('startTrialModal.tryFreeTrial' | translate).replace('[trialPeriodLength]', system.trialPeriodLength) }}</p>
       </div>
     </div>
 
@@ -24,10 +24,8 @@
               <i class="fa fa-handshake-o"></i>
             </div>
             <div class="vertical-timeline-content">
-              <h3>Today</h3>
-              <span>
-                Start your unlimited access to 100+ real-time language translation.
-              </span>
+              <h3>{{'startTrialModal.step1Header' | translate}}</h3>
+              <span>{{'startTrialModal.step1Text' | translate}}</span>
             </div>
           </div>
 
@@ -35,10 +33,11 @@
             <div class="vertical-timeline-icon navy-bg">
               <i class="fa fa-thermometer-0"></i>
             </div>
-            <div class="vertical-timeline-content">
-              <h3>In {{ system.trialPeriodLength }} Days</h3>
+            <div class="vertical-timeline-content">              
+              <h3>{{ ('startTrialModal.step2Header' | translate).replace('[trialPeriodLength]', system.trialPeriodLength) }}</h3>
               <span>
-                After the free trial period is over, you will be back to the Standard Plan or subscribe for ฿60(baht)/month. <a href="">view plans</a>
+                {{ (('startTrialModal.step2Text' | translate).replace('[minPrice]', system.minPrice)).replace('[standardAccount]', ('starter.standardAccount' | translate)) }}
+                <a target="_blank" href="{{ system.ligoWebsiteUrl + '/?clang=' + user.language + '#pricing' }}">{{'startTrialModal.viewPlan' | translate}}</a>
               </span>
             </div>
           </div>
@@ -48,21 +47,23 @@
     </div>
 
     <div *ngIf="isShowError" class="mb-2 text-center animated fadeInRight">
-      <span class="badge badge-danger text-wrap mt-2">
-        Please tick that you agree to terms & condition
-      </span>
+      <span class="badge badge-danger text-wrap mt-2">{{'startTrialModal.errorValidation' | translate}}</span>
     </div>
 
     <div class="mb-2 text-center">
+
       <input type="checkbox" class="i-checks"
              [(ngModel)]="isAcceptedTerm"
-             [ngModelOptions]="{standalone: true}"><span> I've read and agree to <a href="https://example.com/">terms & condition</a></span>
+             [ngModelOptions]="{standalone: true}"><span> {{'startTrialModal.agreeTo' | translate}}
+      <a target="_blank" href="{{ system.ligoWebsiteUrl + '/terms' }}">{{'startTrialModal.termsAndCondition' | translate}}</a></span>
+
     </div>
     <div class="form-group row">
       <div class="col">
-        <button [disabled]="isSaving" class="btn btn-lg btn-white float-right" (click)="onCancel()">Cancel</button>
+        <button [disabled]="isSaving" class="btn btn-lg btn-white float-right" (click)="onCancel()">{{'startTrialModal.cancel' | translate}}</button>
         <button [disabled]="isSaving" class="btn btn-lg btn-primary float-right mr-2" type="submit">
-          <span *ngIf="isSaving" class="loading circle mr-1"></span><i *ngIf="!isSaving" class="fa fa-check mr-1"></i>Start my {{ system.trialPeriodLength }}-day free trial
+          <span *ngIf="isSaving" class="loading circle mr-1"></span><i *ngIf="!isSaving" class="fa fa-check mr-1"></i>
+          {{ ('startTrialModal.startTrialPeriod' | translate).replace('[trialPeriodLength]', system.trialPeriodLength) }}
         </button>
       </div>
     </div>

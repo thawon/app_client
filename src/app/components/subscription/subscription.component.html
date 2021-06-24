@@ -1,103 +1,116 @@
 <div class="wrapper wrapper-content">
 
-  <div class="row">
-    <div class="col text-center">
-      <h2>Subscription Plans and Pricing</h2>
-      <p>Please selet from the following</p>      
-    </div>
-  </div>
-
-  <div class="row">
-
-    <div class="col">
-      <div class="ibox">
-        <div class="ibox-title" style="background-color:#53A4E7">
-          <h5 style="color:#ffffff">MONTHLY PLAN <i class="fa fa-soundcloud ml-1"></i></h5>
-          <div class="ibox-tools">
-          </div>
-        </div>
-        <div class="ibox-content text-center">
-          <h1>฿60.00THB<small>/month</small></h1>
-          <h4>(approx. US$1.89)</h4>
-          <br />
-          <p>
-            - Unlimited real-time translation
-            <br />
-            - Support 100+ languages
-          </p>
-
-          <p>(<i>billed monthly</i>)</p>
-
-          <p>By clicking<br /> I've read and agree to <a href="#">terms & condition</a></p>
-
-          <button [disabled]="isProcessing" class="col-sm-12 btn btn-lg btn-primary" type="button"
-                  (click)="process('MONTHLY_PLAN_v0', 'isProcessing_SUBSCRIBE_AND_RENEW_MONTHLY_PLAN_v0', 'isShowError_MONTHLY_PLAN_v0')">
-            <div *ngIf="!card">
-              <span *ngIf="isProcessing_SUBSCRIBE_AND_RENEW_MONTHLY_PLAN_v0" class="loading circle mr-1"></span>SUBSCRIBE
-            </div>
-            <div *ngIf="card">
-              <span *ngIf="isProcessing_SUBSCRIBE_AND_RENEW_MONTHLY_PLAN_v0" class="loading circle mr-1"></span>RENEW <span class="badge badge-info">Make payment using: {{ card.brand }} ({{ card.lastDigits }})</span>
-            </div>
-          </button>
-
-          <button [disabled]="isProcessing" *ngIf="card" class="col-sm-12 btn btn-lg btn-primary mt-2" type="button"
-                  (click)="subscribe('MONTHLY_PLAN_v0', 'isProcessing_ANOTHER_CARD_MONTHLY_PLAN_v0', 'isShowError_MONTHLY_PLAN_v0')">
-            <span *ngIf="isProcessing_ANOTHER_CARD_MONTHLY_PLAN_v0" class="loading circle mr-1"></span>USE ANOTHER CREDIT CARD
-          </button>
-
-          <div *ngIf="isShowError_MONTHLY_PLAN_v0" class="animated fadeInRight">
-            <span class="badge badge-danger text-wrap mt-2">
-              <i class="fa fa-warning mr-1"></i>
-              Your payment has not been successfully processed. The failure was due to '{{ this.failedMessage }}'
-            </span>
-          </div>
-        </div>
+    <div class="row">
+      <div class="col text-center">
+        <h2>{{'subscription.header' | translate}}</h2>
+        <h3>{{'subscription.selectPlan' | translate}}</h3>
       </div>
     </div>
 
-    <div class="col">
-      <div class="ibox">
-        <div class="ibox-title" style="background-color:#FFB571">
-          <h5 style="color:#ffffff">3 MONTH PLAN <i class="fa fa-soundcloud ml-1"></i></h5>
-          <div class="ibox-tools">
+    <br />
+    <br />
+
+    <div class="row">
+
+      <div class="col">
+        <div class="ibox">
+          <div class="ibox-title" style="background-color:#53A4E7">
+            <h5 style="color:#ffffff">{{'plan.MONTHLY_PLAN_v0.name' | translate}}<i class="fa fa-tree ml-1"></i></h5>
+            <div class="ibox-tools">
+            </div>
           </div>
-        </div>
-        <div class="ibox-content text-center">
-          <h1>฿155.00THB<small>/ 3month</small></h1>
-          <h4>(approx. US$4.80)</h4>
-          <br />
-          <p>
-            - Unlimited real-time translation
+          <div class="ibox-content text-center">
+            <h1>{{'plan.MONTHLY_PLAN_v0.price' | translate}}<small>/{{'plan.MONTHLY_PLAN_v0.period' | translate}}</small></h1>
+            <h4>({{'plan.MONTHLY_PLAN_v0.approx' | translate}})</h4>
             <br />
-            - Support 100+ languages
-          </p>
+            <p>
+              - {{'subscription.unlimited' | translate}}
+              <br />
+              - {{'subscription.support100Language' | translate}}
+            </p>
 
-          <p>(<i>billed every 3 month</i>)</p>
+            <p>(<i>{{'plan.MONTHLY_PLAN_v0.billingPeriod' | translate}}</i>)</p>
 
-          <p>By clicking<br /> I've read and agree to <a href="https://example.com/">terms & condition</a></p>
+            <p>{{'subscription.agreeTo' | translate}} <a target="_blank" href="{{ system.ligoWebsiteUrl + '/terms' }}">{{'subscription.termsAndCondition' | translate}}</a></p>
 
-          <button [disabled]="isProcessing" class="col-sm-12 btn btn-lg btn-primary" type="button"
-                  (click)="process('3_MONTH_PLAN_v0', 'isProcessing_SUBSCRIBE_AND_RENEW_3_MONTH_PLAN_v0', 'isShowError_3_MONTH_PLAN_v0')">
-            <div *ngIf="!card">
-              <span *ngIf="isProcessing_SUBSCRIBE_AND_RENEW_3_MONTH_PLAN_v0" class="loading circle mr-1"></span>SUBSCRIBE
+            <button [disabled]="isProcessing" class="col-sm-12 btn btn-lg btn-primary" type="button"
+                    (click)="process('MONTHLY_PLAN_v0', 'isProcessing_SUBSCRIBE_AND_RENEW_MONTHLY_PLAN_v0', 'isShowError_MONTHLY_PLAN_v0')">
+              <div *ngIf="!card">
+                <span *ngIf="isProcessing_SUBSCRIBE_AND_RENEW_MONTHLY_PLAN_v0" class="loading circle mr-1"></span>{{'subscription.subscribe' | translate}}
+              </div>
+              <div *ngIf="card">
+                <span *ngIf="isProcessing_SUBSCRIBE_AND_RENEW_MONTHLY_PLAN_v0" class="loading circle mr-1"></span>{{'subscription.renew' | translate}}
+                <span class="badge badge-info">{{'subscription.makePaymentUsing' | translate}}: {{ card.brand }} ({{ card.lastDigits }})</span>
+              </div>
+            </button>
+
+            <button [disabled]="isProcessing" *ngIf="card" class="col-sm-12 btn btn-lg btn-primary mt-2" type="button"
+                    (click)="subscribe('MONTHLY_PLAN_v0', 'isProcessing_ANOTHER_CARD_MONTHLY_PLAN_v0', 'isShowError_MONTHLY_PLAN_v0')">
+              <span *ngIf="isProcessing_ANOTHER_CARD_MONTHLY_PLAN_v0" class="loading circle mr-1"></span>{{'subscription.useAnotherCard' | translate}}
+            </button>
+
+            <div *ngIf="isShowError_MONTHLY_PLAN_v0" class="animated fadeInRight">
+              <span class="badge badge-danger text-wrap mt-2">
+                <i class="fa fa-warning mr-1"></i>
+                {{'subscription.errorValidation' | translate}} '{{ this.failedMessage }}'
+              </span>
             </div>
-            <div *ngIf="card">
-              <span *ngIf="isProcessing_SUBSCRIBE_AND_RENEW_3_MONTH_PLAN_v0" class="loading circle mr-1"></span>RENEW <span class="badge badge-info">Make payment using: {{ card.brand }} ({{ card.lastDigits }})</span>
-            </div>
-          </button>
-
-          <button [disabled]="isProcessing" *ngIf="card" class="col-sm-12 btn btn-lg btn-primary mt-2" type="button"
-                  (click)="subscribe('3_MONTH_PLAN_v0', 'isProcessing_ANOTHER_CARD_3_MONTH_PLAN_v0', 'isShowError_3_MONTH_PLAN_v0')">
-            <span *ngIf="isProcessing_ANOTHER_CARD_3_MONTH_PLAN_v0" class="loading circle mr-1"></span>USE ANOTHER CREDIT CARD
-          </button>
-
-          <div *ngIf="isShowError_3_MONTH_PLAN_v0" class="animated fadeInRight">
-            <span class="badge badge-danger text-wrap mt-2">
-              <i class="fa fa-warning mr-1"></i>
-              Your payment has not been successfully processed. The failure was due to '{{ this.failedMessage }}'
-            </span>
           </div>
         </div>
+      </div>
+
+      <div class="col">
+        <div class="ibox">
+          <div class="ibox-title" style="background-color:#FFB571">
+            <h5 style="color:#ffffff">{{'plan.3_MONTH_PLAN_v0.name' | translate}} <i class="fa fa-soundcloud ml-1"></i></h5>
+            <div class="ibox-tools">
+            </div>
+          </div>
+          <div class="ibox-content text-center">
+            <h1>{{'plan.3_MONTH_PLAN_v0.price' | translate}}<small>/ {{'plan.3_MONTH_PLAN_v0.period' | translate}}</small></h1>
+            <h4>({{'plan.3_MONTH_PLAN_v0.approx' | translate}})</h4>
+            <br />
+            <p>
+              - {{'subscription.unlimited' | translate}}
+              <br />
+              - {{'subscription.support100Language' | translate}}
+            </p>
+
+            <p>(<i>{{'plan.3_MONTH_PLAN_v0.billingPeriod' | translate}}</i>)</p>
+
+            <p>{{'subscription.agreeTo' | translate}} <a target="_blank" href="{{ system.ligoWebsiteUrl + '/terms' }}">{{'subscription.termsAndCondition' | translate}}</a></p>
+
+            <button [disabled]="isProcessing" class="col-sm-12 btn btn-lg btn-primary" type="button"
+                    (click)="process('3_MONTH_PLAN_v0', 'isProcessing_SUBSCRIBE_AND_RENEW_3_MONTH_PLAN_v0', 'isShowError_3_MONTH_PLAN_v0')">
+              <div *ngIf="!card">
+                <span *ngIf="isProcessing_SUBSCRIBE_AND_RENEW_3_MONTH_PLAN_v0" class="loading circle mr-1"></span>{{'subscription.subscribe' | translate}}
+              </div>
+              <div *ngIf="card">
+                <span *ngIf="isProcessing_SUBSCRIBE_AND_RENEW_3_MONTH_PLAN_v0" class="loading circle mr-1"></span>{{'subscription.renew' | translate}}
+                <span class="badge badge-info">{{'subscription.makePaymentUsing' | translate}}: {{ card.brand }} ({{ card.lastDigits }})</span>
+              </div>
+            </button>
+
+            <button [disabled]="isProcessing" *ngIf="card" class="col-sm-12 btn btn-lg btn-primary mt-2" type="button"
+                    (click)="subscribe('3_MONTH_PLAN_v0', 'isProcessing_ANOTHER_CARD_3_MONTH_PLAN_v0', 'isShowError_3_MONTH_PLAN_v0')">
+              <span *ngIf="isProcessing_ANOTHER_CARD_3_MONTH_PLAN_v0" class="loading circle mr-1"></span>{{'subscription.useAnotherCard' | translate}}
+            </button>
+
+            <div *ngIf="isShowError_3_MONTH_PLAN_v0" class="animated fadeInRight">
+              <span class="badge badge-danger text-wrap mt-2">
+                <i class="fa fa-warning mr-1"></i>
+                {{'subscription.errorValidation' | translate}} '{{ this.failedMessage }}'
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-5">
+        <button [disabled]="isProcessing" class="btn btn-lg btn-primary m-b" style="width:100%" type="button" (click)="goToMyAccount()">{{'subscription.back' | translate}}</button>        
       </div>
     </div>
 

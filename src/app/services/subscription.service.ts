@@ -29,6 +29,10 @@ export class SubscriptionService {
     return this.http.put<any>(`/api/cancel-subscription`, { custId: custId });
   }
 
+  changeDefaultCreditCard(messengerUserId: string, custId: string, tokenId: string): Observable<any> {
+    return this.http.put<any>(`/api/change-customer-payment-method`, { messengerUserId: messengerUserId, custId: custId, tokenId: tokenId });
+  }
+
   removePaymentMethod(custId: string, cardId: string): Observable<any> {
     return this.http.put<any>(`/api/remove-payment-method`, { custId: custId, cardId: cardId  });
   }

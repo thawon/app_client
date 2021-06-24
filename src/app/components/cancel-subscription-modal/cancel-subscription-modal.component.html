@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title">Cancel Subscription</h5>
+  <h5 class="modal-title">{{'cancel-subscription.title' | translate}}</h5>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -10,9 +10,9 @@
 
     <div class="row">
       <div class="col-lg-12 text-center">
-        <h2>Are you sure you'd like to cancel your subscription?</h2>
+        <h2>{{'cancel-subscription.header' | translate}}</h2>
         <br />
-        <p>Your subscription will be canceled. You are still able to continue using the unlimited translation until at the end of your billing period.</p>
+        <p>{{'cancel-subscription.description' | translate}}</p>
       </div>
     </div>
 
@@ -22,9 +22,9 @@
       <div class="col">
 
         <button [disabled]="isSaving" class="btn btn-lg btn-danger float-right" type="submit">
-          <span *ngIf="isSaving" class="loading circle mr-1"></span>Cancel Subscription
+          <span *ngIf="isSaving" class="loading circle mr-1"></span>{{'cancel-subscription.cancel' | translate}}
         </button>
-        <button [disabled]="isSaving" class="btn btn-lg btn-primary float-right  mr-2" (click)="onCancel()"><i class="fa fa-check mr-1"></i>Keep Subscription</button>
+        <button [disabled]="isSaving" class="btn btn-lg btn-primary float-right  mr-2" (click)="onCancel()">{{'cancel-subscription.keep' | translate}}</button>
       </div>
     </div>
 

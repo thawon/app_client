@@ -19,16 +19,12 @@
             <h2 class="no-margins">
               {{ name.value }}
             </h2>
-            <!--<h4><small><b>{{'starter.standardAccount' | translate}}</b></small><span class="badge badge-primary ml-1">{{'starter.beta' | translate}}</span></h4>-->
-
             <h4>
-              <small>
-                <b *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_AVAILABLE
+              <b *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_AVAILABLE
                    || subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_EXPIRED
                    || subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_EXPIRED">{{'starter.standardAccount' | translate}}</b>
-                <b *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_ACTIVE">TRIAL PREMIUM ACCOUNT</b>
-                <b *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_ACTIVE">PREMIUM ACCOUNT</b>
-              </small>
+              <b *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_ACTIVE">{{'starter.triaPremiumlAccount' | translate}}</b>
+              <b *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_ACTIVE">{{'starter.premiumlAccount' | translate}}</b>
             </h4>
 
             {{'starter.joinedAt' | translate}}: {{ createdAt.value | date:'dd/MM/yyyy' }} <br />
@@ -40,7 +36,7 @@
     <div class="col-md-7">
       <p *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_ACTIVE
          || subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_ACTIVE">
-        {{'starter.dailyTranslationUsed' | translate}}: <i class="fa fa-star-o"></i><b> Unlimited</b>
+        {{'starter.dailyTranslationUsed' | translate}}: <i class="fa fa-star-o"></i><b> {{'starter.unlimited' | translate}}</b>
       </p>
       <p *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_AVAILABLE
                    || subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_EXPIRED
@@ -50,38 +46,37 @@
 
       <div *ngIf="isStartTrialSuccessfully" class="form-group row animated fadeInRight">
         <div class="col">
-          <span class="badge badge-primary"><i class="fa fa-check"></i>You have enabled your trial.</span>
+          <span class="badge badge-primary"><i class="fa fa-check"></i>{{'starter.freeTrialEnableSuccessfully' | translate}}</span>
         </div>
       </div>
 
       <div *ngIf="isCancelSubscriptionSuccessfully" class="form-group row animated fadeInRight">
         <div class="col">
-          <span class="badge badge-primary"><i class="fa fa-check"></i>Subscription has been cancelled successfully.</span>
+          <span class="badge badge-primary"><i class="fa fa-check"></i>{{'starter.subscriptionCancelSuccessfully' | translate}}</span>
         </div>
       </div>
 
-      <div *ngIf="subscription.value.status !== system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_ACTIVE">
+      <!--COMMENT: (nextBillingAt.value === null && subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_ACTIVE) = user cancels subscription-->
+      <div *ngIf="subscription.value.status !== system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_ACTIVE
+           || (nextBillingAt.value === null && subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_ACTIVE)">
         <b>
-          <span *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_EXPIRED">Your trial ended on: {{ subscription.value.at | date:'dd/MM/yyyy HH:mm' }}</span>
-          <span *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_ACTIVE">Your trial will end on: {{ subscription.value.at | date:'dd/MM/yyyy HH:mm' }}</span>
-          <span *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_EXPIRED">Your subscription is expired on: {{ subscription.value.at | date:'dd/MM/yyyy HH:mm' }}</span>
+          <span *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_EXPIRED">{{'starter.trialEndedOn' | translate}}: {{ subscription.value.at | date:'dd/MM/yyyy HH:mm' }}</span>
+          <span *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_ACTIVE">{{'starter.trialWillEndOn' | translate}}: {{ subscription.value.at | date:'dd/MM/yyyy HH:mm' }}</span>
+          <span *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_EXPIRED
+                || (nextBillingAt.value === null && subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_ACTIVE)">{{'starter.subscriptionExpiredOn' | translate}}: {{ subscription.value.at | date:'dd/MM/yyyy HH:mm' }}</span>
         </b>
         <br />
         <button type="button" class="btn btn-lg btn-success mt-3"
                 (click)="go()">
           <b>
-            <span *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_AVAILABLE">Start Your Free Trial NOW</span>
-            <span *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_EXPIRED">SUBSCRIBE NOW</span>
-            <span *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_ACTIVE">SUBSCRIBE NOW</span>
-            <span *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_EXPIRED">RENEW SUBSCRIPTION</span>
+            <span *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_AVAILABLE">{{'starter.actionStartTrial' | translate}}</span>
+            <span *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_EXPIRED
+                  || subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_ACTIVE
+                  || (nextBillingAt.value === null && subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_ACTIVE)">{{'starter.actionSubscribe' | translate}}</span>
+            <span *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_EXPIRED">{{'starter.actionRenewSubscription' | translate}}</span>
           </b>
         </button>
       </div>
-
-      <div *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_ACTIVE && nextBillingAt.value === null">
-        <span>Your subscription is expired on: {{ subscription.value.at | date:'dd/MM/yyyy HH:mm' }}</span>
-      </div>
-
 
     </div>
   </div>
@@ -91,7 +86,7 @@
     <div class="col-sm-12 col-lg-5">
       <div class="ibox ">
         <div class="ibox-title">
-          <h5>Mangage your subscription</h5>
+          <h5>{{'starter.mangageSubscription' | translate}}</h5>
           <div class="ibox-tools">
             <a class="collapse-link">
               <i class="fa fa-chevron-up"></i>
@@ -101,15 +96,26 @@
         <div class="ibox-content">
           <form>
             <div class="form-group row" *ngIf="nextBillingAt.value !== null">
-              <label class="col-lg-5 col-form-label">Next billing:</label>
+              <label class="col-lg-5 col-form-label">{{'starter.nextBilling' | translate}}:</label>
 
               <div class="col-lg-10 mt-1">
-                <span class="form-text">On {{ nextBillingAt.value | date:'dd/MM/yyyy' }} {{ brand.value }}(Last digits {{ lastDigits.value }})</span>
+                <span class="form-text">{{'starter.nextBillingDate' | translate}} {{ nextBillingAt.value | date:'dd/MM/yyyy' }} {{ brand.value }}({{'starter.creditCardLastDigit' | translate}} {{ lastDigits.value }})</span>
+                <br />
+                <button [disabled]="isProcessing" type="button" class="btn btn-lg btn-primary" (click)="openPaymentGateway()">
+                  <span *ngIf="isUpdatingPaymentMethod" class="loading circle mr-1"></span>{{'starter.changeCreditCard' | translate}}
+                </button>
+                <div *ngIf="isShowErrorUpdatePaymentMethod" class="animated fadeInRight">
+                  <span class="badge badge-danger text-wrap mt-2">
+                    <i class="fa fa-warning mr-1"></i>
+                    {{'starter.failedUpdatePaymentMethodMessage' | translate}} '{{ this.failedUpdatePaymentMethodMessage }}'
+                  </span>
+                </div>
               </div>
             </div>
 
+            <hr *ngIf="nextBillingAt.value !== null" class="mt-2 mb-3" />
 
-            <label>Payment History:</label>
+            <label>{{'starter.paymentHistory' | translate}}:</label>
             <table class="table table-striped">
               <tbody>
                 <tr *ngFor="let receipt of receipts; index as i">
@@ -117,17 +123,17 @@
                     {{ receipt.paidAt | date:'dd/MM/yyyy' }}
                   </td>
                   <td>
-                    <span>{{ receipt.key }}</span><br />
-                    <span>{{ receipt.amount }} {{ receipt.paymentBrand }}(ends: {{ receipt.lastDigits }})</span>
+                    <span>{{ 'plan.' + receipt.key | translate}}</span><br />
+                    <span>{{ receipt.amount }} {{ receipt.paymentBrand }}({{'starter.creditCardLastDigit' | translate}}: {{ receipt.lastDigits }})</span>
                   </td>
-                </tr>                
+                </tr>
               </tbody>
             </table>
 
             <div class="form-group row mt-3"
-                 *ngIf="nextBillingAt.value !== null || subscription.value.status !== system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_EXPIRED">
+                 *ngIf="nextBillingAt.value !== null && subscription.value.status !== system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_EXPIRED">
               <div class="col-lg-offset-2 col-lg-10">
-                <button type="button" class="btn btn-lg btn-danger" (click)="openCancelSubscriptionModal()">Cancel Subscription</button>
+                <button [disabled]="isProcessing" type="button" class="btn btn-lg btn-danger" (click)="openCancelSubscriptionModal()">{{'starter.cancelSubscription' | translate}}</button>
               </div>
             </div>
           </form>
@@ -138,8 +144,7 @@
 
   <div class="row">
     <div class="col-sm-12 col-lg-5">
-      <button class="btn btn-lg btn-primary" style="width:100%" type="button">Close
-      </button>
+      <button [disabled]="isProcessing" class="btn btn-lg btn-primary m-b" style="width:100%" type="button" (click)="close()">{{'starter.close' | translate}}</button>
     </div>
   </div>
 

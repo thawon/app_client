@@ -12,6 +12,8 @@ export class SystemService {
   public trialPeriodLength: number;
   public SUBSCRIPTION_STATUS_TYPE: any;
   public maxDailyCharQuota: number;
+  public minPrice: string;
+  public ligoWebsiteUrl: string;  
 
   constructor(private http: HttpClient) { }
 

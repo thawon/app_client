@@ -19,13 +19,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LocalStroageService } from '../services/local-stroage.service';
 import { LineLIFFService } from '../services/line.liff.service';
 import { UserService } from '../services/user.service';
-import { User } from '../models/user.model';
 import { SystemService } from '../services/system.service';
+import { SubscriptionService } from '../services/subscription.service';
 
 import { StartTrialModalComponent } from '../components/start-trial-modal/start-trial-modal.component';
 import { CancelSubscriptionModalComponent } from '../components/cancel-subscription-modal/cancel-subscription-modal.component';
 
 declare var jQuery: any;
+declare var OmiseCard: any;
 
 @Component({
   selector: 'starter',
@@ -37,6 +38,10 @@ export class StarterViewComponent implements OnDestroy, OnInit {
   isRedirect: boolean = false;
   isStartTrialSuccessfully: boolean = false;
   isCancelSubscriptionSuccessfully: boolean = false;
+  isUpdatingPaymentMethod: boolean = false;
+  isProcessing: boolean = false;
+  failedUpdatePaymentMethodMessage: string;
+  isShowErrorUpdatePaymentMethod: boolean = false;
 
   form: FormGroup;
   name: AbstractControl;
@@ -60,7 +65,8 @@ export class StarterViewComponent implements OnDestroy, OnInit {
     private lineLIFFService: LineLIFFService,    
     private localStorage: LocalStroageService,
     private userService: UserService,
-    public system: SystemService) {
+    public system: SystemService,
+    private subscriptionService: SubscriptionService) {
 
     this.nav = document.querySelector('nav.navbar');
 
@@ -156,7 +162,9 @@ export class StarterViewComponent implements OnDestroy, OnInit {
   public ngOnInit(): any {
     this.nav.className += " white-bg";
 
-    
+    OmiseCard.configure({
+      publicKey: "pkey_test_5nx72dp5oynl9rt54ye"
+    });
   }
   
   public ngOnDestroy(): any {
@@ -201,8 +209,50 @@ export class StarterViewComponent implements OnDestroy, OnInit {
     });
   }
 
-  closewindow() {
-    this.lineLIFFService.closeWindowAndSendMessage();
+  openPaymentGateway() {
+    OmiseCard.open({
+      amount: 0,
+      currency: '',
+      defaultPaymentMethod: 'credit_card',
+      //locale: 'th',
+      submitLabel: 'OK',
+      onCreateTokenSuccess: (nonce) => {
+        this.changeDefaultCreditCard(nonce);
+      },
+    });
+
+  }
+
+  changeDefaultCreditCard(tokenId) {
+
+    this.isShowErrorUpdatePaymentMethod = false;
+    this.isUpdatingPaymentMethod = true;
+    this.isProcessing = true;   
+
+    this.subscriptionService.changeDefaultCreditCard(this.userService.userId, this.custId.value, tokenId).subscribe(
+      data => {        
+        this.isUpdatingPaymentMethod = false;
+        this.isProcessing = false;
+
+        this.initialize();
+      },
+      data => {
+
+        this.isShowErrorUpdatePaymentMethod = true;
+
+        if (data.error.failedCode) {
+          this.failedUpdatePaymentMethodMessage = data.error.failedMessage;
+        } else {
+          this.failedUpdatePaymentMethodMessage = 'Internal Error';
+        }
+
+        this.isUpdatingPaymentMethod = false;
+        this.isProcessing = false;
+      });
+  }
+
+  close() {
+    this.lineLIFFService.closeWindow();
   }
 
   clearLocalStroage() {

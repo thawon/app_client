@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { SubscriptionService } from '../../services/subscription.service';
 import { UserService } from '../../services/user.service';
+import { SystemService } from '../../services/system.service';
 
 declare var OmiseCard: any;
 
@@ -34,6 +35,7 @@ export class SubscriptionComponent implements OnInit {
     private router: Router,
     private subscription: SubscriptionService,
     private user: UserService,
+    public system: SystemService,
   ) {
 
     this.subscription.getPlans(this.user.userId).subscribe(
@@ -157,6 +159,11 @@ export class SubscriptionComponent implements OnInit {
         this.isProcessing = false;
         this[trigger] = false;
       });
+  }
+
+  goToMyAccount() {
+    // redirect to the successfully page, replaceUrl helps clear router history
+    this.router.navigate([`/home`], { replaceUrl: true }).then(() => { });
   }
 
   paymentSuccesss() {

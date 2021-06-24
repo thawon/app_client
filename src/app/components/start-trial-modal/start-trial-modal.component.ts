@@ -28,7 +28,7 @@ export class StartTrialModalComponent implements OnInit {
 
   constructor(
     private subscription: SubscriptionService,
-    private user: UserService,
+    public user: UserService,
     public system: SystemService,
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
