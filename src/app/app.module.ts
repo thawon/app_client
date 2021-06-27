@@ -35,6 +35,8 @@ import { StartTrialModalComponent } from './components/start-trial-modal/start-t
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
 import { CancelSubscriptionModalComponent} from './components/cancel-subscription-modal/cancel-subscription-modal.component';
+import { RenewConfirmationModalComponent } from './components/renew-confirmation-modal/renew-confirmation-modal.component';
+import { TermsComponent } from './components/terms/terms.component';
 
 
 @NgModule({
@@ -55,7 +57,9 @@ import { CancelSubscriptionModalComponent} from './components/cancel-subscriptio
     StartTrialModalComponent,
     SubscriptionComponent,
     PaymentSuccessComponent,
-    CancelSubscriptionModalComponent
+    CancelSubscriptionModalComponent,
+    RenewConfirmationModalComponent,
+    TermsComponent
   ],
   imports: [
     LayoutsModule,

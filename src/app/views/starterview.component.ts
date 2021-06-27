@@ -163,7 +163,7 @@ export class StarterViewComponent implements OnDestroy, OnInit {
     this.nav.className += " white-bg";
 
     OmiseCard.configure({
-      publicKey: "pkey_test_5nx72dp5oynl9rt54ye"
+      publicKey: this.system.omisePublicKey
     });
   }
   
@@ -211,6 +211,9 @@ export class StarterViewComponent implements OnDestroy, OnInit {
 
   openPaymentGateway() {
     OmiseCard.open({
+      frameLabel: this.system.companyName,
+      image: `${this.system.domain}/assets/images/logo.png`,
+      locale: this.userService.language,
       amount: 0,
       currency: '',
       defaultPaymentMethod: 'credit_card',

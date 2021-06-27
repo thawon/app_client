@@ -13,6 +13,7 @@ import { GroupDetailMemberSelectionComponent } from "./components/group-detail-m
 import { PermissionListComponent } from "./components/permission-list/permission-list.component";
 import { SubscriptionComponent } from "./components/subscription/subscription.component";
 import { PaymentSuccessComponent } from "./components/payment-success/payment-success.component";
+import { TermsComponent } from './components/terms/terms.component';
 import { SettingComponent } from "./components/setting/setting.component"
 import { LiveTranslationComponent } from './components/live-translation/live-translation.component';
 
@@ -33,6 +34,8 @@ const routes: Routes = [
 
       { path: 'subscription', component: SubscriptionComponent, canActivate: [LoggedInGuard] },
       { path: 'payment-success', component: PaymentSuccessComponent, canActivate: [LoggedInGuard] },
+      { path: 'terms', component: TermsComponent, canActivate: [LoggedInGuard] },
+      
     ]
   },
   {

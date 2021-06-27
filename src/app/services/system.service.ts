@@ -13,7 +13,13 @@ export class SystemService {
   public SUBSCRIPTION_STATUS_TYPE: any;
   public maxDailyCharQuota: number;
   public minPrice: string;
-  public ligoWebsiteUrl: string;  
+  public ligoWebsiteUrl: string;
+  public omisePublicKey: string;
+  public domain: string;
+  public companyName: string = 'Ligo Corp.';
+
+  // prevent user accesses the payment-success without making payment
+  public isPaymentSuccessful: boolean = false;
 
   constructor(private http: HttpClient) { }
 

@@ -21,8 +21,6 @@ export class StartTrialModalComponent implements OnInit {
   public input;
 
   isSaving: boolean;
-  isAcceptedTerm: boolean = false;
-  isShowError: boolean = false;
 
   form: FormGroup;
 
@@ -43,13 +41,6 @@ export class StartTrialModalComponent implements OnInit {
   }
 
   onSubmit(): void {
-
-    this.isShowError = false;
-    if (!this.isAcceptedTerm) {
-      this.isShowError = true;
-      return;
-    } 
-
     this.isSaving = true;
     this.subscription.trial(this.user.userId).subscribe(
       status => {

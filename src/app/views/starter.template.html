@@ -123,7 +123,7 @@
                     {{ receipt.paidAt | date:'dd/MM/yyyy' }}
                   </td>
                   <td>
-                    <span>{{ 'plan.' + receipt.key | translate}}</span><br />
+                    <span>{{ 'plan.' + receipt.key + '.name' | translate}}</span><br />
                     <span>{{ receipt.amount }} {{ receipt.paymentBrand }}({{'starter.creditCardLastDigit' | translate}}: {{ receipt.lastDigits }})</span>
                   </td>
                 </tr>

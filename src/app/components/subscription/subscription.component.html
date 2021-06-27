@@ -30,9 +30,7 @@
             </p>
 
             <p>(<i>{{'plan.MONTHLY_PLAN_v0.billingPeriod' | translate}}</i>)</p>
-
-            <p>{{'subscription.agreeTo' | translate}} <a target="_blank" href="{{ system.ligoWebsiteUrl + '/terms' }}">{{'subscription.termsAndCondition' | translate}}</a></p>
-
+            
             <button [disabled]="isProcessing" class="col-sm-12 btn btn-lg btn-primary" type="button"
                     (click)="process('MONTHLY_PLAN_v0', 'isProcessing_SUBSCRIBE_AND_RENEW_MONTHLY_PLAN_v0', 'isShowError_MONTHLY_PLAN_v0')">
               <div *ngIf="!card">
@@ -45,7 +43,7 @@
             </button>
 
             <button [disabled]="isProcessing" *ngIf="card" class="col-sm-12 btn btn-lg btn-primary mt-2" type="button"
-                    (click)="subscribe('MONTHLY_PLAN_v0', 'isProcessing_ANOTHER_CARD_MONTHLY_PLAN_v0', 'isShowError_MONTHLY_PLAN_v0')">
+                    (click)="useAnotherCard('MONTHLY_PLAN_v0', 'isProcessing_ANOTHER_CARD_MONTHLY_PLAN_v0', 'isShowError_MONTHLY_PLAN_v0')">
               <span *ngIf="isProcessing_ANOTHER_CARD_MONTHLY_PLAN_v0" class="loading circle mr-1"></span>{{'subscription.useAnotherCard' | translate}}
             </button>
 
@@ -77,9 +75,7 @@
             </p>
 
             <p>(<i>{{'plan.3_MONTH_PLAN_v0.billingPeriod' | translate}}</i>)</p>
-
-            <p>{{'subscription.agreeTo' | translate}} <a target="_blank" href="{{ system.ligoWebsiteUrl + '/terms' }}">{{'subscription.termsAndCondition' | translate}}</a></p>
-
+            
             <button [disabled]="isProcessing" class="col-sm-12 btn btn-lg btn-primary" type="button"
                     (click)="process('3_MONTH_PLAN_v0', 'isProcessing_SUBSCRIBE_AND_RENEW_3_MONTH_PLAN_v0', 'isShowError_3_MONTH_PLAN_v0')">
               <div *ngIf="!card">
@@ -92,7 +88,7 @@
             </button>
 
             <button [disabled]="isProcessing" *ngIf="card" class="col-sm-12 btn btn-lg btn-primary mt-2" type="button"
-                    (click)="subscribe('3_MONTH_PLAN_v0', 'isProcessing_ANOTHER_CARD_3_MONTH_PLAN_v0', 'isShowError_3_MONTH_PLAN_v0')">
+                    (click)="useAnotherCard('3_MONTH_PLAN_v0', 'isProcessing_ANOTHER_CARD_3_MONTH_PLAN_v0', 'isShowError_3_MONTH_PLAN_v0')">
               <span *ngIf="isProcessing_ANOTHER_CARD_3_MONTH_PLAN_v0" class="loading circle mr-1"></span>{{'subscription.useAnotherCard' | translate}}
             </button>
 
@@ -109,7 +105,7 @@
     </div>
 
     <div class="row">
-      <div class="col-sm-12 col-lg-5">
+      <div class="col-sm-12">
         <button [disabled]="isProcessing" class="btn btn-lg btn-primary m-b" style="width:100%" type="button" (click)="goToMyAccount()">{{'subscription.back' | translate}}</button>        
       </div>
     </div>

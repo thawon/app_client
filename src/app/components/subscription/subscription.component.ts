@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SubscriptionService } from '../../services/subscription.service';
 import { UserService } from '../../services/user.service';
 import { SystemService } from '../../services/system.service';
+import { RenewConfirmationModalComponent } from '../renew-confirmation-modal/renew-confirmation-modal.component';
 
 declare var OmiseCard: any;
 
@@ -33,6 +35,7 @@ export class SubscriptionComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private modal: NgbModal,
     private subscription: SubscriptionService,
     private user: UserService,
     public system: SystemService,
@@ -47,12 +50,15 @@ export class SubscriptionComponent implements OnInit {
 
   ngOnInit(): void {
     OmiseCard.configure({
-      publicKey: "pkey_test_5nx72dp5oynl9rt54ye"
+      publicKey: this.system.omisePublicKey
     });
   }
 
   openPaymentGateway(plan, trigger: string, error: string, f) {
     OmiseCard.open({
+      frameLabel: this.system.companyName,
+      image: `${this.system.domain}/assets/images/logo.png`,
+      locale: this.user.language,
       amount: parseInt(plan.amount),
       currency: plan.currency,
       defaultPaymentMethod: 'credit_card',
@@ -81,11 +87,47 @@ export class SubscriptionComponent implements OnInit {
   }
 
   process(key: string, trigger: string, error: string) {
-    if (!this.card) {
+    const isShowCard = (this.card) ? true : false,
+      modalRef = this.getRenewConfirmationModal(key, isShowCard);
+    
+    modalRef.result.then((result) => {
+      if (!result) return 
+
+      if (!this.card) {
+        this.subscribe(key, trigger, error);
+      } else {
+        this.renew(key, trigger, error);
+      }
+      
+    }, (reason) => {
+
+    });    
+  }
+
+  useAnotherCard(key: string, trigger: string, error: string) {
+    const modalRef = this.getRenewConfirmationModal(key, false);
+
+    modalRef.result.then((result) => {
+      if (!result) return
+
       this.subscribe(key, trigger, error);
-    } else {
-      this.renew(key, trigger, error)
-    }
+
+    }, (reason) => {
+
+    });    
+  }
+
+  getRenewConfirmationModal(key: string, isShowCard: boolean) {
+    const modal = this.modal.open(RenewConfirmationModalComponent);
+
+    modal.componentInstance.key = key;
+    if (isShowCard) {
+      modal.componentInstance.brand = this.card.brand;
+      modal.componentInstance.lastDigits = this.card.lastDigits;
+    }    
+    modal.componentInstance.isShowCard = isShowCard;
+
+    return modal;
   }
 
   subscribe(key: string, trigger: string, error: string) {
@@ -96,7 +138,6 @@ export class SubscriptionComponent implements OnInit {
         data => {
 
           this.isShowErrors.forEach(e => this[e] = false);
-          //this[error] = false;
 
           this.isProcessing = false;
           this[trigger] = false;
@@ -131,13 +172,11 @@ export class SubscriptionComponent implements OnInit {
     this[trigger] = true;
 
     this.isShowErrors.forEach(e => this[e] = false);
-    //this[error] = false;
 
     this.subscription.renew(this.user.userId, plan.priceId).subscribe(
       data => {
 
         this.isShowErrors.forEach(e => this[e] = false);
-        //this[error] = false;
 
         this.isProcessing = false;
         this[trigger] = false;
@@ -160,7 +199,7 @@ export class SubscriptionComponent implements OnInit {
         this[trigger] = false;
       });
   }
-
+  
   goToMyAccount() {
     // redirect to the successfully page, replaceUrl helps clear router history
     this.router.navigate([`/home`], { replaceUrl: true }).then(() => { });
@@ -168,6 +207,7 @@ export class SubscriptionComponent implements OnInit {
 
   paymentSuccesss() {
     // redirect to the successfully page, replaceUrl helps clear router history
+    this.system.isPaymentSuccessful = true;
     this.router.navigate([`/payment-success`], { replaceUrl: true }).then(() => { });
   }
   

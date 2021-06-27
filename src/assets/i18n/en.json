@@ -79,9 +79,8 @@
   "startTrialModal.step2Header": "In [trialPeriodLength] Days",
   "startTrialModal.step2Text": "After the free trial period is over, you will be back to the [standardAccount] or subscribe for ฿[minPrice]THB/month.",
   "startTrialModal.viewPlan": "view plans",
-  "startTrialModal.errorValidation": "Please tick to indicate that you agree to terms & condition",
   "startTrialModal.agreeTo": "I've read and agree to",
-  "startTrialModal.termsAndCondition": "terms & condition",
+
   "startTrialModal.cancel": "Cancel",
   "startTrialModal.startTrialPeriod": "Start my [trialPeriodLength]-day free trial",
 
@@ -89,8 +88,6 @@
   "subscription.selectPlan": "Please selet from the following subscription plans",
   "subscription.unlimited": "Unlimited real-time language translation",
   "subscription.support100Language": "Support 100+ languages",
-  "subscription.agreeTo": "By clicking I've read and agree to",
-  "subscription.termsAndCondition": "terms & condition",
   "subscription.subscribe": "SUBSCRIBE",
   "subscription.renew": "RENEW",
   "subscription.makePaymentUsing": "Make payment using",
@@ -108,6 +105,14 @@
   "payment-success.thankyou": "Thank you very much.",
   "payment-success.anyQuestion": "If you have any question, please send your question via Ligo chat room (LINE ID: @Ligo) or email us at admin@ligobot.com",
   "payment-success.backToMyAccount": "You can go back to MY ACCOUNT",
+
+  "renew-confirmation-modal.title": "Confirmation",
+  "renew-confirmation-modal.header": "Are you sure you'd like to subscribe?",
+  "renew-confirmation-modal.subscription": "Subscription",
+  "renew-confirmation-modal.paymentMethod": "Payment Method",
+  "renew-confirmation-modal.errorValidation": "Please tick to indicate that you agree to terms & condition",
+  "renew-confirmation-modal.termsAndCondition": "terms & condition",
+  "renew-confirmation-modal.yes": "Yes, I'd like to subscribe",
 
   "permissionList.greeting": "Hello",
   "permissionList.whoHasYourPermission": "The friends below have your permission to set up language for you",

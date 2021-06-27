@@ -1,0 +1,67 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{'renew-confirmation-modal.title' | translate}}</h5>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form"
+        (ngSubmit)="onSubmit()">
+
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="text-center">
+          <img src="/assets/images/renew-confirmation.png" class="img-lg" /><br />
+          {{'renew-confirmation-modal.header' | translate}}
+        </h2>
+      </div>
+
+      <div class="col-12">
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>
+                <h4>{{'renew-confirmation-modal.subscription' | translate}}: </h4>
+              </td>
+              <td>
+                <h4>{{'plan.' + key + '.name' | translate}} {{'plan.' + key + '.price' | translate}}</h4>
+              </td>
+            </tr>
+            <tr *ngIf="isShowCard">
+              <td>
+                <h4>{{'renew-confirmation-modal.paymentMethod' | translate}}: </h4>
+              </td>
+              <td>
+                <h4>{{ brand }} •••• •••• •••• {{ lastDigits }}</h4>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="isShowError" class="mb-2 text-center animated fadeInRight">
+      <span class="badge badge-danger text-wrap mt-2">{{'renew-confirmation-modal.errorValidation' | translate}}</span>
+    </div>
+
+    <div class="mb-2 text-center">
+
+      <input type="checkbox" class="i-checks"
+             [(ngModel)]="isAcceptedTerm"
+             [ngModelOptions]="{standalone: true}"><span>
+        {{'startTrialModal.agreeTo' | translate}}
+        <a target="_blank" href="/terms">{{'renew-confirmation-modal.termsAndCondition' | translate}}</a>
+      </span>
+
+    </div>
+
+    <div class="form-group row">
+      <div class="col">
+        <button class="btn btn-lg btn-white float-right" (click)="onCancel()">
+          No
+        </button>
+        <button class="btn btn-lg btn-primary float-right  mr-2" type="submit">{{'renew-confirmation-modal.yes' | translate}}</button>
+      </div>
+    </div>
+
+  </form>
+</div>

@@ -77,6 +77,8 @@ export class LineLIFFService {
       //    this.system.maxDailyCharQuota = system.maxDailyCharQuota;
       //    this.system.minPrice = system.minPrice;
       //    this.system.ligoWebsiteUrl = system.ligoWebsiteUrl;
+      //    this.system.omisePublicKey = system.omisePublicKey;
+      //    this.system.domain = system.domain;
 
       //    // set language
       //    let code = 'en';
@@ -106,6 +108,8 @@ export class LineLIFFService {
           this.system.maxDailyCharQuota = system.maxDailyCharQuota;
           this.system.minPrice = system.minPrice;
           this.system.ligoWebsiteUrl = system.ligoWebsiteUrl;
+          this.system.omisePublicKey = system.omisePublicKey;
+          this.system.domain = system.domain;
 
           return Promise.resolve(this.liffWrapper.init(this.LIFFId));
         })
