@@ -37,6 +37,7 @@ import { PaymentSuccessComponent } from './components/payment-success/payment-su
 import { CancelSubscriptionModalComponent} from './components/cancel-subscription-modal/cancel-subscription-modal.component';
 import { RenewConfirmationModalComponent } from './components/renew-confirmation-modal/renew-confirmation-modal.component';
 import { TermsComponent } from './components/terms/terms.component';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { TermsComponent } from './components/terms/terms.component';
     PaymentSuccessComponent,
     CancelSubscriptionModalComponent,
     RenewConfirmationModalComponent,
-    TermsComponent
+    TermsComponent,
+    ContactUsComponent
   ],
   imports: [
     LayoutsModule,

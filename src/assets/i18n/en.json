@@ -103,7 +103,7 @@
 
   "payment-success.header": "Payment was successful.",
   "payment-success.thankyou": "Thank you very much.",
-  "payment-success.anyQuestion": "If you have any question, please send your question via Ligo chat room (LINE ID: @Ligo) or email us at admin@ligobot.com",
+  "payment-success.anyQuestion": "If you have any question, please send your question via Ligo chat room (LINE ID: @Ligo) or email us at info@ligobot.com",
   "payment-success.backToMyAccount": "You can go back to MY ACCOUNT",
 
   "renew-confirmation-modal.title": "Confirmation",
