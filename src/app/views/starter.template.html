@@ -33,7 +33,10 @@
         </div>
       </div>
     </div>
-    <div class="col-md-7">
+
+    <!--COMMENT: Disable the subscription service from line 39 - 83 and 86 - 145 -->
+    <!--COMMENT: (nextBillingAt.value === null && subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_ACTIVE) = user cancels subscription-->
+    <!--<div class="col-md-7">
       <p *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_ACTIVE
          || subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_ACTIVE">
         {{'starter.dailyTranslationUsed' | translate}}: <i class="fa fa-star-o"></i><b> {{'starter.unlimited' | translate}}</b>
@@ -56,7 +59,6 @@
         </div>
       </div>
 
-      <!--COMMENT: (nextBillingAt.value === null && subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.TRIAL_ACTIVE) = user cancels subscription-->
       <div *ngIf="subscription.value.status !== system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_ACTIVE
            || (nextBillingAt.value === null && subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_ACTIVE)">
         <b>
@@ -78,10 +80,10 @@
         </button>
       </div>
 
-    </div>
+    </div>-->
   </div>
 
-  <div class="row"
+  <!--<div class="row"
        *ngIf="subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_ACTIVE || subscription.value.status === system.SUBSCRIPTION_STATUS_TYPE.SUBSCRIPTION_EXPIRED">
     <div class="col-sm-12 col-lg-5">
       <div class="ibox ">
@@ -140,7 +142,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 
   <div class="row">
     <div class="col-sm-12 col-lg-5">

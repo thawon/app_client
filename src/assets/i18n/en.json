@@ -97,7 +97,7 @@
 
   "cancel-subscription.title": "Cancel Subscription",
   "cancel-subscription.header": "Are you sure you'd like to cancel your subscription?",
-  "cancel-subscription.description": "Your subscription will be canceled. You are still able to continue using the unlimited translation until at the end of your billing period.",
+  "cancel-subscription.description": "Your subscription will be canceled. You are still able to continue using the unlimited translation until the end of your billing period.",
   "cancel-subscription.keep": "Keep Subscription",
   "cancel-subscription.cancel": "Cancel Subscription",
 
